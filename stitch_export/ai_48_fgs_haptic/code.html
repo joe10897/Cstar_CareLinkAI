@@ -1,0 +1,412 @@
+<!DOCTYPE html><html class="h-full" lang="zh-TW"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_stack" name="shell-type"><title>CareLink AI</title><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#F8F7F4;-webkit-font-smoothing:antialiased;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:calc(0.75rem + env(safe-area-inset-bottom, 0px));}.pt-safe{padding-top:env(safe-area-inset-top, 0px);}}::-webkit-scrollbar{display:none;}
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.animate-shimmer {
+  animation: shimmer 2.5s infinite;
+}
+@keyframes arrow-bounce {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
+}
+.animate-arrow-bounce {
+  animation: arrow-bounce 1.5s infinite;
+}
+</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface": "#fbf8fc", "on-background": "#1b1b1e", "surface-dark": "#1E242B", "on-primary-fixed": "#00201d", "inverse-on-surface": "#f3f0f4", "on-secondary": "#ffffff", "on-secondary-fixed-variant": "#005323", "primary": "#005c55", "on-primary-fixed-variant": "#00504a", "landmark-ear": "#8B5CF6", "status-warn": "#D97706", "surface-subtle": "#F1EFEA", "on-tertiary-fixed": "#2f1500", "surface-container-high": "#eae7eb", "status-danger": "#DC2626", "primary-fixed": "#9cf2e8", "background": "#fbf8fc", "surface-container-highest": "#e4e1e6", "landmark-eye": "#38BDF8", "surface-bright": "#fbf8fc", "outline-variant": "#bdc9c6", "surface-dim": "#dcd9dd", "ink-muted": "#8E8E93", "on-primary-container": "#a3faef", "surface-tint": "#006a63", "landmark-nose": "#F59E0B", "surface-container": "#f0edf1", "tertiary-fixed-dim": "#ffb77d", "on-secondary-fixed": "#00210a", "error-container": "#ffdad6", "ink-primary": "#18181B", "on-tertiary": "#ffffff", "primary-container": "#0f766e", "tertiary": "#7d4200", "landmark-mouth": "#F43F5E", "secondary-fixed-dim": "#79db8d", "inverse-surface": "#303033", "surface-container-low": "#f6f2f7", "landmark-cheek": "#34D399", "outline": "#6e7977", "bg-canvas": "#F8F7F4", "error": "#ba1a1a", "surface-container-lowest": "#ffffff", "surface-card": "#FFFFFF", "ink-secondary": "#52525B", "inverse-primary": "#80d5cb", "status-safe": "#15803D", "on-error-container": "#93000a", "on-primary": "#ffffff", "on-tertiary-fixed-variant": "#6e3900", "secondary-fixed": "#95f8a7", "tertiary-fixed": "#ffdcc3", "surface-variant": "#e4e1e6", "secondary-container": "#92f5a4", "tertiary-container": "#a15600", "on-error": "#ffffff", "secondary": "#006d30", "primary-fixed-dim": "#80d5cb", "on-surface-variant": "#3e4947", "on-tertiary-container": "#ffe6d5", "on-surface": "#1b1b1e", "on-secondary-container": "#007233" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "margin-mobile": "1rem", "margin": "1.5rem", "space-xl": "2rem", "space-sm": "0.5rem", "space-md": "1rem", "space-xs": "0.25rem", "gutter-mobile": "0.75rem", "space-lg": "1.5rem", "gutter": "1rem" }, "fontFamily": { "body-md": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "label-numeric-md": ["JetBrains Mono"], "headline-lg": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "headline-xl-mobile": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "label-caps": ["Plus Jakarta Sans"], "label-numeric-lg": ["JetBrains Mono"], "label-numeric-sm": ["JetBrains Mono"], "headline-sm": ["Plus Jakarta Sans"] }, "fontSize": { "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "label-numeric-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }], "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-xl-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "700" }], "label-numeric-lg": ["22px", { "lineHeight": "28px", "fontWeight": "700" }], "label-numeric-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }], "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }] } } } };</script></head><body class="min-h-full bg-bg-canvas font-body-md text-ink-primary flex flex-col selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 inset-x-0 z-50 bg-bg-canvas/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-16 px-margin-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><button aria-label="返回" class="min-h-[44px] min-w-[44px] flex items-center justify-center -ml-2 text-ink-primary hover:text-primary active:scale-95 transition-transform duration-150 ease-out select-none feedback-tap" onclick="history.back()" type="button"><span class="material-symbols-outlined text-[24px]">arrow_back_ios_new</span></button><img alt="CareLink AI Logo" class="h-7 w-auto object-contain shrink-0 hidden sm:block" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_i41wRdtPsK1QXBllk5qR2hXX64fW_ExmJzR2Aa0YR75ZIPCHr2RNgDw-7SvLd6qzQZvlQKJK87bQsxoQZ_f4CWJYcqWT6rLkC-XRkqcJ11b4V21y-lsuwnz38nM_Wtn93UAk-Ql8eMiKSKFDnhBrghPu2eZSMJpIZw68elyujjvoCrB0bepo8AgRvM7UrxcxN4CHUkr1bgNobfsg6p5wa3uZg8Og2Ot4UhetCf0K"><h1 class="font-headline-sm text-headline-sm text-ink-primary truncate">AI 貓臉 48 點掃描</h1></div><div class="flex items-center gap-space-sm shrink-0"><button aria-label="切換震動音效反饋" class="flex items-center gap-1 px-2 py-1 rounded-full bg-surface-subtle text-ink-secondary hover:text-primary text-[11px] font-label-numeric-sm border border-outline-variant/30 active:scale-95 transition-all select-none" id="haptic-audio-toggle" type="button"><span class="material-symbols-outlined text-[15px] text-primary" id="haptic-icon">vibration</span><span class="hidden xs:inline text-[11px]" id="haptic-status-label">震動反饋 ON</span></button><img alt="Profile" class="w-8 h-8 rounded-full object-cover shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzh5QLXV2jsKe0ka7C5DKddz63PkQ3CSDAns54kswPjU54mPqKsxoTiApQlTkdXld2JEYc_nMPJfqy0UKFARBJnO0f4QtoHXPyGC3dHuDwFXvqoq7e9xTQqQAOMg0HtvryvD0WSABmLbQRQLH21VZ7JlcCgaW-dr9jWqOonlEQJ7bXrcl98AGO-PTv82vn3mr78zHf4R3JjChD41JVys1zWwRbmzN201JiWo3bgvsn"></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-safe bg-bg-canvas"><div class="flex flex-col w-full relative select-none">
+<!-- Top Telemetry & Mode Controller Bar -->
+<div class="w-full bg-surface-dark px-space-md py-space-sm flex items-center justify-between shadow-md z-30">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="inline-block w-2 h-2 rounded-full bg-landmark-cheek animate-pulse shrink-0"></span>
+<span class="font-label-numeric-sm text-label-numeric-sm text-inverse-on-surface tracking-wide uppercase truncate">
+        AI-VISION FGS·48P CALIBRATED
+      </span>
+</div>
+<!-- Toggle: Dark CV Room vs Light Clinical Overlay -->
+<div class="flex items-center bg-inverse-surface/80 p-0.5 rounded-full shrink-0">
+<button class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-container text-on-primary-container font-label-caps text-label-caps active:scale-95 transition-transform duration-150 ease-out select-none feedback-tap" id="mode-dark-btn" type="button">
+<span class="material-symbols-outlined text-[14px]">visibility</span>
+<span class="">分區標註</span>
+</button>
+<button class="flex items-center gap-1 px-2.5 py-1 rounded-full text-ink-muted hover:text-inverse-on-surface font-label-caps text-label-caps active:scale-95 transition-transform duration-150 ease-out select-none feedback-tap" id="mode-clean-btn" type="button">
+<span class="material-symbols-outlined text-[14px]">tune</span>
+<span class="">透析</span>
+</button>
+</div>
+</div>
+<!-- Anatomical Landmarks Legend Track -->
+<div class="w-full bg-surface-dark/95 backdrop-blur-md px-space-md py-1.5 flex items-center gap-2 overflow-x-auto scrollbar-none z-20">
+<div class="flex items-center gap-1.5 shrink-0 px-2 py-0.5 rounded-full bg-landmark-ear/15 text-landmark-ear font-label-numeric-sm text-label-numeric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-landmark-ear"></span>01-10 雙耳
+    </div>
+<div class="flex items-center gap-1.5 shrink-0 px-2 py-0.5 rounded-full bg-landmark-eye/15 text-landmark-eye font-label-numeric-sm text-label-numeric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-landmark-eye"></span>11-26 眼眶
+    </div>
+<div class="flex items-center gap-1.5 shrink-0 px-2 py-0.5 rounded-full bg-landmark-nose/15 text-landmark-nose font-label-numeric-sm text-label-numeric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-landmark-nose"></span>27-34 鼻樑
+    </div>
+<div class="flex items-center gap-1.5 shrink-0 px-2 py-0.5 rounded-full bg-landmark-mouth/15 text-landmark-mouth font-label-numeric-sm text-label-numeric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-landmark-mouth"></span>35-38 口唇
+    </div>
+<div class="flex items-center gap-1.5 shrink-0 px-2 py-0.5 rounded-full bg-landmark-cheek/15 text-landmark-cheek font-label-numeric-sm text-label-numeric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-landmark-cheek"></span>39-48 頰墊
+    </div>
+</div>
+<!-- Central Core Canvas (<FGSAnnotationCanvas />) -->
+<div class="relative w-full aspect-[4/5] max-h-[520px] bg-surface-dark overflow-hidden flex items-center justify-center ring-1 ring-emerald-500/40 shadow-[0_0_20px_rgba(16,185,129,0.18)]" id="canvas-container">
+<!-- Base Ragdoll Portrait -->
+<img class="absolute inset-0 w-full h-full object-cover select-none pointer-events-none filter brightness-95 contrast-105" data-alt="Close-up professional veterinary clinical portrait of a purebred Ragdoll cat facing directly toward the camera, piercing blue almond eyes, plush cream and lynx-point facial markings, illuminated by diffuse neutral diagnostic softbox light on dark slate backdrop #1E242B." id="cat-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuOaGP1llQX5lhZcIKpJYgW9ptklXR4zIO-b8jLzNMjBtgIyg3npmDzJwMQlWeKxbEuwoDuvSFpmPkfcpz2e5efusAJVZI4d-X8ZD-r10YkHJQLpUWR_FEZv2i8qIiEByvlMdkMjuRHhSGEYEqIVy_6ZuHkSvD4OipwDhKCSy21hHWQ9-UjR9fm-2RC3oHZPAaWU-xsE39Or4PgH3591IeQMVQjhxit7FWPcSQtHv5">
+<!-- Overlay Vignette & Diagnostic Grid Lines -->
+<div class="absolute inset-0 bg-gradient-to-b from-surface-dark/70 via-transparent to-surface-dark/90 pointer-events-none"></div>
+<!-- Active 48-Point Vector Landmark Layer -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none transition-opacity duration-300" fill="none" id="landmark-svg" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+<!-- Glow Filter Definitions -->
+<defs>
+<filter height="140%" id="glow-ear" width="140%" x="-20%" y="-20%">
+<feDropShadow dx="0" dy="0" flood-color="#8B5CF6" flood-opacity="0.9" stdDeviation="2"></feDropShadow>
+</filter>
+<filter height="140%" id="glow-eye" width="140%" x="-20%" y="-20%">
+<feDropShadow dx="0" dy="0" flood-color="#38BDF8" flood-opacity="0.9" stdDeviation="2"></feDropShadow>
+</filter>
+<filter height="140%" id="glow-nose" width="140%" x="-20%" y="-20%">
+<feDropShadow dx="0" dy="0" flood-color="#F59E0B" flood-opacity="0.9" stdDeviation="2"></feDropShadow>
+</filter>
+<filter height="140%" id="glow-mouth" width="140%" x="-20%" y="-20%">
+<feDropShadow dx="0" dy="0" flood-color="#F43F5E" flood-opacity="0.9" stdDeviation="2"></feDropShadow>
+</filter>
+<filter height="140%" id="glow-cheek" width="140%" x="-20%" y="-20%">
+<feDropShadow dx="0" dy="0" flood-color="#34D399" flood-opacity="0.9" stdDeviation="2"></feDropShadow>
+</filter>
+</defs>
+<!-- Connecting Structural Poly-mesh (Ear zones) -->
+<polyline opacity="0.65" points="105,75 125,40 155,75 170,120 120,135 105,75" stroke="#8B5CF6" stroke-dasharray="2 3" stroke-width="1"></polyline>
+<polyline opacity="0.65" points="295,75 275,40 245,75 230,120 280,135 295,75" stroke="#8B5CF6" stroke-dasharray="2 3" stroke-width="1"></polyline>
+<!-- Left Eye Contour -->
+<polygon opacity="0.8" points="122,210 142,198 168,202 182,216 164,226 138,224" stroke="#38BDF8" stroke-width="1.2"></polygon>
+<!-- Right Eye Contour -->
+<polygon opacity="0.8" points="278,210 258,198 232,202 218,216 236,226 262,224" stroke="#38BDF8" stroke-width="1.2"></polygon>
+<!-- Nose Bridge & Apex -->
+<path d="M190,215 L190,270 L176,285 L200,298 L224,285 L210,270 L210,215" opacity="0.75" stroke="#F59E0B" stroke-width="1.2"></path>
+<!-- Whiskers & Cheek Anchor Lines -->
+<line opacity="0.5" stroke="#34D399" stroke-dasharray="3 3" stroke-width="0.8" x1="150" x2="85" y1="288" y2="280"></line>
+<line opacity="0.5" stroke="#34D399" stroke-dasharray="3 3" stroke-width="0.8" x1="152" x2="70" y1="300" y2="308"></line>
+<line opacity="0.5" stroke="#34D399" stroke-dasharray="3 3" stroke-width="0.8" x1="250" x2="315" y1="288" y2="280"></line>
+<line opacity="0.5" stroke="#34D399" stroke-dasharray="3 3" stroke-width="0.8" x1="248" x2="330" y1="300" y2="308"></line>
+<!-- Mouth & Philtrum -->
+<path d="M182,318 Q200,326 218,318 Q200,336 182,318" opacity="0.85" stroke="#F43F5E" stroke-width="1.2"></path>
+</svg>
+<!-- Point Elements Rendered as Tactical Pins (Sample Landmarks with precise numbering) -->
+<!-- Ears (01-10) -->
+<div class="absolute landmark-pin flex items-center justify-center" data-idx="02" style="left: 31%; top: 8%;">
+<div class="w-2.5 h-2.5 rounded-full bg-landmark-ear shadow-[0_0_8px_#8B5CF6]"></div>
+<span class="absolute -top-4 font-label-numeric-sm text-[9px] text-landmark-ear bg-surface-dark/80 px-1 rounded">02</span>
+</div>
+<div class="absolute landmark-pin flex items-center justify-center" data-idx="07" style="left: 69%; top: 8%;">
+<div class="w-2.5 h-2.5 rounded-full bg-landmark-ear shadow-[0_0_8px_#8B5CF6]"></div>
+<span class="absolute -top-4 font-label-numeric-sm text-[9px] text-landmark-ear bg-surface-dark/80 px-1 rounded">07</span>
+</div>
+<div class="absolute landmark-pin flex items-center justify-center" data-idx="05" style="left: 42%; top: 24%;">
+<div class="w-2 h-2 rounded-full bg-landmark-ear shadow-[0_0_6px_#8B5CF6]"></div>
+<span class="absolute -top-3.5 font-label-numeric-sm text-[9px] text-landmark-ear bg-surface-dark/80 px-1 rounded">05</span>
+</div>
+<div class="absolute landmark-pin flex items-center justify-center" data-idx="10" style="left: 58%; top: 24%;">
+<div class="w-2 h-2 rounded-full bg-landmark-ear shadow-[0_0_6px_#8B5CF6]"></div>
+<span class="absolute -top-3.5 font-label-numeric-sm text-[9px] text-landmark-ear bg-surface-dark/80 px-1 rounded">10</span>
+</div>
+<!-- Eyes (11-26) -->
+<div class="absolute landmark-pin flex items-center justify-center" data-idx="14" style="left: 35%; top: 40%;">
+<div class="w-2.5 h-2.5 rounded-full bg-landmark-eye shadow-[0_0_8px_#38BDF8]"></div>
+<span class="absolute -top-4 font-label-numeric-sm text-[9px] text-landmark-eye bg-surface-dark/80 px-1 rounded">14</span>
+</div>
+<div class="absolute landmark-pin flex items-center justify-center" data-idx="18" style="left: 45%; top: 43%;">
+<div class="w-2 h-2 rounded-full bg-landmark-eye shadow-[0_0_6px_#38BDF8]"></div>
+<span class="absolute -top-3.5 font-label-numeric-sm text-[9px] text-landmark-eye bg-surface-dark/80 px-1 rounded">18</span>
+</div>
+<div class="absolute landmark-pin flex items-center justify-center" data-idx="22" style="left: 65%; top: 40%;">
+<div class="w-2.5 h-2.5 rounded-full bg-landmark-eye shadow-[0_0_8px_#38BDF8]"></div>
+<span class="absolute -top-4 font-label-numeric-sm text-[9px] text-landmark-eye bg-surface-dark/80 px-1 rounded">22</span>
+</div>
+<div class="absolute landmark-pin flex items-center justify-center" data-idx="26" style="left: 55%; top: 43%;">
+<div class="w-2 h-2 rounded-full bg-landmark-eye shadow-[0_0_6px_#38BDF8]"></div>
+<span class="absolute -top-3.5 font-label-numeric-sm text-[9px] text-landmark-eye bg-surface-dark/80 px-1 rounded">26</span>
+</div>
+<!-- Nose (27-34) -->
+<div class="absolute landmark-pin flex items-center justify-center" data-idx="31" style="left: 50%; top: 59%;">
+<div class="w-2.5 h-2.5 rounded-full bg-landmark-nose shadow-[0_0_8px_#F59E0B]"></div>
+<span class="absolute -bottom-4 font-label-numeric-sm text-[9px] text-landmark-nose bg-surface-dark/80 px-1 rounded">31</span>
+</div>
+<!-- Mouth (35-38) -->
+<div class="absolute landmark-pin flex items-center justify-center" data-idx="37" style="left: 50%; top: 65%;">
+<div class="w-2.5 h-2.5 rounded-full bg-landmark-mouth shadow-[0_0_6px_#F43F5E]"></div>
+<span class="absolute -bottom-4 font-label-numeric-sm text-[9px] text-landmark-mouth bg-surface-dark/80 px-1 rounded">37</span>
+</div>
+<!-- Whiskers & Cheeks (39-48) -->
+<div class="absolute landmark-pin flex items-center justify-center" data-idx="40" style="left: 28%; top: 58%;">
+<div class="w-2 h-2 rounded-full bg-landmark-cheek shadow-[0_0_6px_#34D399]"></div>
+<span class="absolute -top-3.5 font-label-numeric-sm text-[9px] text-landmark-cheek bg-surface-dark/80 px-1 rounded">40</span>
+</div>
+<div class="absolute landmark-pin flex items-center justify-center" data-idx="45" style="left: 72%; top: 58%;">
+<div class="w-2 h-2 rounded-full bg-landmark-cheek shadow-[0_0_6px_#34D399]"></div>
+<span class="absolute -top-3.5 font-label-numeric-sm text-[9px] text-landmark-cheek bg-surface-dark/80 px-1 rounded">45</span>
+</div>
+<!-- Live Telemetry HUD Flag -->
+<div class="absolute top-3 left-3 bg-surface-dark/85 backdrop-blur-md px-2.5 py-1.5 rounded-lg flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-landmark-eye">center_focus_strong</span>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-ink-muted leading-tight">EAR ASPECT RATIO</span>
+<span class="font-label-numeric-md text-label-numeric-md text-inverse-on-surface leading-tight">0.294 (Slight)</span>
+</div>
+</div>
+</div>
+<!-- Interactive Bottom Sheet Analysis Panel (Height ~42% feel) -->
+<div class="relative w-full -mt-4 bg-surface-card rounded-t-[24px] shadow-[0_-4px_24px_rgba(24,24,27,0.08)] px-margin-mobile pt-3 pb-space-lg flex flex-col gap-space-md z-30">
+<!-- Tactile Drag Handle -->
+<div class="w-10 h-1 bg-ink-muted/30 rounded-full mx-auto shrink-0 mb-1"></div>
+<!-- Score Summary & Clinical Badge Header -->
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-ink-primary tracking-tight">
+            FGS 1/10
+          </span>
+<span class="px-2 py-0.5 rounded-full bg-status-safe/10 text-status-safe font-label-caps text-label-caps flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-status-safe"></span>
+            綠色安全觀察
+          </span>
+</div>
+<p class="font-body-sm text-body-sm text-ink-secondary mt-0.5">
+          輕微表情變化 · 雙眼略微聚精 (EAR 0.29)
+        </p>
+</div>
+<!-- Quick Info Chip -->
+<div class="bg-surface-subtle px-2.5 py-1 rounded-lg text-right shrink-0">
+<span class="font-label-caps text-label-caps text-ink-muted block">置信度</span>
+<span class="font-label-numeric-md text-label-numeric-md text-primary">98.4%</span>
+</div>
+</div>
+<!-- Action Unit Progress Deconstruction Grid -->
+<div class="flex flex-col gap-space-sm bg-bg-canvas p-space-md rounded-xl">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-ink-muted uppercase">貓咪表情動作單元幾何解構 (AU Metrics)</span>
+<span class="font-label-numeric-sm text-label-numeric-sm text-primary">3 項度校準</span>
+</div>
+<!-- Unit 1: Ears -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-ink-primary flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-landmark-ear"></span>
+            雙耳直立度 (Ears Forward)
+          </span>
+<span class="font-label-numeric-sm text-label-numeric-sm text-ink-secondary">0 / 2 (正常朝前)</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-landmark-ear rounded-full w-[8%]"></div>
+</div>
+</div>
+<!-- Unit 2: Eyes Orbital Tightening -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-ink-primary flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-landmark-eye"></span>
+            眼眶收緊度 (Orbital Tightening)
+          </span>
+<span class="font-label-numeric-sm text-label-numeric-sm text-status-warn">1 / 2 (輕度微瞇)</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-status-warn rounded-full w-[48%]"></div>
+</div>
+</div>
+<!-- Unit 3: Muzzle & Whiskers -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-ink-primary flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-landmark-cheek"></span>
+            鬍鬚與頰墊放鬆度 (Muzzle &amp; Whiskers)
+          </span>
+<span class="font-label-numeric-sm text-label-numeric-sm text-ink-secondary">0 / 2 (自然舒展)</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-landmark-cheek rounded-full w-[6%]"></div>
+</div>
+</div>
+</div>
+<!-- Veterinary Micro Disclaimer Note -->
+<div class="flex items-center gap-2 px-1">
+<span class="material-symbols-outlined text-[16px] text-ink-muted shrink-0">verified</span>
+<p class="font-body-sm text-[12px] text-ink-muted leading-tight">
+        基於蒙特婁大學 Feline Grimace Scale 標註規範。非唯一醫療診斷依據。
+      </p>
+</div>
+<!-- Dual Primary Action CTA Suite -->
+<div class="flex flex-col gap-space-sm pt-1"><div class="bg-primary/5 rounded-xl p-space-md flex flex-col gap-space-sm shadow-sm"><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-container text-on-primary-container font-label-caps text-label-caps w-fit shrink-0 shadow-[0_0_10px_rgba(16,185,129,0.35)] ring-1 ring-emerald-400/40"><span class="material-symbols-outlined text-[14px] animate-pulse">auto_awesome</span><span class="">✦ 已準備好 3 項分析特徵 (眼眶微瞇 / 飲水紀錄 / CREA 指標)</span></div><div class="flex flex-col"><div class="flex items-center justify-between"><span class="font-headline-sm text-headline-sm text-ink-primary">AI 智慧問診深入分析</span><span class="font-label-numeric-sm text-label-numeric-sm text-primary font-semibold">無縫掛載 Context</span></div><p class="font-body-sm text-body-sm text-ink-secondary mt-0.5">已自動打包本次 FGS 評分與 48 點幾何特徵，立即與專屬 AI 獸醫顧問探討改善對策。</p></div><button class="relative overflow-hidden h-12 w-full rounded-xl bg-primary text-on-primary font-body-md font-semibold flex items-center justify-center gap-2 shadow-md active:scale-95 transition-transform duration-150 ease-out select-none animate-pulse-glow" id="triage-forward-btn" type="button"><span class="absolute inset-0 pointer-events-none -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent"></span><span class="material-symbols-outlined text-[20px] relative z-10">psychology</span><span class="relative z-10">帶入 AI 智慧問診深入分析</span><span class="material-symbols-outlined text-[18px] relative z-10 animate-arrow-bounce">arrow_forward</span></button></div><div class="grid grid-cols-2 gap-space-sm"><button class="h-10 w-full rounded-xl bg-surface-subtle text-ink-primary font-body-sm font-semibold flex items-center justify-center gap-1.5 active:scale-95 transition-transform duration-150 ease-out select-none feedback-tap" id="export-annotated-btn" type="button"><span class="material-symbols-outlined text-[16px]">bookmark</span><span class="">儲存至健康紀錄</span></button><button class="h-10 w-full rounded-xl bg-surface-subtle text-ink-primary font-body-sm font-semibold flex items-center justify-center gap-1.5 active:scale-95 transition-transform duration-150 ease-out select-none feedback-tap" id="book-clinic-btn" type="button"><span class="material-symbols-outlined text-[16px]">local_hospital</span><span class="">預約合作動物醫院</span></button></div></div>
+</div>
+<!-- Ambient System Floating Snackbar -->
+<div class="fixed bottom-6 inset-x-margin-mobile z-50 flex items-center justify-between gap-space-sm bg-surface-dark text-inverse-on-surface px-space-md py-3 rounded-xl shadow-xl transition-all duration-300" id="toast-banner">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="material-symbols-outlined text-[20px] text-landmark-cheek shrink-0">check_circle</span>
+<p class="font-body-sm text-body-sm truncate text-surface-bright">
+        已自動比對 3 週前基準照 (Base-001)，無顯著疼痛特徵
+      </p>
+</div>
+<button class="text-ink-muted hover:text-surface-bright shrink-0 active:scale-95 transition-transform duration-150 ease-out select-none feedback-tap" onclick="document.getElementById('toast-banner').classList.add('opacity-0','pointer-events-none')" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<script>
+  // Web Audio & Haptic Feedback Engine
+  let audioCtx = null;
+  let hapticEnabled = true;
+
+  function initAudioContext() {
+    if (!audioCtx) {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (AudioContextClass) {
+        audioCtx = new AudioContextClass();
+      }
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+  }
+
+  // 1. Subtle Water Drop Tap Tone (1400Hz) & 8ms micro vibration
+  function triggerTapFeedback() {
+    if (!hapticEnabled) return;
+    if (navigator.vibrate) {
+      try { navigator.vibrate(8); } catch(e){}
+    }
+    try {
+      initAudioContext();
+      if (!audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(1400, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(700, audioCtx.currentTime + 0.045);
+      
+      gain.gain.setValueAtTime(0.045, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.045);
+      
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.05);
+    } catch(e){}
+  }
+
+  // 2. Dual Haptic Success & Harmonic Confirmation Chord (CTA trigger)
+  function triggerSuccessFeedback() {
+    if (!hapticEnabled) return;
+    if (navigator.vibrate) {
+      try { navigator.vibrate([15, 30, 25]); } catch(e){}
+    }
+    try {
+      initAudioContext();
+      if (!audioCtx) return;
+      const now = audioCtx.currentTime;
+      const chords = [523.25, 659.25, 783.99, 1046.50]; // C Major Chord
+      chords.forEach((freq, idx) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.035);
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(0.055, now + idx * 0.035 + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.035 + 0.22);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now + idx * 0.035);
+        osc.stop(now + idx * 0.035 + 0.23);
+      });
+    } catch(e){}
+  }
+
+  // Haptic Switch Toggle UI & Handler
+  const hapticToggleBtn = document.getElementById('haptic-audio-toggle');
+  const hapticIcon = document.getElementById('haptic-icon');
+  const hapticLabel = document.getElementById('haptic-status-label');
+
+  if (hapticToggleBtn) {
+    hapticToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      hapticEnabled = !hapticEnabled;
+      if (hapticEnabled) {
+        hapticIcon.textContent = 'vibration';
+        hapticIcon.classList.remove('text-ink-muted');
+        hapticIcon.classList.add('text-primary');
+        hapticLabel.textContent = '震動反饋 ON';
+        triggerTapFeedback();
+      } else {
+        hapticIcon.textContent = 'smartphone';
+        hapticIcon.classList.remove('text-primary');
+        hapticIcon.classList.add('text-ink-muted');
+        hapticLabel.textContent = '反饋已靜音';
+      }
+    });
+  }
+
+  // Attach tap feedback to common interactive items
+  document.querySelectorAll('.feedback-tap').forEach(el => {
+    el.addEventListener('click', () => {
+      triggerTapFeedback();
+    });
+  });
+
+  // Dynamic visual toggle: Clean inspection mode vs 48-Point Mesh Mode
+  const modeDarkBtn = document.getElementById('mode-dark-btn');
+  const modeCleanBtn = document.getElementById('mode-clean-btn');
+  const landmarkSvg = document.getElementById('landmark-svg');
+  const landmarkPins = document.querySelectorAll('.landmark-pin');
+
+  let isCleanMode = false;
+
+  modeCleanBtn.addEventListener('click', () => {
+    if (!isCleanMode) {
+      isCleanMode = true;
+      landmarkSvg.style.opacity = '0.15';
+      landmarkPins.forEach(pin => pin.style.opacity = '0.2');
+      modeCleanBtn.classList.replace('text-ink-muted', 'bg-primary-container');
+      modeCleanBtn.classList.add('text-on-primary-container');
+      modeDarkBtn.classList.replace('bg-primary-container', 'text-ink-muted');
+      modeDarkBtn.classList.remove('text-on-primary-container');
+    }
+  });
+
+  modeDarkBtn.addEventListener('click', () => {
+    if (isCleanMode) {
+      isCleanMode = false;
+      landmarkSvg.style.opacity = '1';
+      landmarkPins.forEach(pin => pin.style.opacity = '1');
+      modeDarkBtn.classList.replace('text-ink-muted', 'bg-primary-container');
+      modeDarkBtn.classList.add('text-on-primary-container');
+      modeCleanBtn.classList.replace('bg-primary-container', 'text-ink-muted');
+      modeCleanBtn.classList.remove('text-on-primary-container');
+    }
+  });
+
+  // Triage Main CTA Feedback Trigger
+  const triageBtn = document.getElementById('triage-forward-btn');
+  if (triageBtn) {
+    triageBtn.addEventListener('click', () => {
+      triggerSuccessFeedback();
+      const originalText = triageBtn.innerHTML;
+      triageBtn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">sync</span><span>正在打包 Context 載入問診室...</span>';
+      setTimeout(() => {
+        triageBtn.innerHTML = originalText;
+      }, 1600);
+    });
+  }
+
+  // Export action micro-feedback
+  document.getElementById('export-annotated-btn').addEventListener('click', function() {
+    const originalText = this.innerHTML;
+    this.innerHTML = '<span class="material-symbols-outlined text-[18px] text-landmark-cheek">check</span><span>已存入相簿</span>';
+    setTimeout(() => {
+      this.innerHTML = originalText;
+    }, 1800);
+  });
+</script></main>
+
+
+</body></html>

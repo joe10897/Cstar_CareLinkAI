@@ -1,0 +1,30 @@
+{
+  "name": "carelink-ai",
+  "private": true,
+  "version": "1.0.0",
+  "description": "CareLink AI — 寵物高齡照護與 AI 貓臉 48 點疼痛初篩／健檢數據管理系統",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5173",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --port 4173",
+    "sloplint": "node scripts/sloplint.mjs src --genre modern-minimal --scope app",
+    "sloplint:render": "node scripts/sloplint.mjs src --genre modern-minimal --scope app --render"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.1",
+    "lucide-react": "^0.475.0",
+    "onnxruntime-web": "^1.20.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "puppeteer-core": "^24.3.0",
+    "typescript": "~5.7.2",
+    "vite": "^6.2.0"
+  }
+}

@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="zh-TW"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><title>CareLink AI</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#F8F7F4;-webkit-font-smoothing:antialiased;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:calc(0.75rem + env(safe-area-inset-bottom, 0px));}.pt-safe{padding-top:env(safe-area-inset-top, 0px);}}::-webkit-scrollbar{display:none;}@keyframes waterWave{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}@keyframes waterPulse{0%,100%{transform:scale(1);opacity:0.9;}50%{transform:scale(1.4);opacity:0.6;}}.animate-water-wave{animation:waterWave 2.8s linear infinite;}.animate-water-pulse{animation:waterPulse 2s ease-in-out infinite;}@media (prefers-reduced-motion: reduce){*,::before,::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;scroll-behavior:auto !important;}}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface": "#fbf8fc", "on-background": "#1b1b1e", "surface-dark": "#1E242B", "on-primary-fixed": "#00201d", "inverse-on-surface": "#f3f0f4", "on-secondary": "#ffffff", "on-secondary-fixed-variant": "#005323", "primary": "#005c55", "on-primary-fixed-variant": "#00504a", "landmark-ear": "#8B5CF6", "status-warn": "#D97706", "surface-subtle": "#F1EFEA", "on-tertiary-fixed": "#2f1500", "surface-container-high": "#eae7eb", "status-danger": "#DC2626", "primary-fixed": "#9cf2e8", "background": "#fbf8fc", "surface-container-highest": "#e4e1e6", "landmark-eye": "#38BDF8", "surface-bright": "#fbf8fc", "outline-variant": "#bdc9c6", "surface-dim": "#dcd9dd", "ink-muted": "#8E8E93", "on-primary-container": "#a3faef", "surface-tint": "#006a63", "landmark-nose": "#F59E0B", "surface-container": "#f0edf1", "tertiary-fixed-dim": "#ffb77d", "on-secondary-fixed": "#00210a", "error-container": "#ffdad6", "ink-primary": "#18181B", "on-tertiary": "#ffffff", "primary-container": "#0f766e", "tertiary": "#7d4200", "landmark-mouth": "#F43F5E", "secondary-fixed-dim": "#79db8d", "inverse-surface": "#303033", "surface-container-low": "#f6f2f7", "landmark-cheek": "#34D399", "outline": "#6e7977", "bg-canvas": "#F8F7F4", "error": "#ba1a1a", "surface-container-lowest": "#ffffff", "surface-card": "#FFFFFF", "ink-secondary": "#52525B", "inverse-primary": "#80d5cb", "status-safe": "#15803D", "on-error-container": "#93000a", "on-primary": "#ffffff", "on-tertiary-fixed-variant": "#6e3900", "secondary-fixed": "#95f8a7", "tertiary-fixed": "#ffdcc3", "surface-variant": "#e4e1e6", "secondary-container": "#92f5a4", "tertiary-container": "#a15600", "on-error": "#ffffff", "secondary": "#006d30", "primary-fixed-dim": "#80d5cb", "on-surface-variant": "#3e4947", "on-tertiary-container": "#ffe6d5", "on-surface": "#1b1b1e", "on-secondary-container": "#007233" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "margin-mobile": "1rem", "margin": "1.5rem", "space-xl": "2rem", "space-sm": "0.5rem", "space-md": "1rem", "space-xs": "0.25rem", "gutter-mobile": "0.75rem", "space-lg": "1.5rem", "gutter": "1rem" }, "fontFamily": { "body-md": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "label-numeric-md": ["JetBrains Mono"], "headline-lg": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "headline-xl-mobile": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "label-caps": ["Plus Jakarta Sans"], "label-numeric-lg": ["JetBrains Mono"], "label-numeric-sm": ["JetBrains Mono"], "headline-sm": ["Plus Jakarta Sans"] }, "fontSize": { "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "label-numeric-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }], "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-xl-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "700" }], "label-numeric-lg": ["22px", { "lineHeight": "28px", "fontWeight": "700" }], "label-numeric-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }], "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }] } } } };</script></head><body class="min-h-full bg-bg-canvas font-body-md text-ink-primary flex flex-col selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 inset-x-0 z-50 bg-bg-canvas/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-16 px-margin-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><img alt="CareLink AI Logo" class="h-8 w-auto object-contain shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_i41wRdtPsK1QXBllk5qR2hXX64fW_ExmJzR2Aa0YR75ZIPCHr2RNgDw-7SvLd6qzQZvlQKJK87bQsxoQZ_f4CWJYcqWT6rLkC-XRkqcJ11b4V21y-lsuwnz38nM_Wtn93UAk-Ql8eMiKSKFDnhBrghPu2eZSMJpIZw68elyujjvoCrB0bepo8AgRvM7UrxcxN4CHUkr1bgNobfsg6p5wa3uZg8Og2Ot4UhetCf0K"/><div class="flex flex-col min-w-0"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm text-ink-primary truncate">日常打卡</span></div></div></div><div class="flex items-center gap-space-sm shrink-0"><button class="min-h-[44px] px-space-sm py-space-xs rounded-full bg-surface-subtle flex items-center gap-1.5 active:scale-95 transition-transform" onclick="hapticFeedback('click')" type="button"><span class="w-2 h-2 rounded-full bg-status-warn shrink-0"></span><span class="font-body-sm text-body-sm text-ink-secondary truncate max-w-[130px]">咪寶 · 8y · IRIS II</span><span class="material-symbols-outlined text-[16px] text-ink-muted leading-none shrink-0">unfold_more</span></button><button class="min-h-[44px] min-w-[44px] flex items-center justify-center p-0.5 rounded-full active:opacity-80 transition-opacity" onclick="hapticFeedback('click')" type="button"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzh5QLXV2jsKe0ka7C5DKddz63PkQ3CSDAns54kswPjU54mPqKsxoTiApQlTkdXld2JEYc_nMPJfqy0UKFARBJnO0f4QtoHXPyGC3dHuDwFXvqoq7e9xTQqQAOMg0HtvryvD0WSABmLbQRQLH21VZ7JlcCgaW-dr9jWqOonlEQJ7bXrcl98AGO-PTv82vn3mr78zHf4R3JjChD41JVys1zWwRbmzN201JiWo3bgvsn"/></button></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 bg-bg-canvas" style="padding-bottom: 7rem;"><div class="flex flex-col w-full px-margin-mobile pb-space-lg space-y-space-md">
+<!-- Top Toast Notification (Live Feedback Capsule) -->
+<aside class="w-full bg-surface-dark text-surface rounded-xl shadow-md p-space-sm flex items-center justify-between transition-all duration-300 transform translate-y-0 opacity-100" id="daily-toast" role="alert">
+<div class="flex items-center space-x-space-xs min-w-0 pr-space-xs">
+<span class="material-symbols-outlined text-[18px] text-landmark-cheek shrink-0" style='font-variation-settings: "FILL" 1;'>check_circle</span>
+<p class="font-body-sm text-body-sm text-surface truncate">
+        ✨ 飲水已達 72% · 皮下輸液 100ml 已記帳！
+      </p>
+</div>
+<button aria-label="關閉提示" class="text-ink-muted hover:text-surface shrink-0 min-h-[32px] min-w-[32px] flex items-center justify-center rounded-full transition-colors" onclick="hapticFeedback('click'); document.getElementById('daily-toast').classList.add('hidden')" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</aside>
+<!-- Interactive Nav Motion Demo & Haptic Feedback Capsule Bar -->
+<div class="space-y-1.5 -mt-1 -mb-1">
+<div class="flex items-center justify-between px-1">
+<button aria-pressed="true" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-card border border-outline-variant/30 text-ink-secondary hover:text-ink-primary shadow-xs active:scale-95 transition-all text-left" id="haptic-toggle-btn" onclick="toggleHapticAudio()" type="button">
+<span class="material-symbols-outlined text-[15px] text-primary" id="haptic-icon" style='font-variation-settings: "FILL" 1;'>vibration</span>
+<span class="font-label-caps text-[11px]" id="haptic-label">觸覺與提示音：開啟中</span>
+<span class="w-1.5 h-1.5 rounded-full bg-status-safe ml-0.5" id="haptic-indicator"></span>
+</button>
+<span class="font-label-numeric-sm text-[11px] text-ink-muted">Web Audio 溫潤反饋</span>
+</div>
+<!-- Scroll-to-Hide Interactive Showcase Pill -->
+<div class="flex items-center justify-between px-1">
+<div class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-subtle text-ink-secondary text-[11px] font-label-caps border border-outline-variant/25">
+<span class="material-symbols-outlined text-[14px] text-primary-container" style='font-variation-settings: "FILL" 1;'>swap_vert</span>
+<span>✨ 懸浮導覽列：下滑自動收合動態支援中</span>
+</div>
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-container/10 hover:bg-primary-container/20 text-primary-container font-label-caps text-[11px] font-medium border border-primary-container/20 active:scale-95 transition-all shadow-2xs" id="demo-nav-toggle-btn" onclick="demoToggleNav()" title="手動測試收合/展開效果" type="button">
+<span class="material-symbols-outlined text-[13px]" id="demo-nav-icon">visibility_off</span>
+<span id="demo-nav-label">測試收合</span>
+</button>
+</div>
+</div>
+<!-- Pet Status Card & Sitter Switcher -->
+<section class="bg-surface-card rounded-xl p-space-md shadow-sm flex items-center justify-between">
+<div class="flex items-center space-x-space-sm min-w-0">
+<div class="relative shrink-0">
+<img class="w-12 h-12 rounded-full object-cover shadow-sm" data-alt="A tranquil close-up portrait of a fluffy Ragdoll cat named Mibao resting softly on a warm linen duvet, diffuse daylight, pristine veterinary clinical hygiene, calm warm tone aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6kGIk7_NOhdthPEokI5xNdwbLZYPS-jhwJP5GZvKz-oLuyRhxPse01qkFb2GMFc8Da4Hev0cFAl6MFoDg1XDZY58ZaGC3jpbzfUq1MB019oismSnJtGnx-rakBgCnL5aOYsSHDwfYSo0fgp0P4oQ569X-Dwnp9vGtmVw2RApYiNsOyilSYtEVaH9FzYZJ1ulSpJkzBxyG8eUfoDtVHhK9rL5wqFxkszMx-VPuYMQ2"/>
+<span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-status-safe shadow-sm"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center space-x-space-xs">
+<h2 class="font-headline-sm text-headline-sm text-ink-primary truncate">咪寶</h2>
+<span class="bg-surface-subtle text-ink-secondary font-label-numeric-sm text-label-numeric-sm px-2 py-0.5 rounded-full">8y 2m</span>
+</div>
+<p class="font-body-sm text-body-sm text-ink-muted truncate">布偶貓 · IRIS 腎病第 2 期 · 每日皮下點滴</p>
+</div>
+</div>
+<div class="flex items-center space-x-1 shrink-0">
+<button class="bg-surface-subtle text-primary hover:bg-primary-fixed hover:text-on-primary-fixed px-3 py-1.5 rounded-full font-label-caps text-label-caps flex items-center space-x-1 active:scale-95 transition-transform duration-150 ease-out select-none" id="sitter-toggle" onclick="toggleSitterMode()" type="button">
+<span class="material-symbols-outlined text-[15px]" style='font-variation-settings: "FILL" 1;'>volunteer_activism</span>
+<span class="" id="sitter-text">保姆交接</span>
+</button>
+<button aria-label="更多操作" class="p-1.5 rounded-full hover:bg-surface-subtle text-ink-secondary min-h-[36px] min-w-[36px] flex items-center justify-center transition-colors" onclick="hapticFeedback('click'); openActionSheet()" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</section>
+<!-- Core Hero Feature: 48-Point FGS Pain Face Quick Scan Banner -->
+<section class="bg-primary-container text-surface rounded-xl p-space-md shadow-md relative overflow-hidden">
+<div class="absolute -right-6 -bottom-6 w-36 h-36 bg-primary rounded-full opacity-40 blur-xl pointer-events-none"></div>
+<div class="flex items-start justify-between relative z-10">
+<div class="space-y-1 max-w-[70%]">
+<div class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-surface-subtle text-primary font-label-caps text-label-caps">
+<span class="material-symbols-outlined text-[13px]" style='font-variation-settings: "FILL" 1;'>auto_awesome</span>
+<span class="">CV 48-Point Mesh</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-surface">AI 貓臉表情 FGS 疼痛快篩</h3>
+<p class="font-body-sm text-body-sm text-primary-fixed-dim">
+          藉由五官特徵點量測耳朵位置、眼眶緊繃與口吻緊張度
+        </p>
+</div>
+<div class="w-12 h-12 rounded-full bg-surface-dark flex items-center justify-center shadow-inner shrink-0">
+<span class="material-symbols-outlined text-[24px] text-primary-fixed">photo_camera</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between relative z-10">
+<div class="flex items-center space-x-space-xs">
+<div class="w-2.5 h-2.5 rounded-full bg-status-safe animate-pulse"></div>
+<span class="font-body-sm text-body-sm text-surface">上次快篩：</span>
+<span class="font-label-numeric-md text-label-numeric-md text-primary-fixed">0/10 (無疼痛徵兆)</span>
+</div>
+<button class="bg-surface text-primary-container font-label-caps text-label-caps px-3.5 py-1.5 rounded-full shadow-sm hover:bg-surface-subtle active:scale-95 transition-transform duration-150 ease-out select-none flex items-center space-x-1" onclick="startFGSScan()" type="button">
+<span class="">立即評估</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- 2x3 Bento Grid Daily Logging Matrix -->
+<div class="space-y-space-sm w-full">
+<!-- Core Fast-Log Grid (Hydration + Appetite) -->
+<div class="grid grid-cols-2 gap-space-sm w-full">
+<!-- Hydration Card -->
+<article class="bg-surface-card rounded-xl p-space-md shadow-sm flex flex-col justify-between space-y-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-1 text-ink-muted">
+<span class="material-symbols-outlined text-[16px] text-landmark-eye">water_drop</span>
+<span class="font-label-caps text-label-caps uppercase">飲水進度</span>
+</div>
+<span class="font-label-numeric-md text-label-numeric-md text-primary-container" id="hydration-val">180 ml</span>
+</div>
+<div class="space-y-1 my-1">
+<div class="w-full bg-surface-subtle h-2 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full rounded-full transition-all duration-300 relative overflow-hidden flex items-center justify-end" id="hydration-bar" style="width: 72%;"><div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary-fixed/40 to-transparent animate-water-wave pointer-events-none"></div><div class="absolute inset-0 w-full h-full opacity-30 bg-[linear-gradient(45deg,rgba(255,255,255,0.3)_25%,transparent_25%,transparent_50%,rgba(255,255,255,0.3)_50%,rgba(255,255,255,0.3)_75%,transparent_75%,transparent)] bg-[length:12px_12px] animate-water-wave pointer-events-none"></div><span class="relative right-0.5 w-1.5 h-1.5 rounded-full bg-primary-fixed shadow-xs animate-water-pulse shrink-0"></span></div>
+</div>
+<div class="flex justify-between items-center text-ink-muted font-label-numeric-sm text-label-numeric-sm">
+<span class="">0</span>
+<span class="">目標 250ml</span>
+</div>
+</div>
+<button class="w-full py-1.5 bg-surface-subtle text-ink-primary font-label-caps text-label-caps rounded-lg hover:bg-primary-fixed hover:text-on-primary-fixed active:scale-95 transition-transform duration-150 ease-out flex items-center justify-center space-x-1 select-none shadow-xs" onclick="addWater(50)" type="button"><span class="material-symbols-outlined text-[15px]">add</span><span class="">快捷 +50ml</span></button>
+</article>
+<!-- Appetite Card -->
+<article class="bg-surface-card rounded-xl p-space-md shadow-sm flex flex-col justify-between space-y-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-1 text-ink-muted">
+<span class="material-symbols-outlined text-[16px] text-status-warn">restaurant</span>
+<span class="font-label-caps text-label-caps uppercase">今日食慾</span>
+</div>
+<span class="font-label-numeric-sm text-label-numeric-sm px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded-full" id="appetite-badge">正常</span>
+</div>
+<div class="grid grid-cols-3 gap-1 bg-surface-subtle p-0.5 rounded-lg my-1"><button class="appetite-btn py-1 rounded-md font-label-caps text-label-caps transition-transform duration-150 ease-out active:scale-95 bg-surface-card text-primary-container shadow-xs text-center select-none" onclick="setAppetite(this, '正常')" type="button">正常</button><button class="appetite-btn py-1 rounded-md font-label-caps text-label-caps transition-transform duration-150 ease-out active:scale-95 text-ink-secondary hover:text-ink-primary text-center select-none" onclick="setAppetite(this, '減半')" type="button">減半</button><button class="appetite-btn py-1 rounded-md font-label-caps text-label-caps transition-transform duration-150 ease-out active:scale-95 text-ink-secondary hover:text-ink-primary text-center select-none" onclick="setAppetite(this, '拒食')" type="button">拒食</button></div>
+<p class="font-body-sm text-body-sm text-ink-muted truncate text-[13px]">
+        早：主食罐 45g (完食)
+      </p>
+</article>
+</div>
+<!-- Section Title -->
+<div class="flex items-center justify-between pt-1 px-1">
+<span class="font-label-caps text-label-caps text-ink-muted uppercase tracking-wider">進階日常病歷與觀察 (可折疊詳看)</span>
+<span class="font-label-numeric-sm text-label-numeric-sm text-primary-container font-medium">3 個分類</span>
+</div>
+<!-- Accordion 1: Excretion & Bristol Scale -->
+<details class="group bg-surface-card rounded-xl p-space-md shadow-sm transition-all duration-300 overflow-hidden border border-outline-variant/30 active:border-primary-container/40" id="excretion-details">
+<summary class="flex items-center justify-between cursor-pointer list-none select-none group-open:pb-1 transition-all" onclick="hapticFeedback('click')">
+<div class="flex items-center space-x-space-sm min-w-0 pr-2">
+<div class="w-10 h-10 rounded-xl bg-surface-subtle flex items-center justify-center shrink-0 text-tertiary shadow-xs group-hover:scale-105 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[22px] animate-pulse" style='font-variation-settings: "FILL" 1;'>water_drop</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center space-x-space-xs">
+<h4 class="font-headline-sm text-[16px] text-ink-primary font-semibold flex items-center gap-1.5">
+              排泄健康與布里斯托大便對照
+              <span class="material-symbols-outlined text-landmark-cheek text-[15px]">verified</span>
+</h4>
+<span class="font-label-numeric-sm text-label-numeric-sm px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-medium">正常</span>
+</div>
+<p class="font-body-sm text-[13px] text-ink-muted truncate mt-0.5 flex items-center gap-1">
+<span class="">尿塊 ×3 (中球)</span>
+<span class="text-ink-muted/50">·</span>
+<span class="">3型香腸狀</span>
+<span class="text-ink-muted/50">·</span>
+<span class="text-primary font-medium">點擊展開圖解與量測</span>
+</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-ink-muted text-[20px] transition-transform duration-300 group-open:rotate-180 shrink-0">expand_more</span>
+</summary>
+<!-- Expanded Body -->
+<div class="pt-space-md mt-space-sm border-t border-surface-subtle space-y-space-sm">
+<!-- Bristol 7-Scale Visual Matrix with Glyphs -->
+<div class="bg-surface-subtle rounded-xl p-space-sm border border-outline-variant/30">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-1.5 text-ink-secondary">
+<span class="material-symbols-outlined text-[16px] text-tertiary">bar_chart</span>
+<span class="font-label-caps text-label-caps uppercase tracking-wider">布里斯托便便七級分類視覺圖解</span>
+</div>
+<span class="font-label-numeric-sm text-[11px] text-ink-muted bg-surface-card px-2 py-0.5 rounded-full border border-outline-variant/30">今日判定：第 3-4 型</span>
+</div>
+<div class="grid grid-cols-4 gap-1.5 text-center font-label-numeric-sm">
+<button class="py-2 px-1 rounded-lg bg-surface-card text-ink-secondary hover:border-primary-container hover:text-ink-primary text-[12px] active:scale-95 transition-transform duration-150 ease-out flex flex-col items-center justify-center gap-1 border border-transparent shadow-xs select-none" onclick="triggerToast('🌰 已標記便況：第 1-2 型乾硬顆粒 (可能水分不足)')" type="button">
+<span class="text-[14px] leading-none">🌰</span>
+<span class="font-semibold text-[11px]">1-2型 乾硬</span>
+<span class="text-[10px] text-ink-muted">羊便結塊</span>
+</button>
+<button class="py-2 px-1 rounded-lg bg-primary-container text-surface text-[12px] active:scale-95 transition-transform duration-150 ease-out flex flex-col items-center justify-center gap-1 shadow-sm select-none ring-2 ring-primary-fixed ring-offset-1" onclick="triggerToast('✨ 已確認便況：第 3-4 型理想條狀 (腸道健康)')" type="button">
+<span class="text-[14px] leading-none">🥖</span>
+<span class="font-semibold text-[11px] text-on-primary">3-4型 理想</span>
+<span class="text-[10px] text-primary-fixed">光滑條狀</span>
+</button>
+<button class="py-2 px-1 rounded-lg bg-surface-card text-ink-secondary hover:border-primary-container hover:text-ink-primary text-[12px] active:scale-95 transition-transform duration-150 ease-out flex flex-col items-center justify-center gap-1 border border-transparent shadow-xs select-none" onclick="triggerToast('💧 已標記便況：第 5 型軟便邊緣 (持續觀察)')" type="button">
+<span class="text-[14px] leading-none">🍌</span>
+<span class="font-semibold text-[11px]">5型 偏軟</span>
+<span class="text-[10px] text-ink-muted">邊緣清晰</span>
+</button>
+<button class="py-2 px-1 rounded-lg bg-surface-card text-ink-secondary hover:border-primary-container hover:text-ink-primary text-[12px] active:scale-95 transition-transform duration-150 ease-out flex flex-col items-center justify-center gap-1 border border-transparent shadow-xs select-none" onclick="triggerToast('⚠️ 已標記便況：第 6-7 型水便糊狀 (警訊留意)')" type="button">
+<span class="text-[14px] leading-none">🥣</span>
+<span class="font-semibold text-[11px]">6-7型 水瀉</span>
+<span class="text-[10px] text-status-warn">液態無形</span>
+</button>
+</div></div></div></details>
+<!-- Accordion 2: Weight, Daily Medication & Fluid Infusion -->
+<details class="group bg-surface-card rounded-xl p-space-md shadow-sm transition-all duration-300 overflow-hidden border border-outline-variant/30 active:border-primary-container/40" id="med-details">
+<summary class="flex items-center justify-between cursor-pointer list-none select-none group-open:pb-1 transition-all" onclick="hapticFeedback('click')">
+<div class="flex items-center space-x-space-sm min-w-0 pr-2">
+<div class="w-10 h-10 rounded-xl bg-surface-subtle flex items-center justify-center shrink-0 text-landmark-ear shadow-xs group-hover:scale-105 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[22px]" style='font-variation-settings: "FILL" 1;'>vaccines</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center space-x-space-xs">
+<h4 class="font-headline-sm text-[16px] text-ink-primary font-semibold flex items-center gap-1.5">
+              體重趨勢與每日用藥 / 皮下輸液
+              <span class="inline-flex items-center text-primary-container" title="已施打輸液">
+<span class="material-symbols-outlined text-[15px]">water_drop</span>
+</span>
+</h4>
+<span class="font-label-numeric-sm text-label-numeric-sm px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-medium">1/2 完成</span>
+</div>
+<p class="font-body-sm text-[13px] text-ink-muted truncate mt-0.5 flex items-center gap-1">
+<span class="text-status-safe font-medium">皮下 100ml [已完成]</span>
+<span class="text-ink-muted/50">·</span>
+<span class="">晚 降血壓 [待服]</span>
+<span class="text-ink-muted/50">·</span>
+<span class="text-ink-primary font-medium">4.82kg (平穩)</span>
+</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-ink-muted text-[20px] transition-transform duration-300 group-open:rotate-180 shrink-0">expand_more</span>
+</summary>
+<!-- Expanded Body -->
+<div class="pt-space-md mt-space-sm border-t border-surface-subtle space-y-space-sm">
+<!-- Meds Checklist with Interactive Pop-Check Feel -->
+<div class="space-y-2 bg-surface-subtle p-space-sm rounded-xl border border-outline-variant/30">
+<div class="flex items-center justify-between text-ink-muted font-label-caps text-label-caps px-0.5">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-landmark-ear">schedule</span>
+            今日排程清單
+          </span>
+<span class="text-primary-container font-semibold">1 項待執行</span>
+</div>
+<!-- Morning Fluid Completed Item -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-card border border-outline-variant/20 shadow-xs">
+<div class="flex items-center space-x-2 min-w-0">
+<div class="w-5 h-5 rounded-full bg-primary-container text-surface flex items-center justify-center shrink-0 shadow-xs">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-sm text-[13px] line-through text-ink-muted font-medium truncate">早 08:00 皮下輸液 100ml (左肩胛)</span>
+<span class="text-[11px] text-status-safe flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[12px]">done_all</span>
+                家長已注射打卡 · 留置針消毒正常
+              </span>
+</div>
+</div>
+<span class="font-label-numeric-sm text-[11px] px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-medium shrink-0">已施打</span>
+</div>
+<!-- Evening Medicine Interactive Check Item -->
+<label class="flex items-center justify-between p-2 rounded-lg bg-surface-card border border-status-warn/30 hover:border-status-warn shadow-xs cursor-pointer active:scale-98 transition-all group/item" onclick="toggleEveningMeds(this)">
+<div class="flex items-center space-x-2 min-w-0">
+<input class="w-5 h-5 rounded border-outline-variant text-primary-container accent-primary-container cursor-pointer transition-transform group-hover/item:scale-110" id="med-eve" type="checkbox"/>
+<div class="flex flex-col min-w-0">
+<span class="font-body-sm text-[13px] text-ink-primary font-semibold truncate transition-colors" id="med-eve-text">晚 21:00 降血壓藥 半顆 (溫水化服)</span>
+<span class="text-[11px] text-ink-muted flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[12px] text-status-warn">pill</span>
+                保護心腎血管負擔 · 飯後 30 分鐘
+              </span>
+</div>
+</div>
+<span class="font-label-numeric-sm text-[11px] px-2 py-0.5 rounded-full bg-surface-subtle text-status-warn font-semibold shrink-0 group-hover/item:bg-status-warn group-hover/item:text-surface transition-colors">待給藥</span>
+</label>
+</div>
+<!-- Fluid & Weight Detailed Inputs with Sparkline & Medical Dial Visual -->
+<div class="grid grid-cols-2 gap-space-sm">
+<!-- Subcutaneous Fluid Drip Dial -->
+<div class="bg-surface-subtle p-space-sm rounded-xl border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary-container animate-pulse">water_drop</span>
+<span class="font-label-caps text-label-caps text-ink-muted uppercase">皮下輸液劑量</span>
+</div>
+<span class="font-label-numeric-md text-label-numeric-md text-primary-container font-bold">100 ml</span>
+</div>
+<!-- Medical Fluid Gauge Bar -->
+<div class="my-2">
+<div class="w-full bg-surface-card h-2.5 rounded-full overflow-hidden border border-outline-variant/30 relative">
+<div class="bg-primary-container h-full rounded-full transition-all duration-300 relative" style="width: 66%;">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-primary-fixed/40 to-transparent animate-water-wave pointer-events-none"></div>
+</div>
+</div>
+<div class="flex justify-between items-center text-[10px] text-ink-muted font-label-numeric-sm mt-1">
+<span class="">50ml</span>
+<span class="text-primary-container font-semibold">100ml 刻度</span>
+<span class="">150ml</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-card/60">
+<span class="font-body-sm text-[11px] text-ink-secondary truncate">明日部位：右側肩胛</span>
+<button class="min-h-[28px] px-2 bg-surface-card hover:bg-primary-fixed hover:text-on-primary-fixed text-primary font-label-caps text-[11px] rounded shadow-xs active:scale-95 transition-all" onclick="hapticFeedback('click'); openBottomSheet()" type="button">調整</button>
+</div>
+</div>
+<!-- Precise Weight + 7-Day Sparkline Visual -->
+<div class="bg-surface-subtle p-space-sm rounded-xl border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-landmark-ear">scale</span>
+<span class="font-label-caps text-label-caps text-ink-muted uppercase">精準體重趨勢</span>
+</div>
+<span class="font-label-numeric-md text-label-numeric-md text-ink-primary font-bold">4.82 kg</span>
+</div>
+<!-- Mini 7-Day Sparkline SVG -->
+<div class="my-1.5 flex items-center justify-between gap-1">
+<svg class="w-full h-7 overflow-visible" viewbox="0 0 120 28">
+<!-- Baseline guide -->
+<line stroke="#bdc9c6" stroke-dasharray="2 2" stroke-width="0.8" x1="0" x2="120" y1="20" y2="20"></line>
+<!-- Area fill -->
+<polygon fill="#9cf2e8" opacity="0.2" points="0,20 0,16 20,15 40,18 60,14 80,14 100,12 120,11 120,20"></polygon>
+<!-- Sparkline path -->
+<polyline fill="none" points="0,16 20,15 40,18 60,14 80,14 100,12 120,11" stroke="#0f766e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline>
+<!-- Points -->
+<circle cx="0" cy="16" fill="#0f766e" r="1.5"></circle>
+<circle cx="40" cy="18" fill="#0f766e" r="1.5"></circle>
+<circle cx="80" cy="14" fill="#0f766e" r="1.5"></circle>
+<circle class="animate-pulse" cx="120" cy="11" fill="#15803D" r="2.5"></circle>
+</svg>
+</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-card/60 text-[11px]">
+<span class="text-status-safe font-label-numeric-sm font-semibold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">trending_flat</span>
+              -0.05kg 穩態
+            </span>
+<button class="text-primary font-label-caps text-[11px] hover:underline active:scale-95 transition-transform inline-flex items-center" onclick="hapticFeedback('click'); openBottomSheet()" type="button">
+              量測記錄
+            </button>
+</div>
+</div>
+</div>
+</div>
+</details>
+<!-- Accordion 3: Daily Observation & Sitter/Vet Memo -->
+<details class="group bg-surface-card rounded-xl p-space-md shadow-sm transition-all overflow-hidden border border-outline-variant/30">
+<summary class="flex items-center justify-between cursor-pointer list-none select-none" onclick="hapticFeedback('click')">
+<div class="flex items-center space-x-space-sm min-w-0 pr-2">
+<div class="w-9 h-9 rounded-lg bg-surface-subtle flex items-center justify-center shrink-0 text-primary-container">
+<span class="material-symbols-outlined text-[20px]">edit_note</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center space-x-space-xs">
+<h4 class="font-headline-sm text-[16px] text-ink-primary font-semibold">當日異常觀察與備註 (給保姆/獸醫)</h4>
+</div>
+<p class="font-body-sm text-[13px] text-ink-muted truncate mt-0.5">
+            精神活力良好 · 呼吸頻率 22次/分 · 點擊記錄異常或拍照
+          </p>
+</div>
+</div>
+<span class="material-symbols-outlined text-ink-muted text-[20px] transition-transform duration-300 group-open:rotate-180 shrink-0">expand_more</span>
+</summary>
+<!-- Expanded Body -->
+<div class="pt-space-md mt-space-sm border-t border-surface-subtle space-y-space-sm">
+<div class="space-y-1.5">
+<label class="font-label-caps text-label-caps text-ink-secondary block" for="memo-input">交接備註 / 臨床異常症狀描述</label>
+<textarea class="w-full p-space-sm rounded-lg bg-surface-subtle border border-outline-variant/40 font-body-sm text-body-sm text-ink-primary focus:outline-none focus:ring-1 focus:ring-primary" id="memo-input" placeholder="例如：今天下午有點抓耳朵、稍微打噴嚏一次、或是特別親人討摸..." rows="2"></textarea>
+</div>
+<div class="flex items-center justify-between gap-space-sm pt-1">
+<button class="flex-1 py-2 bg-surface-subtle text-ink-secondary font-label-caps text-label-caps rounded-lg hover:text-ink-primary active:scale-95 transition-transform duration-150 ease-out select-none flex items-center justify-center space-x-1" onclick="triggerToast('📷 已開啟症狀附照上傳功能')" type="button">
+<span class="material-symbols-outlined text-[16px]">add_a_photo</span>
+<span class="">附症狀相片</span>
+</button>
+<button class="flex-1 py-2 bg-primary-container text-surface font-label-caps text-label-caps rounded-lg hover:bg-primary active:scale-95 transition-transform duration-150 ease-out select-none flex items-center justify-center space-x-1" onclick="triggerToast('📝 今日照護備忘已同步至保姆聯絡簿與雲端病歷', 'success')" type="button">
+<span class="material-symbols-outlined text-[16px]">save</span>
+<span class="">儲存備忘</span>
+</button>
+</div>
+</div>
+</details>
+</div>
+<!-- Bottom Sheet (Half-Expanded Modal Drawer) -->
+<div class="fixed inset-0 z-50 pointer-events-none transition-all duration-300" id="quick-log-drawer">
+<!-- Backdrop Barrier -->
+<div class="absolute inset-0 bg-surface-dark/40 backdrop-blur-xs opacity-0 transition-opacity duration-300" id="drawer-backdrop" onclick="closeBottomSheet()"></div>
+<!-- Sliding Sheet Container -->
+<div class="absolute bottom-0 inset-x-0 bg-surface-card rounded-t-[24px] shadow-xl p-space-md transform translate-y-full transition-transform duration-300 ease-out max-w-md mx-auto pointer-events-auto" id="drawer-content">
+<!-- Drag Handle Bar -->
+<div class="w-10 h-1 bg-ink-muted/30 rounded-full mx-auto mb-space-md"></div>
+<div class="flex items-center justify-between pb-space-sm">
+<div>
+<h4 class="font-headline-sm text-headline-sm text-ink-primary">快速打卡抽屜 (Quick Log)</h4>
+<p class="font-body-sm text-body-sm text-ink-muted">調整咪寶今日詳細主食與皮下刻度</p>
+</div>
+<button class="p-1 rounded-full text-ink-muted hover:text-ink-primary" onclick="hapticFeedback('click'); closeBottomSheet()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Food Grams Counter Stepper -->
+<div class="bg-surface-subtle p-space-md rounded-xl my-space-sm space-y-space-xs">
+<div class="flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-ink-secondary">乾溼糧食總量 (g)</span>
+<span class="font-label-numeric-lg text-label-numeric-lg text-primary-container" id="food-grams">65 g</span>
+</div>
+<div class="flex items-center space-x-space-sm pt-space-xs">
+<button class="flex-1 py-2 bg-surface-card text-ink-primary font-label-numeric-md text-label-numeric-md rounded-lg shadow-xs hover:bg-surface-subtle active:scale-95 transition-all" onclick="adjustFood(-5)" type="button">-5g</button>
+<button class="flex-1 py-2 bg-surface-card text-ink-primary font-label-numeric-md text-label-numeric-md rounded-lg shadow-xs hover:bg-surface-subtle active:scale-95 transition-all" onclick="adjustFood(5)" type="button">+5g</button>
+<button class="flex-1 py-2 bg-surface-card text-ink-primary font-label-numeric-md text-label-numeric-md rounded-lg shadow-xs hover:bg-surface-subtle active:scale-95 transition-all" onclick="adjustFood(20)" type="button">+20g</button>
+</div>
+</div>
+<!-- Subcutaneous Fluid Dial Adjustment -->
+<div class="bg-surface-subtle p-space-md rounded-xl my-space-sm space-y-space-xs">
+<div class="flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-ink-secondary">皮下輸液刻度微調</span>
+<span class="font-label-numeric-lg text-label-numeric-lg text-primary-container" id="fluid-amount">100 ml</span>
+</div>
+<input class="w-full accent-primary-container h-2 bg-surface-card rounded-lg cursor-pointer" id="fluid-slider" max="200" min="50" oninput="updateFluidSlider(this.value)" step="10" type="range" value="100"/>
+<div class="flex justify-between text-ink-muted font-label-numeric-sm text-label-numeric-sm">
+<span class="">50ml (維持)</span>
+<span class="">100ml (標準)</span>
+<span class="">150ml+ (加強)</span>
+</div>
+</div>
+<!-- Submit Action Button -->
+<button class="w-full mt-space-sm py-3 bg-primary-container text-surface rounded-xl font-label-caps text-label-caps shadow-md hover:bg-primary active:scale-95 transition-transform duration-150 ease-out select-none flex items-center justify-center space-x-1" onclick="saveQuickLog()" type="button">
+<span class="material-symbols-outlined text-[18px]">done_all</span>
+<span class="">儲存並同步至雲端病歷</span>
+</button>
+</div>
+</div>
+<!-- Action Sheet (Pet Fast Actions) -->
+<div class="fixed inset-0 z-50 pointer-events-none transition-all duration-300" id="action-sheet">
+<div class="absolute inset-0 bg-surface-dark/40 backdrop-blur-xs opacity-0 transition-opacity duration-300" id="action-backdrop" onclick="closeActionSheet()"></div>
+<div class="absolute bottom-0 inset-x-0 p-space-md max-w-md mx-auto pointer-events-auto transform translate-y-full transition-transform duration-300 ease-out space-y-space-xs" id="action-content">
+<div class="bg-surface-card rounded-xl overflow-hidden shadow-xl divide-y divide-surface-subtle">
+<button class="w-full px-space-md py-3.5 text-left font-body-md text-body-md text-ink-primary hover:bg-surface-subtle flex items-center space-x-space-sm transition-colors" onclick="triggerToast('已切換至咪寶病歷匯出'); closeActionSheet();" type="button">
+<span class="material-symbols-outlined text-primary-container">assignment</span>
+<span class="">產出主治醫師門診 PDF</span>
+</button>
+<button class="w-full px-space-md py-3.5 text-left font-body-md text-body-md text-ink-primary hover:bg-surface-subtle flex items-center space-x-space-sm transition-colors" onclick="triggerToast('已為保姆建立受限權限'); closeActionSheet();" type="button">
+<span class="material-symbols-outlined text-primary-container">badge</span>
+<span class="">授權到府保姆即時聯絡簿</span>
+</button>
+<button class="w-full px-space-md py-3.5 text-left font-body-md text-body-md text-status-danger hover:bg-error-container/20 flex items-center space-x-space-sm transition-colors" onclick="triggerToast('緊急就醫綠色通道已啟動', 'warn'); closeActionSheet();" type="button">
+<span class="material-symbols-outlined text-status-danger">emergency</span>
+<span class="font-semibold">緊急狀況：呼叫 24H 急診專線</span>
+</button>
+</div>
+<button class="w-full py-3 bg-surface-card text-ink-primary font-headline-sm text-headline-sm rounded-xl shadow-md text-center hover:bg-surface-subtle transition-colors" onclick="hapticFeedback('click'); closeActionSheet()" type="button">
+        取消
+      </button>
+</div>
+</div>
+</div>
+<!-- Micro-Interactions, Scroll-to-Hide & Web Audio Synthesizer Engine -->
+<script>
+  let waterAmount = 180;
+  let foodAmount = 65;
+  let hapticAudioEnabled = true;
+
+  // Lightweight Web Audio Context & Oscillator Synthesizer
+  let audioCtx = null;
+  function getAudioContext() {
+    if (!audioCtx) {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (AudioContextClass) {
+        audioCtx = new AudioContextClass();
+      }
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    return audioCtx;
+  }
+
+  function playTone(type) {
+    if (!hapticAudioEnabled) return;
+    try {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+
+      if (type === 'success') {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, now);
+        osc.frequency.exponentialRampToValueAtTime(1600, now + 0.08);
+
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.16);
+      } else if (type === 'warn') {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.exponentialRampToValueAtTime(330, now + 0.12);
+
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.14);
+      } else {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1200, now);
+
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.025);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.025);
+      }
+    } catch (e) {
+      // Audio failsafe
+    }
+  }
+
+  function hapticFeedback(pattern = 'click') {
+    if (!hapticAudioEnabled) return;
+    if (navigator && typeof navigator.vibrate === 'function') {
+      try {
+        if (pattern === 'success') {
+          navigator.vibrate([15, 30, 20]);
+        } else if (pattern === 'long') {
+          navigator.vibrate(25);
+        } else {
+          navigator.vibrate(10);
+        }
+      } catch (err) {}
+    }
+    playTone(pattern);
+  }
+
+  function toggleHapticAudio() {
+    hapticAudioEnabled = !hapticAudioEnabled;
+    const btn = document.getElementById('haptic-toggle-btn');
+    const icon = document.getElementById('haptic-icon');
+    const label = document.getElementById('haptic-label');
+    const ind = document.getElementById('haptic-indicator');
+
+    if (hapticAudioEnabled) {
+      btn.setAttribute('aria-pressed', 'true');
+      btn.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-card border border-outline-variant/30 text-ink-secondary hover:text-ink-primary shadow-xs active:scale-95 transition-all text-left';
+      icon.innerText = 'vibration';
+      icon.className = 'material-symbols-outlined text-[15px] text-primary';
+      label.innerText = '觸覺與提示音：開啟中';
+      ind.className = 'w-1.5 h-1.5 rounded-full bg-status-safe ml-0.5';
+      hapticFeedback('success');
+      triggerToast('🔔 觸感與音效已開啟 (輕微 10ms 震動與暖色提示音)');
+    } else {
+      btn.setAttribute('aria-pressed', 'false');
+      btn.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-subtle border border-outline-variant/30 text-ink-muted shadow-xs active:scale-95 transition-all text-left';
+      icon.innerText = 'notifications_off';
+      icon.className = 'material-symbols-outlined text-[15px] text-ink-muted';
+      label.innerText = '觸覺與提示音：已靜音';
+      ind.className = 'w-1.5 h-1.5 rounded-full bg-ink-muted/50 ml-0.5';
+      triggerToast('🔕 觸感與音效反饋已關閉');
+    }
+  }
+
+  /* Scroll-to-Hide & Reveal-on-Scroll Navigation System */
+  let lastScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+  let isNavHidden = false;
+  const navThreshold = 10;
+  const topSafeZone = 60;
+
+  function hideFloatingNav() {
+    const nav = document.getElementById('floating-nav');
+    if (!nav || isNavHidden) return;
+    nav.classList.remove('translate-y-0', 'opacity-100');
+    nav.classList.add('translate-y-32', 'opacity-0', 'pointer-events-none');
+    isNavHidden = true;
+    updateDemoNavBtn();
+  }
+
+  function showFloatingNav() {
+    const nav = document.getElementById('floating-nav');
+    if (!nav || !isNavHidden) return;
+    nav.classList.remove('translate-y-32', 'opacity-0', 'pointer-events-none');
+    nav.classList.add('translate-y-0', 'opacity-100');
+    isNavHidden = false;
+    updateDemoNavBtn();
+  }
+
+  function handleScroll() {
+    const currentScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+    const delta = currentScrollY - lastScrollY;
+
+    // Reveal when near the very top
+    if (currentScrollY <= topSafeZone) {
+      showFloatingNav();
+    } else if (delta > navThreshold && currentScrollY > topSafeZone) {
+      // Scrolling down past threshold -> hide
+      hideFloatingNav();
+    } else if (delta < -navThreshold) {
+      // Scrolling up past threshold -> reveal
+      showFloatingNav();
+    }
+
+    lastScrollY = Math.max(0, currentScrollY);
+  }
+
+  // Throttle with requestAnimationFrame for smooth 60fps performance
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        handleScroll();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  /* Manual Interactive Demo Toggle */
+  function updateDemoNavBtn() {
+    const btn = document.getElementById('demo-nav-toggle-btn');
+    const icon = document.getElementById('demo-nav-icon');
+    const label = document.getElementById('demo-nav-label');
+    if (!btn || !icon || !label) return;
+
+    if (isNavHidden) {
+      icon.innerText = 'visibility';
+      label.innerText = '測試展開';
+      btn.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary text-surface font-label-caps text-[11px] font-medium border border-primary active:scale-95 transition-all shadow-xs';
+    } else {
+      icon.innerText = 'visibility_off';
+      label.innerText = '測試收合';
+      btn.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-container/10 hover:bg-primary-container/20 text-primary-container font-label-caps text-[11px] font-medium border border-primary-container/20 active:scale-95 transition-all shadow-2xs';
+    }
+  }
+
+  function demoToggleNav() {
+    hapticFeedback('click');
+    if (isNavHidden) {
+      showFloatingNav();
+      triggerToast('📱 導覽列已平滑浮現 (向上滾動效果)');
+    } else {
+      hideFloatingNav();
+      triggerToast('📱 導覽列已向下收合 (向下滾動隱藏效果)');
+    }
+  }
+
+  function addWater(val) {
+    hapticFeedback('click');
+    waterAmount = Math.min(300, waterAmount + val);
+    const target = 250;
+    const pct = Math.min(100, Math.round((waterAmount / target) * 100));
+    document.getElementById('hydration-val').innerText = waterAmount + ' ml';
+    document.getElementById('hydration-bar').style.width = pct + '%';
+    triggerToast(`💧 咪寶已攝入 ${val}ml 水分！目前總量：${waterAmount}ml (${pct}%)`, 'success');
+  }
+
+  function setAppetite(btn, status) {
+    hapticFeedback('click');
+    document.querySelectorAll('.appetite-btn').forEach(b => {
+      b.className = 'appetite-btn py-1 rounded-md font-label-caps text-label-caps transition-transform duration-150 ease-out active:scale-95 text-ink-secondary hover:text-ink-primary text-center select-none';
+    });
+    btn.className = 'appetite-btn py-1 rounded-md font-label-caps text-label-caps transition-transform duration-150 ease-out active:scale-95 bg-surface-card text-primary-container shadow-xs text-center select-none';
+    
+    const badge = document.getElementById('appetite-badge');
+    badge.innerText = status;
+    if (status === '正常') {
+      badge.className = 'font-label-numeric-sm text-label-numeric-sm px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded-full';
+    } else if (status === '減半') {
+      badge.className = 'font-label-numeric-sm text-label-numeric-sm px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed rounded-full';
+    } else {
+      badge.className = 'font-label-numeric-sm text-label-numeric-sm px-2 py-0.5 bg-error-container text-on-error-container rounded-full';
+    }
+    triggerToast(`已更新咪寶食慾狀態為「${status}」`);
+  }
+
+  function toggleEveningMeds(wrapper) {
+    hapticFeedback('success');
+    const chk = document.getElementById('med-eve');
+    const txt = document.getElementById('med-eve-text');
+    if (chk.checked) {
+      txt.className = 'font-body-sm text-[13px] line-through text-ink-muted';
+      triggerToast('💊 咪寶晚劑降血壓藥已記錄完成！', 'success');
+    } else {
+      txt.className = 'font-body-sm text-[13px] text-ink-primary font-semibold truncate transition-colors';
+    }
+  }
+
+  function toggleSitterMode() {
+    hapticFeedback('click');
+    const textEl = document.getElementById('sitter-text');
+    const toggleBtn = document.getElementById('sitter-toggle');
+    if (textEl.innerText === '保姆交接') {
+      textEl.innerText = '家長模式';
+      toggleBtn.className = 'bg-primary text-surface px-3 py-1.5 rounded-full font-label-caps text-label-caps flex items-center space-x-1 transition-all shadow-sm';
+      triggerToast('🤝 已切換至「到府保姆交接視圖」，簡化填報步驟');
+    } else {
+      textEl.innerText = '保姆交接';
+      toggleBtn.className = 'bg-surface-subtle text-primary hover:bg-primary-fixed hover:text-on-primary-fixed px-3 py-1.5 rounded-full font-label-caps text-label-caps flex items-center space-x-1 transition-all';
+      triggerToast('🏠 已回復主要家長管理介面');
+    }
+  }
+
+  function startFGSScan() {
+    hapticFeedback('long');
+    triggerToast('📷 正在啟動 48-Point FGS 貓臉特徵視覺測量儀...');
+  }
+
+  /* Bottom Sheet Drawer */
+  function openBottomSheet() {
+    const drawer = document.getElementById('quick-log-drawer');
+    const backdrop = document.getElementById('drawer-backdrop');
+    const content = document.getElementById('drawer-content');
+    drawer.classList.remove('pointer-events-none');
+    backdrop.classList.remove('opacity-0');
+    backdrop.classList.add('opacity-100');
+    content.classList.remove('translate-y-full');
+  }
+
+  function closeBottomSheet() {
+    const drawer = document.getElementById('quick-log-drawer');
+    const backdrop = document.getElementById('drawer-backdrop');
+    const content = document.getElementById('drawer-content');
+    backdrop.classList.add('opacity-0');
+    backdrop.classList.remove('opacity-100');
+    content.classList.add('translate-y-full');
+    setTimeout(() => {
+      drawer.classList.add('pointer-events-none');
+    }, 300);
+  }
+
+  function adjustFood(delta) {
+    hapticFeedback('click');
+    foodAmount = Math.max(0, foodAmount + delta);
+    document.getElementById('food-grams').innerText = foodAmount + ' g';
+  }
+
+  function updateFluidSlider(val) {
+    document.getElementById('fluid-amount').innerText = val + ' ml';
+  }
+
+  function saveQuickLog() {
+    hapticFeedback('success');
+    closeBottomSheet();
+    triggerToast(`✅ 快速打卡已存檔：飲食 ${foodAmount}g，皮下刻度已更新！`, 'success');
+  }
+
+  /* Action Sheet Controls */
+  function openActionSheet() {
+    const sheet = document.getElementById('action-sheet');
+    const backdrop = document.getElementById('action-backdrop');
+    const content = document.getElementById('action-content');
+    sheet.classList.remove('pointer-events-none');
+    backdrop.classList.remove('opacity-0');
+    backdrop.classList.add('opacity-100');
+    content.classList.remove('translate-y-full');
+  }
+
+  function closeActionSheet() {
+    const sheet = document.getElementById('action-sheet');
+    const backdrop = document.getElementById('action-backdrop');
+    const content = document.getElementById('action-content');
+    backdrop.classList.add('opacity-0');
+    backdrop.classList.remove('opacity-100');
+    content.classList.add('translate-y-full');
+    setTimeout(() => {
+      sheet.classList.add('pointer-events-none');
+    }, 300);
+  }
+
+  /* Dynamic Toast Mechanism */
+  function triggerToast(message, feedbackType = 'click') {
+    if (feedbackType) {
+      hapticFeedback(feedbackType);
+    }
+    let toast = document.getElementById('daily-toast');
+    if (!toast) return;
+    toast.querySelector('p').innerText = message;
+    toast.classList.remove('hidden');
+    toast.classList.remove('opacity-0');
+    toast.classList.add('opacity-100');
+  }
+</script></main><nav class="fixed bottom-5 inset-x-4 max-w-md mx-auto z-50 bg-white/95 backdrop-blur-md rounded-full shadow-lg border border-slate-200/80 px-2 py-1.5 flex items-center justify-around transition-all duration-300 ease-in-out transform translate-y-0 opacity-100 will-change-transform" id="floating-nav"><a aria-current="page" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#e6f4f1] text-[#0f766e] font-semibold active:scale-95 transition-transform duration-150 ease-out select-none shadow-xs" data-path="daily" href="#" onclick="hapticFeedback('click')"><span class="material-symbols-outlined text-[20px] leading-none" style='font-variation-settings: "FILL" 1;'>fact_check</span><span class="font-label-caps text-[12px] whitespace-nowrap leading-none font-bold">日常打卡</span></a><a class="flex flex-col items-center justify-center min-h-[40px] px-2.5 py-1 text-slate-400 hover:text-slate-600 active:scale-95 transition-transform duration-150 ease-out select-none" data-path="chat" href="#" onclick="hapticFeedback('click')"><span class="material-symbols-outlined text-[22px] leading-none mb-0.5">neurology</span><span class="font-label-caps text-[10px] whitespace-nowrap leading-none">AI問診</span></a><a class="flex flex-col items-center justify-center min-h-[40px] px-2.5 py-1 text-slate-400 hover:text-slate-600 active:scale-95 transition-transform duration-150 ease-out select-none" data-path="trends" href="#" onclick="hapticFeedback('click')"><span class="material-symbols-outlined text-[22px] leading-none mb-0.5">monitoring</span><span class="font-label-caps text-[10px] whitespace-nowrap leading-none">數據追蹤</span></a><a class="flex flex-col items-center justify-center min-h-[40px] px-2.5 py-1 text-slate-400 hover:text-slate-600 active:scale-95 transition-transform duration-150 ease-out select-none" data-path="sitter" href="#" onclick="hapticFeedback('click')"><span class="material-symbols-outlined text-[22px] leading-none mb-0.5">pets</span><span class="font-label-caps text-[10px] whitespace-nowrap leading-none">到府保姆</span></a><a class="flex flex-col items-center justify-center min-h-[40px] px-2.5 py-1 text-slate-400 hover:text-slate-600 active:scale-95 transition-transform duration-150 ease-out select-none" data-path="profile" href="#" onclick="hapticFeedback('click')"><span class="material-symbols-outlined text-[22px] leading-none mb-0.5">account_circle</span><span class="font-label-caps text-[10px] whitespace-nowrap leading-none">毛孩檔案</span></a></nav></body></html>

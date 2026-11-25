@@ -1,0 +1,2388 @@
+/* Hallmark · shape: app screen · genre: modern-minimal · ground: warm-clinical-paper · accent: sage-spruce · stitch-mobile-stage */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: clip;
+  background-color: var(--color-bg-canvas);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+.mono-val,
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Top Desktop Role/Route Bar (Desktop >= 768px only) */
+.desktop-mode-bar {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .desktop-mode-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-md);
+    background-color: var(--color-bg-subtle);
+    border-bottom: 1px solid var(--color-border-hairline);
+    position: relative;
+    z-index: 60;
+  }
+
+  .desktop-mode-bar__label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    margin-right: var(--space-2xs);
+    white-space: nowrap;
+  }
+
+  .desktop-mode-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    height: 32px;
+    padding: var(--space-2xs) var(--space-sm);
+    border-radius: var(--radius-pill);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+    color: var(--color-text-secondary);
+    background-color: var(--color-paper);
+    border: 1px solid var(--color-border-hairline);
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .desktop-mode-link:hover {
+    border-color: var(--color-brand-primary);
+    color: var(--color-brand-primary);
+  }
+
+  .desktop-mode-link.is-active {
+    background-color: var(--color-brand-primary);
+    color: var(--color-brand-on-primary);
+    border-color: var(--color-brand-primary);
+  }
+}
+
+/* Root Layout Shells */
+.app-shell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-canvas);
+}
+
+.stitch-viewport {
+  width: 100%;
+  max-width: 448px;
+  margin-inline: auto;
+  min-height: calc(100dvh - 48px);
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-canvas);
+}
+
+.stitch-viewport--wide {
+  max-width: 1260px;
+  padding: var(--space-md) var(--space-lg) 64px;
+}
+
+.stitch-main-body {
+  flex: 1;
+  width: 100%;
+  padding: var(--space-sm) var(--space-md) 104px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.stitch-main-body--flush {
+  padding: 0 0 104px;
+  gap: 0;
+}
+
+/* Sticky Stitch Mobile Header (h = 60px) */
+.stitch-top-header {
+  position: sticky;
+  top: 0;
+  z-index: 45;
+  width: 100%;
+  background-color: var(--color-bg-canvas);
+  border-bottom: 1px solid var(--color-border-hairline);
+}
+
+.app-shell--consumer .stitch-top-header {
+  max-width: 448px;
+  margin-inline: auto;
+}
+
+.app-shell--wide .stitch-top-header__inner {
+  max-width: 1260px;
+  margin-inline: auto;
+}
+
+.stitch-top-header__inner {
+  height: 60px;
+  padding: 0 var(--space-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  position: relative;
+}
+
+.stitch-top-header--dark {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-on-dark);
+  border-bottom: 1px solid var(--color-border-dark);
+}
+
+.stitch-header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.stitch-brand-emblem {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-border-hairline);
+  color: var(--color-brand-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stitch-brand-emblem--mint {
+  background-color: var(--color-bg-mint-tint);
+  border-color: transparent;
+}
+
+.stitch-back-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border-dark);
+  background-color: transparent;
+  color: var(--color-text-on-dark);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.stitch-back-btn--light {
+  border-color: transparent;
+  color: var(--color-text-primary);
+}
+
+.stitch-sitter-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-brand-primary);
+  line-height: 1.2;
+}
+
+.stitch-icon-ghost {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-circle);
+  color: var(--color-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stitch-header-titles {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.stitch-header-title {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stitch-header-sub {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stitch-top-header--dark .stitch-header-sub {
+  color: var(--color-text-on-dark-muted);
+}
+
+.stitch-header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+}
+
+.stitch-pet-trigger {
+  height: 36px;
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-bg-subtle);
+  border: 1px solid transparent;
+  color: var(--color-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.stitch-pet-trigger__label {
+  max-width: 118px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stitch-top-header--dark .stitch-pet-trigger {
+  background-color: transparent;
+  border-color: var(--color-border-dark);
+  color: var(--color-text-on-dark);
+}
+
+.stitch-pet-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-circle);
+  background-color: var(--color-status-safe);
+  flex-shrink: 0;
+}
+
+.stitch-pet-dot--warn {
+  background-color: var(--color-landmark-nose-dot);
+}
+
+.stitch-avatar-link {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-circle);
+  border: 1px solid var(--color-border-hairline);
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg-subtle);
+  flex-shrink: 0;
+}
+
+.stitch-avatar-link img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.stitch-pet-dropdown {
+  position: absolute;
+  top: 56px;
+  right: var(--space-md);
+  width: 240px;
+  background-color: var(--color-paper);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-float);
+  padding: var(--space-xs);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  z-index: 65;
+}
+
+.stitch-pet-option {
+  width: 100%;
+  height: 44px;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  background-color: var(--color-paper);
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.stitch-pet-option:hover {
+  background-color: var(--color-bg-subtle);
+}
+
+.stitch-pet-option.is-selected {
+  background-color: var(--color-bg-mint-tint);
+  border-color: var(--color-brand-primary);
+  color: var(--color-brand-primary);
+}
+
+/* Floating Pill Bottom Nav Bar (Stitch Signature) */
+.bottom-tab-bar {
+  position: fixed;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 24px);
+  max-width: 420px;
+  z-index: 50;
+}
+
+.bottom-tab-bar__inner {
+  background-color: var(--color-paper);
+  border-radius: var(--radius-bar);
+  box-shadow: var(--shadow-float);
+  padding: var(--space-2xs) var(--space-xs);
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.bottom-tab-link {
+  min-height: 44px;
+  padding: var(--space-2xs);
+  border-radius: var(--radius-xl);
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.bottom-tab-link.is-active {
+  background-color: var(--color-bg-mint-tint);
+  color: var(--color-brand-primary);
+  font-weight: 700;
+}
+
+/* Cards, Notifications & Common Stitch Surfaces */
+.stitch-card {
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-border-hairline);
+  border-radius: var(--radius-lg);
+  padding: var(--space-sm) var(--space-md);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.stitch-subbox {
+  background-color: var(--color-bg-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-xs) var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.stitch-toast-banner {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-on-dark);
+  border-radius: var(--radius-md);
+  padding: var(--space-xs) var(--space-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  box-shadow: var(--shadow-card);
+}
+
+.stitch-toast-banner__left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-width: 0;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.stitch-toast-banner__text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stitch-toast-close {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-circle);
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: var(--color-text-on-dark-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.stitch-toast-cta {
+  height: 32px;
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border-dark);
+  background-color: var(--color-paper);
+  color: var(--color-text-primary);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Home Controls & Compact Rows */
+.stitch-haptic-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  padding: var(--space-2xs) 0;
+}
+
+.stitch-haptic-pill {
+  height: 34px;
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-border-hairline);
+  color: var(--color-text-primary);
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  cursor: pointer;
+}
+
+.stitch-haptic-note {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+/* Pet Summary Horizontal Card */
+.stitch-pet-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+}
+
+.stitch-pet-identity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.stitch-avatar-wrap {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.stitch-avatar-img {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-circle);
+  object-fit: cover;
+  display: block;
+  border: 1px solid var(--color-border-hairline);
+}
+
+.stitch-online-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-circle);
+  background-color: var(--color-status-safe);
+  border: 2px solid var(--color-paper);
+}
+
+.stitch-pet-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.stitch-pet-name-line {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.stitch-pet-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.stitch-age-tag {
+  padding: 2px var(--space-xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-bg-subtle);
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.stitch-pet-sub {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stitch-pet-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  flex-shrink: 0;
+}
+
+.stitch-pill-toggle {
+  height: 34px;
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-bg-subtle);
+  border: 1px solid transparent;
+  color: var(--color-brand-primary);
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.stitch-pill-toggle.is-on {
+  background-color: var(--color-bg-mint-tint);
+  color: var(--color-brand-primary);
+}
+
+.stitch-more-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-circle);
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Hero FGS Spruce Card (Stitch Home Focal Card) */
+.stitch-hero-fgs {
+  background-color: var(--color-brand-primary);
+  color: var(--color-brand-on-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  box-shadow: var(--shadow-float);
+}
+
+.stitch-hero-fgs__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.stitch-hero-fgs__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-bg-subtle);
+  color: var(--color-brand-primary);
+  font-size: 11px;
+  font-weight: 700;
+  width: fit-content;
+  margin-bottom: var(--space-xs);
+}
+
+.stitch-hero-fgs__title {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-brand-on-primary);
+}
+
+.stitch-hero-fgs__desc {
+  margin-top: var(--space-2xs);
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--color-brand-mint-text);
+}
+
+.stitch-hero-orb {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-circle);
+  background-color: var(--color-bg-dark);
+  color: var(--color-brand-mint-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stitch-hero-fgs__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  padding-top: var(--space-xs);
+}
+
+.stitch-hero-fgs__status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-brand-mint-text);
+}
+
+.stitch-hero-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-circle);
+  background-color: var(--color-landmark-whisker-dot);
+  flex-shrink: 0;
+}
+
+.stitch-hero-dot--warn {
+  background-color: var(--color-landmark-nose-dot);
+}
+
+.stitch-hero-cta {
+  height: 36px;
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-paper);
+  color: var(--color-brand-primary);
+  border: 1px solid var(--color-paper);
+  font-size: 12.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  white-space: nowrap;
+}
+
+/* 2-Column Home Bento (Water + Appetite side-by-side at all widths) */
+.stitch-bento-2col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-sm);
+}
+
+.stitch-bento-tile {
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-border-hairline);
+  border-radius: var(--radius-lg);
+  padding: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  box-shadow: var(--shadow-card);
+}
+
+.stitch-bento-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2xs);
+}
+
+.stitch-bento-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.stitch-bento-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-brand-primary);
+}
+
+.stitch-water-progress-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.stitch-slim-track {
+  width: 100%;
+  height: 8px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-subtle);
+  overflow: hidden;
+}
+
+.stitch-slim-fill {
+  height: 100%;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-brand-primary);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 2px;
+}
+
+.stitch-slim-tip {
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radius-circle);
+  background-color: var(--color-brand-mint-text);
+}
+
+.stitch-scale-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.stitch-quick-add {
+  width: 100%;
+  height: 36px;
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-subtle);
+  border: 1px solid transparent;
+  color: var(--color-text-primary);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.stitch-quick-add:hover {
+  background-color: var(--color-bg-mint-tint);
+  color: var(--color-brand-primary);
+}
+
+.stitch-tile-btn {
+  width: 100%;
+  height: 36px;
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-md);
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-brand-primary);
+  color: var(--color-brand-primary);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.stitch-segment-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2px;
+  background-color: var(--color-bg-subtle);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2xs);
+}
+
+.stitch-seg-btn,
+.stitch-seg-option {
+  height: 34px;
+  padding: var(--space-2xs) 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.stitch-seg-btn.is-active,
+.stitch-seg-option.is-active {
+  background-color: var(--color-paper);
+  color: var(--color-brand-primary);
+  font-weight: 700;
+  box-shadow: var(--shadow-card);
+}
+
+.stitch-acc-tile--ear {
+  background-color: var(--color-landmark-ear-bg);
+  color: var(--color-landmark-ear);
+}
+
+.stitch-acc-link {
+  color: var(--color-brand-primary);
+  font-weight: 600;
+}
+
+/* Section Label & Collapsible Accordions */
+.stitch-list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2xs) 0 0;
+}
+
+.stitch-list-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+.stitch-list-count {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.stitch-accordion {
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-border-hairline);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.stitch-accordion__summary {
+  list-style: none;
+  cursor: pointer;
+  padding: var(--space-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+}
+
+.stitch-accordion__summary::-webkit-details-marker {
+  display: none;
+}
+
+.stitch-accordion__left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.stitch-acc-tile {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stitch-acc-tile--warn {
+  background-color: var(--color-status-warn-bg);
+  color: var(--color-status-warn);
+}
+
+.stitch-acc-tile--mint {
+  background-color: var(--color-bg-mint-tint);
+  color: var(--color-brand-primary);
+}
+
+.stitch-acc-tile--neutral {
+  background-color: var(--color-bg-subtle);
+  color: var(--color-text-secondary);
+}
+
+.stitch-acc-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.stitch-acc-title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.stitch-acc-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.stitch-acc-sub {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stitch-accordion__body {
+  padding: 0 var(--space-sm) var(--space-sm);
+  border-top: 1px solid var(--color-border-hairline);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.bristol-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-2xs);
+  padding-top: var(--space-xs);
+}
+
+.bristol-chip-btn {
+  height: 46px;
+  padding: var(--space-2xs);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-hairline);
+  background-color: var(--color-paper);
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+}
+
+.bristol-chip-btn.is-active {
+  background-color: var(--color-bg-mint-tint);
+  border-color: var(--color-brand-primary);
+  color: var(--color-brand-primary);
+}
+
+/* FGS Scanner Darkroom Stage + Overlapping Bottom Drawer (Matches Stitch Screen) */
+.fgs-darkroom-stage {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-on-dark);
+  padding: 0 0 var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.fgs-telemetry-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-md);
+  background-color: var(--color-bg-dark);
+}
+
+.fgs-telemetry-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.fgs-telemetry-code {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-on-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fgs-mode-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs);
+  border-radius: var(--radius-bar);
+  background-color: var(--color-fgs-mode-tray);
+  flex-shrink: 0;
+}
+
+.fgs-mode-opt {
+  height: 32px;
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: var(--color-text-on-dark-muted);
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.fgs-mode-opt.is-active {
+  background-color: var(--color-brand-primary);
+  color: var(--color-brand-on-primary);
+}
+
+.fgs-legend-scroll {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  overflow-x: auto;
+  padding: var(--space-2xs) 0;
+}
+
+.fgs-legend-scroll > * {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.fgs-darkroom-stage .fgs-legend-scroll {
+  padding: var(--space-2xs) var(--space-md) var(--space-xs);
+}
+
+.fgs-zone-pill {
+  height: 32px;
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  font-size: 11.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  white-space: nowrap;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.fgs-zone-pill--all {
+  background-color: var(--color-fgs-mode-tray);
+  color: var(--color-text-on-dark);
+}
+
+.fgs-zone-pill--ear {
+  background-color: var(--color-fgs-zone-ear-bg);
+  color: var(--color-landmark-ear-bg);
+}
+
+.fgs-zone-pill--eye {
+  background-color: var(--color-fgs-zone-eye-bg);
+  color: var(--color-landmark-eye-bg);
+}
+
+.fgs-zone-pill--nose {
+  background-color: var(--color-fgs-zone-nose-bg);
+  color: var(--color-landmark-nose-bg);
+}
+
+.fgs-zone-pill--mouth {
+  background-color: var(--color-fgs-zone-mouth-bg);
+  color: var(--color-landmark-mouth-bg);
+}
+
+.fgs-zone-pill--whisker {
+  background-color: var(--color-fgs-zone-whisker-bg);
+  color: var(--color-landmark-whisker-bg);
+}
+
+.fgs-zone-pill.is-active {
+  border-color: var(--color-paper);
+}
+
+.fgs-dark-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-md) var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.fgs-region-pill {
+  height: 32px;
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border-dark);
+  background-color: transparent;
+  color: var(--color-text-on-dark);
+  font-size: 11.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.fgs-region-pill.is-active {
+  background-color: var(--color-brand-primary);
+  border-color: var(--color-brand-mint-text);
+  color: var(--color-brand-on-primary);
+}
+
+.fgs-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-circle);
+  flex-shrink: 0;
+}
+
+.fgs-dot--ear { background-color: var(--color-landmark-ear-dot); }
+.fgs-dot--eye { background-color: var(--color-landmark-eye-dot); }
+.fgs-dot--nose { background-color: var(--color-landmark-nose-dot); }
+.fgs-dot--whisker { background-color: var(--color-landmark-whisker-dot); }
+.fgs-dot--mouth { background-color: var(--color-landmark-mouth-dot); }
+
+.fgs-portrait-frame {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--color-bg-dark-deep);
+  border: 1px solid var(--color-border-dark);
+}
+
+.fgs-portrait-frame--bleed {
+  border-radius: 0;
+  border-left: 0;
+  border-right: 0;
+}
+
+.fgs-hud-chip {
+  position: absolute;
+  top: var(--space-sm);
+  left: var(--space-md);
+  z-index: 4;
+  background-color: var(--color-hud-backdrop);
+  color: var(--color-text-on-dark);
+  border-radius: var(--radius-md);
+  padding: var(--space-xs) var(--space-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.fgs-hud-chip__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fgs-hud-chip__eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-on-dark-muted);
+  line-height: 1.15;
+}
+
+.fgs-hud-chip__val {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-paper);
+  line-height: 1.2;
+}
+
+.fgs-overlapping-sheet {
+  margin-top: calc(-1 * var(--space-md));
+  position: relative;
+  z-index: 6;
+  background-color: var(--color-paper);
+  border-top-left-radius: var(--radius-xl);
+  border-top-right-radius: var(--radius-xl);
+  box-shadow: var(--shadow-float);
+  padding: var(--space-sm) var(--space-md) var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.fgs-sheet-handle {
+  width: 40px;
+  height: 4px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-border-strong);
+  margin: 0 auto;
+}
+
+.fgs-score-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-xs);
+}
+
+.fgs-score-big {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-text-primary);
+}
+
+.fgs-conf-box {
+  background-color: var(--color-bg-subtle);
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs) var(--space-sm);
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.fgs-conf-box__label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.fgs-conf-box__val {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-brand-primary);
+}
+
+.fgs-au-card {
+  background-color: var(--color-bg-canvas);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.fgs-au-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.au-meter-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.au-meter-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.au-meter-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.au-meter-track {
+  height: 6px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-subtle);
+  overflow: hidden;
+}
+
+.au-meter-fill--ear { height: 100%; background-color: var(--color-landmark-ear); }
+.au-meter-fill--eye { height: 100%; background-color: var(--color-landmark-eye); }
+.au-meter-fill--whisker { height: 100%; background-color: var(--color-landmark-whisker); }
+
+.fgs-ai-forward-card {
+  background-color: var(--color-bg-mint-tint);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.fgs-ai-forward-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-brand-primary);
+  color: var(--color-brand-on-primary);
+  font-size: 11px;
+  font-weight: 700;
+  width: fit-content;
+}
+
+.stitch-soft-action {
+  width: 100%;
+  height: 44px;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  background-color: var(--color-bg-subtle);
+  color: var(--color-text-primary);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Trends Action Bento Cards (Matches stitch_export/trends/screen.png) */
+.stitch-action-tile {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-border-hairline);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.stitch-action-tile__corner {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-circle);
+  pointer-events: none;
+}
+
+.stitch-action-tile__corner--mint {
+  background-color: var(--color-bg-mint-tint);
+}
+
+.stitch-action-tile__corner--warn {
+  background-color: var(--color-status-warn-bg);
+}
+
+.stitch-action-tile__icon {
+  position: relative;
+  z-index: 1;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stitch-action-tile__title {
+  position: relative;
+  z-index: 1;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.stitch-action-tile__desc {
+  position: relative;
+  z-index: 1;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-text-muted);
+}
+
+.stitch-action-link {
+  position: relative;
+  z-index: 1;
+  height: 34px;
+  padding: var(--space-2xs) var(--space-xs);
+  margin-left: calc(-1 * var(--space-xs));
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background-color: transparent;
+  font-size: 12.5px;
+  font-weight: 700;
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  cursor: pointer;
+}
+
+.stitch-action-link--mint {
+  color: var(--color-brand-primary);
+}
+
+.stitch-action-link--warn {
+  color: var(--color-status-warn);
+}
+
+/* Sitter Portal & Timeline Stitch Components */
+.stitch-card--accent-top {
+  border-top: 4px solid var(--color-brand-primary);
+}
+
+.stitch-sitter-mode-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-brand-primary);
+}
+
+.stitch-kpi-mini--flat {
+  background-color: var(--color-bg-subtle);
+  border-color: transparent;
+}
+
+.stitch-timeline-media {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+.stitch-thumb-sq {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid var(--color-border-hairline);
+}
+
+.stitch-handover-box {
+  background-color: var(--color-bg-mint-tint);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.stitch-handover-pill {
+  background-color: var(--color-paper);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2xs) var(--space-xs);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.stitch-sop-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-canvas);
+  border: 1px solid var(--color-border-hairline);
+  cursor: pointer;
+}
+
+.stitch-sop-row--highlight {
+  background-color: var(--color-bg-mint-tint);
+  border-color: transparent;
+}
+
+.stitch-sop-num {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-circle);
+  background-color: var(--color-brand-primary);
+  color: var(--color-brand-on-primary);
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stitch-trust-mini {
+  background-color: var(--color-bg-canvas);
+  border: 1px solid var(--color-border-hairline);
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+/* Login Showcase (Matches stitch_export/line_gmail/screen.png) */
+.stitch-login-stage {
+  padding-top: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.stitch-login-hero {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.stitch-login-emblem {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-brand-primary);
+  color: var(--color-brand-on-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stitch-login-brand-row {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.stitch-login-brand {
+  color: var(--color-brand-primary);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.stitch-login-title {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-text-primary);
+}
+
+.stitch-engine-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-border-hairline);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.stitch-login-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.stitch-line-card {
+  width: 100%;
+  height: 52px;
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-lg);
+  border: 1px solid transparent;
+  background-color: var(--color-line-brand-solid);
+  color: var(--color-brand-on-primary);
+  box-shadow: var(--shadow-float);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.stitch-line-card__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-line-icon-bg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stitch-google-card {
+  width: 100%;
+  height: 52px;
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-strong);
+  background-color: var(--color-paper);
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.stitch-google-card__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-subtle);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stitch-auth-card__copy {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stitch-auth-card__copy strong {
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.stitch-auth-card__copy span {
+  font-size: 11px;
+  line-height: 1.2;
+  opacity: 0.9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stitch-google-card .stitch-auth-card__copy span {
+  color: var(--color-text-muted);
+}
+
+.stitch-login-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+.stitch-login-divider {
+  width: 1px;
+  height: 16px;
+  background-color: var(--color-border-strong);
+}
+
+.stitch-text-link {
+  height: 36px;
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.stitch-text-link--brand {
+  color: var(--color-brand-primary);
+  font-weight: 700;
+}
+
+.stitch-trust-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.stitch-login-footer {
+  text-align: center;
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+/* Trends, Chat, Profile & Sitter Stitch Components */
+.stitch-seg-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2xs);
+  background-color: var(--color-bg-subtle);
+  padding: var(--space-2xs);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-hairline);
+}
+
+.stitch-kpi-3col {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-xs);
+}
+
+.stitch-kpi-mini {
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-border-hairline);
+  border-radius: var(--radius-md);
+  padding: var(--space-xs);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  box-shadow: var(--shadow-card);
+}
+
+.stitch-kpi-mini__label {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.stitch-kpi-mini__num {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--color-text-primary);
+}
+
+.stitch-chart-box {
+  background-color: var(--color-bg-canvas);
+  border: 1px solid var(--color-border-hairline);
+  border-radius: var(--radius-md);
+  padding: var(--space-xs);
+}
+
+.stitch-legend-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 11.5px;
+  color: var(--color-text-secondary);
+}
+
+.stitch-chat-stream {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.stitch-msg-user {
+  align-self: flex-end;
+  max-width: 86%;
+  background-color: var(--color-brand-primary);
+  color: var(--color-brand-on-primary);
+  border-radius: var(--radius-lg) var(--radius-lg) var(--space-2xs) var(--radius-lg);
+  padding: var(--space-xs) var(--space-sm);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.stitch-composer-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-border-field);
+  border-radius: var(--radius-bar);
+  padding: var(--space-2xs) var(--space-xs);
+}
+
+.stitch-timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding-left: var(--space-lg);
+}
+
+.stitch-timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: var(--space-xs);
+  bottom: var(--space-xs);
+  width: 2px;
+  background-color: var(--color-border-hairline);
+}
+
+.stitch-timeline-item {
+  position: relative;
+}
+
+.stitch-timeline-node {
+  position: absolute;
+  left: -20px;
+  top: var(--space-xs);
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-circle);
+  background-color: var(--color-brand-primary);
+  border: 3px solid var(--color-bg-canvas);
+}
+
+.stitch-line-action {
+  width: 100%;
+  height: 48px;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-md);
+  background-color: var(--color-line-brand-solid);
+  border: 1px solid var(--color-line-brand);
+  color: var(--color-brand-on-primary);
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+/* Admin Layout & Shared Controls */
+.admin-layout-grid {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: var(--space-md);
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .admin-layout-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.admin-nav-rail {
+  position: sticky;
+  top: var(--space-md);
+}
+
+.workspace-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: var(--space-md);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .workspace-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.surface-panel {
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-border-hairline);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.surface-tray {
+  background-color: var(--color-bg-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.pet-pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.split-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-xs);
+}
+
+.metrics-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--space-xs);
+}
+
+.lead {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+.brand-subtitle {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-text-muted);
+}
+
+/* Status Chips & Badges */
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-pill);
+  font-size: 11.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.status-chip--green {
+  background-color: var(--color-status-safe-bg);
+  color: var(--color-status-safe);
+}
+
+.status-chip--yellow {
+  background-color: var(--color-status-warn-bg);
+  color: var(--color-status-warn);
+}
+
+.status-chip--red {
+  background-color: var(--color-status-danger-bg);
+  color: var(--color-status-danger);
+}
+
+.status-chip--water {
+  background-color: var(--color-water-bg);
+  color: var(--color-water);
+}
+
+.engine-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-bg-subtle);
+  color: var(--color-text-secondary);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+/* Buttons & Form Inputs (Strictly 34px..48px tall; ONE primary filled recipe) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  min-height: 36px;
+  height: 38px;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-strong);
+  background-color: var(--color-paper);
+  color: var(--color-text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+
+.btn:hover {
+  background-color: var(--color-bg-subtle);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible,
+.btn:focus-visible,
+.stitch-haptic-pill:focus-visible,
+.stitch-pet-trigger:focus-visible,
+.stitch-tile-btn:focus-visible,
+.stitch-seg-btn:focus-visible,
+.bristol-chip-btn:focus-visible,
+.input-field:focus-visible,
+.select-field:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: 2px;
+}
+
+.stitch-toast-banner :focus-visible,
+.stitch-hero-fgs :focus-visible,
+.stitch-top-header--dark :focus-visible,
+.fgs-darkroom-stage :focus-visible,
+.snackbar-float :focus-visible,
+.stitch-dark-card :focus-visible {
+  outline: 2px solid var(--color-paper);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  background-color: var(--color-bg-subtle);
+  color: var(--color-text-muted);
+  border-color: var(--color-border-hairline);
+  cursor: not-allowed;
+}
+
+.btn--primary {
+  background-color: var(--color-brand-primary);
+  border-color: var(--color-brand-primary);
+  color: var(--color-brand-on-primary);
+}
+
+.btn--primary:hover {
+  background-color: var(--color-brand-primary-hover);
+}
+
+.btn--sm {
+  min-height: 34px;
+  height: 34px;
+  padding: var(--space-2xs) var(--space-sm);
+  font-size: 12px;
+}
+
+.btn--lg {
+  height: 44px;
+}
+
+.input-field,
+.select-field {
+  width: 100%;
+  min-height: 38px;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-field);
+  background-color: var(--color-paper);
+  color: var(--color-text-primary);
+  font-size: 13px;
+}
+
+textarea.input-field {
+  min-height: 76px;
+  resize: vertical;
+}
+
+/* Ledger & Tables */
+.ledger-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.ledger-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-subtle);
+}
+
+.data-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.data-table th,
+.data-table td {
+  padding: var(--space-xs) var(--space-sm);
+  border-bottom: 1px solid var(--color-border-hairline);
+  text-align: left;
+}
+
+.data-table th {
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+/* Overlays: Bottom Sheet, Action Sheet, Snackbar */
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background-color: var(--color-backdrop);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 var(--space-xs);
+}
+
+.sheet-panel {
+  width: 100%;
+  max-width: 448px;
+  max-height: 86vh;
+  overflow-y: auto;
+  background-color: var(--color-paper);
+  border-top-left-radius: var(--radius-xl);
+  border-top-right-radius: var(--radius-xl);
+  padding: var(--space-md) var(--space-md) var(--space-lg);
+  box-shadow: var(--shadow-float);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.sheet-handle {
+  width: 40px;
+  height: 4px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-border-strong);
+  margin: 0 auto 2px;
+}
+
+.snackbar-float {
+  position: fixed;
+  bottom: 92px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 28px);
+  max-width: 420px;
+  z-index: 75;
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-on-dark);
+  border-radius: var(--radius-md);
+  padding: var(--space-xs) var(--space-sm);
+  box-shadow: var(--shadow-float);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+}
+
+.snackbar-float__content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.snackbar-float__title {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.snackbar-float__detail {
+  font-size: 11.5px;
+  color: var(--color-text-on-dark-muted);
+}
+
+.snackbar-float__btn {
+  height: 32px;
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border-dark);
+  background-color: transparent;
+  color: var(--color-text-on-dark);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* FGSAnnotationCanvas Internal Classes */
+.canvas-stage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.canvas-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.canvas-hud-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-xs) var(--space-sm);
+  background-color: var(--color-bg-dark);
+  border-radius: var(--radius-md);
+  color: var(--color-text-on-dark);
+}
+
+.canvas-hud-pill {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.canvas-hud-label {
+  font-size: 11.5px;
+  color: var(--color-text-on-dark-muted);
+}
+
+.canvas-hud-zoom-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.canvas-hud-btn {
+  height: 32px;
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-dark);
+  background-color: transparent;
+  color: var(--color-text-on-dark);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.legend-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  font-size: 11.5px;
+  color: var(--color-text-secondary);
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.legend-swatch {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-circle);
+}
+
+.legend-swatch--ears { background-color: var(--color-landmark-ear-dot); }
+.legend-swatch--eyes { background-color: var(--color-landmark-eye-dot); }
+.legend-swatch--nose { background-color: var(--color-landmark-nose-dot); }
+.legend-swatch--mouth { background-color: var(--color-landmark-mouth-dot); }
+.legend-swatch--whiskers { background-color: var(--color-landmark-whisker-dot); }
+
+.memo-upload-preview {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-hairline);
+}
+
+/* Concise Clinical Footer (inside Stitch Viewport) */
+.compliance-banner {
+  margin-top: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-bg-subtle);
+  border: 1px solid var(--color-border-hairline);
+  border-radius: var(--radius-md);
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

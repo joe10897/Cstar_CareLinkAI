@@ -1,0 +1,12 @@
+name = "carelink-ai-api-gateway"
+main = "workers/api-gateway.ts"
+compatibility_date = "2026-11-01"
+
+[vars]
+R2_BUCKET_NAME = "carelink-ai-assets"
+R2_PUBLIC_CDN_URL = "https://cdn.carelink-ai.com"
+FALLBACK_CV_API_URL = "https://cv-engine.up.railway.app"
+
+[[r2_buckets]]
+binding = "CARELINK_R2"
+bucket_name = "carelink-ai-assets"

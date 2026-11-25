@@ -1,0 +1,99 @@
+/* Hallmark · shape: app screen · genre: modern-minimal · ground: warm-clinical-paper · accent: sage-spruce */
+:root {
+  /* Core Surfaces */
+  --color-paper: #FFFFFF;
+  --color-bg-canvas: #FAF8F5;
+  --color-bg-subtle: #F1EFEA;
+  --color-bg-surface: #FFFFFF;
+  --color-bg-dark: #1E242B;
+  --color-bg-dark-deep: #13181D;
+  --color-bg-dark-elevated: rgba(255, 255, 255, 0.08);
+  --color-bg-mint-tint: #E8F0ED;
+
+  /* Brand & Clinical Accents */
+  --color-brand-primary: #1F4E3D;
+  --color-brand-primary-hover: #173C2F;
+  --color-brand-on-primary: #FFFFFF;
+  --color-brand-mint-text: #DCEFE7;
+  --color-brand-sage-soft: #2A634E;
+
+  /* Ink & Hierarchy */
+  --color-text-primary: #18181B;
+  --color-text-secondary: #3F3F46;
+  --color-text-muted: #52525B;
+  --color-text-on-dark: #F4F4F5;
+  --color-text-on-dark-muted: #D4D4D8;
+
+  /* Semantic Status (4.5:1+ verified pairs) */
+  --color-status-safe: #15803D;
+  --color-status-safe-bg: #DCFCE7;
+  --color-status-warn: #B45309;
+  --color-status-warn-bg: #FEF3C7;
+  --color-status-danger: #B91C1C;
+  --color-status-danger-bg: #FEE2E2;
+  --color-water: #0369A1;
+  --color-water-fill: #0284C7;
+  --color-water-wave: #0EA5E9;
+  --color-water-bg: #E0F2FE;
+
+  /* Partner Brand Accents */
+  --color-line-brand: #067A38;
+  --color-line-brand-solid: #06893F;
+  --color-line-icon-bg: rgba(255, 255, 255, 0.18);
+
+  /* 48-Pt Landmark Palette (Accessible dark-ink variants for labels + off-swatch calibrated dots) */
+  --color-landmark-ear: #6D28D9;
+  --color-landmark-ear-dot: #7E4DF0;
+  --color-landmark-ear-bg: #F3E8FF;
+  --color-landmark-eye: #0369A1;
+  --color-landmark-eye-dot: #2DAEE6;
+  --color-landmark-eye-bg: #E0F2FE;
+  --color-landmark-nose: #B45309;
+  --color-landmark-nose-dot: #E5940A;
+  --color-landmark-nose-bg: #FEF3C7;
+  --color-landmark-whisker: #047857;
+  --color-landmark-whisker-dot: #2BC48A;
+  --color-landmark-whisker-bg: #D1FAE5;
+  --color-landmark-mouth: #BE123C;
+  --color-landmark-mouth-dot: #E63956;
+  --color-landmark-mouth-bg: #FFE4E6;
+
+  /* Darkroom Translucent Zone Pills & HUD */
+  --color-fgs-zone-ear-bg: rgba(126, 77, 240, 0.16);
+  --color-fgs-zone-eye-bg: rgba(45, 174, 230, 0.16);
+  --color-fgs-zone-nose-bg: rgba(229, 148, 10, 0.16);
+  --color-fgs-zone-mouth-bg: rgba(230, 57, 86, 0.16);
+  --color-fgs-zone-whisker-bg: rgba(43, 196, 138, 0.16);
+  --color-fgs-mode-tray: rgba(255, 255, 255, 0.10);
+  --color-hud-backdrop: rgba(19, 24, 29, 0.86);
+
+  /* Hairlines & Elevations */
+  --color-border-hairline: rgba(24, 24, 27, 0.08);
+  --color-border-strong: rgba(24, 24, 27, 0.16);
+  --color-border-field: rgba(24, 24, 27, 0.54);
+  --color-border-dark: rgba(255, 255, 255, 0.14);
+  --color-backdrop: rgba(24, 24, 27, 0.48);
+
+  --shadow-card: 0 1px 3px rgba(24, 24, 27, 0.04), 0 1px 2px rgba(24, 24, 27, 0.03);
+  --shadow-float: 0 10px 28px rgba(24, 24, 27, 0.10), 0 2px 6px rgba(24, 24, 27, 0.05);
+
+  /* Typography */
+  --font-sans: 'Plus Jakarta Sans', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Geometry & Spacing */
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-bar: 28px;
+  --radius-circle: 50%;
+  --radius-pill: 9999px;
+}

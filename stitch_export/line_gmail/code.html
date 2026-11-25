@@ -1,0 +1,127 @@
+<!DOCTYPE html><html class="h-full" lang="zh-TW"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_blank" name="shell-type"><title>CareLink AI</title><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: 'class', theme: { extend: { 'colors': { 'surface-container-high': '#eae7eb', 'surface-dark': '#1E242B', 'secondary-fixed': '#95f8a7', 'error': '#ba1a1a', 'surface-dim': '#dcd9dd', 'on-tertiary-fixed-variant': '#6e3900', 'on-primary-container': '#a3faef', 'surface-subtle': '#F1EFEA', 'status-safe': '#15803D', 'surface-container-low': '#f6f2f7', 'primary-fixed': '#9cf2e8', 'on-primary-fixed': '#00201d', 'on-secondary': '#ffffff', 'secondary-container': '#92f5a4', 'secondary-fixed-dim': '#79db8d', 'landmark-cheek': '#34D399', 'tertiary-container': '#a15600', 'error-container': '#ffdad6', 'on-primary': '#ffffff', 'surface-container-lowest': '#ffffff', 'on-secondary-container': '#007233', 'outline': '#6e7977', 'background': '#fbf8fc', 'inverse-on-surface': '#f3f0f4', 'ink-secondary': '#52525B', 'ink-primary': '#18181B', 'status-warn': '#D97706', 'landmark-mouth': '#F43F5E', 'landmark-eye': '#38BDF8', 'surface-container-highest': '#e4e1e6', 'outline-variant': '#bdc9c6', 'surface-variant': '#e4e1e6', 'surface-bright': '#fbf8fc', 'on-background': '#1b1b1e', 'primary': '#005c55', 'bg-canvas': '#F8F7F4', 'surface-tint': '#006a63', 'ink-muted': '#8E8E93', 'on-error-container': '#93000a', 'landmark-ear': '#8B5CF6', 'tertiary-fixed-dim': '#ffb77d', 'on-secondary-fixed': '#00210a', 'on-surface': '#1b1b1e', 'on-tertiary-fixed': '#2f1500', 'tertiary-fixed': '#ffdcc3', 'on-tertiary-container': '#ffe6d5', 'surface': '#fbf8fc', 'inverse-primary': '#80d5cb', 'surface-card': '#FFFFFF', 'primary-container': '#0f766e', 'on-error': '#ffffff', 'surface-container': '#f0edf1', 'tertiary': '#7d4200', 'landmark-nose': '#F59E0B', 'inverse-surface': '#303033', 'status-danger': '#DC2626', 'secondary': '#006d30', 'on-surface-variant': '#3e4947', 'on-primary-fixed-variant': '#00504a', 'on-secondary-fixed-variant': '#005323', 'on-tertiary': '#ffffff', 'primary-fixed-dim': '#80d5cb' }, 'borderRadius': { 'DEFAULT': '0.25rem', 'lg': '0.5rem', 'xl': '0.75rem', 'full': '9999px' }, 'spacing': { 'margin-mobile': '1rem', 'space-md': '1rem', 'gutter-mobile': '0.75rem', 'space-sm': '0.5rem', 'gutter': '1rem', 'margin': '1.5rem', 'space-xl': '2rem', 'space-lg': '1.5rem', 'space-xs': '0.25rem' }, 'fontFamily': { 'headline-sm': ['Plus Jakarta Sans'], 'label-numeric-lg': ['JetBrains Mono'], 'label-numeric-md': ['JetBrains Mono'], 'headline-xl': ['Plus Jakarta Sans'], 'body-lg': ['Plus Jakarta Sans'], 'headline-xl-mobile': ['Plus Jakarta Sans'], 'label-caps': ['Plus Jakarta Sans'], 'body-md': ['Plus Jakarta Sans'], 'headline-lg': ['Plus Jakarta Sans'], 'body-sm': ['Plus Jakarta Sans'], 'label-numeric-sm': ['JetBrains Mono'] }, 'fontSize': { 'headline-sm': ['18px', { lineHeight: '26px', letterSpacing: '-0.01em', fontWeight: '600' }], 'label-numeric-lg': ['22px', { lineHeight: '28px', fontWeight: '700' }], 'label-numeric-md': ['14px', { lineHeight: '20px', fontWeight: '600' }], 'headline-xl': ['32px', { lineHeight: '40px', letterSpacing: '-0.02em', fontWeight: '700' }], 'body-lg': ['16px', { lineHeight: '24px', fontWeight: '400' }], 'headline-xl-mobile': ['26px', { lineHeight: '34px', letterSpacing: '-0.015em', fontWeight: '700' }], 'label-caps': ['11px', { lineHeight: '16px', letterSpacing: '0.06em', fontWeight: '700' }], 'body-md': ['14px', { lineHeight: '22px', fontWeight: '400' }], 'headline-lg': ['24px', { lineHeight: '32px', letterSpacing: '-0.015em', fontWeight: '700' }], 'body-sm': ['13px', { lineHeight: '18px', fontWeight: '400' }], 'label-numeric-sm': ['11px', { lineHeight: '16px', letterSpacing: '0.04em', fontWeight: '500' }] } } } };</script><style>@layer base{html,body{width:100%;min-height:100%;margin:0;padding:0;}body{overscroll-behavior:none;background-color:#F8F7F4;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-bg-canvas text-on-surface antialiased flex flex-col min-h-screen"><main class="flex-1 flex flex-col relative w-full bg-bg-canvas pt-safe pb-safe"><div class="flex flex-col w-full pb-8">
+<!-- Brand Showcase Area -->
+<section class="flex flex-col items-center px-4 pt-2 pb-4 text-center">
+<!-- Brand Icon Stamp -->
+<div class="w-14 h-14 rounded-2xl bg-primary-container text-on-primary flex items-center justify-center shadow-sm mb-3">
+<span class="material-symbols-outlined text-3xl">vital_signs</span>
+</div>
+<!-- Dual Language Title & Moniker -->
+<div class="flex items-center gap-1.5 mb-1">
+<span class="font-headline-sm text-headline-sm text-primary">CareLink AI</span>
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-primary/40"></span>
+<span class="font-body-sm text-body-sm text-ink-secondary">智慧照護網</span>
+</div>
+<h1 class="font-headline-xl-mobile text-headline-xl-mobile text-ink-primary max-w-xs mb-1.5 tracking-tight">
+      全齡犬貓健康監控<br>與認證到府保姆
+    </h1>
+<p class="font-body-sm text-body-sm text-ink-secondary max-w-xs px-2 leading-relaxed">AI 視覺快篩 · 生化歷程整合 · 認證到府照護</p>
+<!-- Warm Clinical Multi-Layer Card (FGS 48-pts + Blood Chemistry + Sitter Telemetry) -->
+<div class="inline-flex items-center gap-2 mt-4 px-3 py-1 rounded-full bg-surface-card shadow-sm border border-outline-variant/30"><span class="w-2 h-2 rounded-full bg-landmark-cheek animate-pulse"></span><span class="font-label-numeric-sm text-[11px] text-ink-secondary font-medium">Care Engine 2.4 · 系統運作中</span></div>
+</section>
+<!-- Interactive Portal Segmented Switcher -->
+
+<!-- Dual Prime Authentication Action Buttons -->
+<section class="px-4 mt-5 flex flex-col gap-3">
+<!-- Primary Option 1: Official LINE Login & Instant Bot Sync -->
+<a class="w-full h-auto py-3 px-4 rounded-xl flex items-center justify-between text-left transition-transform duration-150 ease-out select-none active:scale-95 shadow-sm" href="#line-auth" style="background-color: rgb(6, 199, 85); color: rgb(255, 255, 255);">
+<div class="flex items-center gap-3">
+<!-- SVG LINE Logo -->
+<div class="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
+<svg aria-hidden="true" class="w-6 h-6 fill-white" viewBox="0 0 24 24">
+<path d="M19.365 9.863c.349.0 1.258.12 1.488.423.23.303.22 1.05.21 1.439v3.08c0 .878-.45 1.543-1.284 1.767-.323.087-.714.07-1.045-.04l-2.002-.67-.282.844c-.31.93-1.18 1.557-2.164 1.557h-4.57c-1.242.0-2.25-1.008-2.25-2.25v-6.9c0-1.242 1.008-2.25 2.25-2.25h8.187c1.242.0 2.25 1.008 2.25 2.25v.75zm-7.665.637h-1.5v4.5h1.5v-4.5zm2.7 4.5v-4.5h-1.2v4.5h1.2zm3.3 0v-2.7l-1.5 2.7h-1.05v-4.5h1.2v2.7l1.5-2.7h1.05v4.5h-1.2z"></path>
+</svg>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-[15px] font-bold text-white tracking-wide">LINE 帳號快速登入 / 綁定</span>
+<span class="font-body-sm text-[11px] text-white/90">推薦！自動串接官方帳號照護推播與每日打卡實況</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-white/80 shrink-0">chevron_right</span>
+</a>
+<!-- Primary Option 2: Google Account / Gmail Single Sign-On -->
+<button class="w-full h-auto py-3 px-4 rounded-xl bg-surface-card text-ink-primary flex items-center justify-between text-left shadow-sm active:scale-95 transition-transform duration-150 ease-out select-none" type="button">
+<div class="flex items-center gap-3">
+<!-- Google Colored G Icon -->
+<div class="w-9 h-9 rounded-lg bg-surface-subtle flex items-center justify-center shrink-0">
+<svg aria-hidden="true" class="w-5 h-5" viewBox="0 0 24 24">
+<path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z" fill="#4285F4"></path>
+<path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z" fill="#34A853"></path>
+<path d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z" fill="#FBBC05"></path>
+<path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z" fill="#EA4335"></path>
+</svg>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-[15px] font-semibold text-ink-primary">使用 Google 帳號登入</span>
+<span class="font-body-sm text-[11px] text-ink-secondary">快速同步毛孩行事曆與個人雲端備份</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-ink-muted shrink-0">chevron_right</span>
+</button>
+</section>
+<!-- Secondary Alternate Logins (SMS / Clinic Partner) -->
+<section class="px-4 mt-3 flex items-center justify-center gap-4 text-center">
+<button class="py-2 px-3 rounded-lg font-body-sm text-xs text-ink-secondary hover:text-primary transition-transform duration-150 ease-out select-none active:scale-95 flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-sm">sms</span>
+      手機簡訊驗證碼登入
+    </button>
+<span class="text-ink-muted/30">|</span>
+<button class="py-2 px-3 rounded-lg font-body-sm text-xs text-ink-secondary hover:text-primary transition-transform duration-150 ease-out select-none active:scale-95 flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-sm">local_hospital</span>
+      特約動物醫院專屬後台
+    </button>
+</section>
+<!-- Sitter Onboarding & Insurance Trust Badge -->
+<section class="px-4 mt-4"><div class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-surface-card shadow-sm"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-status-safe text-base">verified_user</span><span class="font-body-sm text-xs text-ink-secondary">國泰產險百萬責任險保障中</span></div><button type="button" class="font-body-sm text-xs text-primary font-medium hover:underline transition-transform duration-150 ease-out select-none active:scale-95 inline-block">安全保障與登入須知</button></div></section>
+<!-- Legal & Regulatory Clinical Footer -->
+<footer class="px-5 mt-6 text-center flex flex-col items-center"><div class="flex items-center justify-center gap-3 text-[11px] text-ink-muted"><a href="#terms" class="hover:text-primary transition-transform duration-150 ease-out select-none active:scale-95 inline-block">服務條款與法律宣告</a><span class="">·</span><a href="#privacy" class="hover:text-primary transition-transform duration-150 ease-out select-none active:scale-95 inline-block">隱私權政策</a></div><div class="flex items-center justify-center gap-1.5 mt-2 text-ink-muted/70"><span class="material-symbols-outlined text-[13px]">lock</span><span class="font-label-caps text-[10px] tracking-wider uppercase">TLS 1.3 銀行級加密</span></div></footer>
+</div>
+<script>
+  function switchRole(role) {
+    const parentTab = document.getElementById('tab-parent');
+    const sitterTab = document.getElementById('tab-sitter');
+    const contentParent = document.getElementById('content-parent');
+    const contentSitter = document.getElementById('content-sitter');
+    const sitterNote = document.getElementById('sitter-note');
+
+    if (role === 'parent') {
+      // Tab styling
+      parentTab.className = "flex-1 py-2.5 px-3 rounded-xl transition-all duration-200 flex flex-col items-center justify-center bg-surface-card shadow-sm text-primary";
+      parentTab.setAttribute('aria-selected', 'true');
+      sitterTab.className = "flex-1 py-2.5 px-3 rounded-xl transition-all duration-200 flex flex-col items-center justify-center text-ink-muted";
+      sitterTab.setAttribute('aria-selected', 'false');
+
+      // Content toggles
+      contentParent.classList.remove('hidden');
+      contentSitter.classList.add('hidden');
+
+      // Update footnote emphasis
+      sitterNote.innerHTML = `
+        <span class="material-symbols-outlined text-primary text-sm mt-0.5 shrink-0">info</span>
+        <p class="font-body-sm text-[11px] text-ink-secondary leading-snug">
+          <strong class="text-ink-primary font-medium">首次登入保姆端？</strong>完成身分證實名認證、良民證上傳與特約獸醫皮下輸液/日常衛教培訓考核即可開通接案排程。
+        </p>
+      `;
+    } else {
+      // Tab styling
+      sitterTab.className = "flex-1 py-2.5 px-3 rounded-xl transition-all duration-200 flex flex-col items-center justify-center bg-surface-card shadow-sm text-primary";
+      sitterTab.setAttribute('aria-selected', 'true');
+      parentTab.className = "flex-1 py-2.5 px-3 rounded-xl transition-all duration-200 flex flex-col items-center justify-center text-ink-muted";
+      parentTab.setAttribute('aria-selected', 'false');
+
+      // Content toggles
+      contentSitter.classList.remove('hidden');
+      contentParent.classList.add('hidden');
+
+      // Update footnote emphasis for active sitter portal
+      sitterNote.innerHTML = `
+        <span class="material-symbols-outlined text-secondary text-sm mt-0.5 shrink-0">task_alt</span>
+        <p class="font-body-sm text-[11px] text-ink-secondary leading-snug">
+          <strong class="text-secondary font-medium">保姆認證專區：</strong>已通過培訓的保姆請使用登錄之 LINE 帳號授權，系統將即刻帶出近期待執勤排班與家長照護指引。
+        </p>
+      `;
+    }
+  }
+</script></main>
+
+</body></html>

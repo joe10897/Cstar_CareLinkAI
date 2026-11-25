@@ -1,0 +1,447 @@
+<!DOCTYPE html><html class="h-full" lang="zh-TW"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_tab" name="shell-type"><title>CareLink AI</title><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#F8F7F4;-webkit-font-smoothing:antialiased;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:calc(0.75rem + env(safe-area-inset-bottom, 0px));}.pt-safe{padding-top:env(safe-area-inset-top, 0px);}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface": "#fbf8fc", "on-background": "#1b1b1e", "surface-dark": "#1E242B", "on-primary-fixed": "#00201d", "inverse-on-surface": "#f3f0f4", "on-secondary": "#ffffff", "on-secondary-fixed-variant": "#005323", "primary": "#005c55", "on-primary-fixed-variant": "#00504a", "landmark-ear": "#8B5CF6", "status-warn": "#D97706", "surface-subtle": "#F1EFEA", "on-tertiary-fixed": "#2f1500", "surface-container-high": "#eae7eb", "status-danger": "#DC2626", "primary-fixed": "#9cf2e8", "background": "#fbf8fc", "surface-container-highest": "#e4e1e6", "landmark-eye": "#38BDF8", "surface-bright": "#fbf8fc", "outline-variant": "#bdc9c6", "surface-dim": "#dcd9dd", "ink-muted": "#8E8E93", "on-primary-container": "#a3faef", "surface-tint": "#006a63", "landmark-nose": "#F59E0B", "surface-container": "#f0edf1", "tertiary-fixed-dim": "#ffb77d", "on-secondary-fixed": "#00210a", "error-container": "#ffdad6", "ink-primary": "#18181B", "on-tertiary": "#ffffff", "primary-container": "#0f766e", "tertiary": "#7d4200", "landmark-mouth": "#F43F5E", "secondary-fixed-dim": "#79db8d", "inverse-surface": "#303033", "surface-container-low": "#f6f2f7", "landmark-cheek": "#34D399", "outline": "#6e7977", "bg-canvas": "#F8F7F4", "error": "#ba1a1a", "surface-container-lowest": "#ffffff", "surface-card": "#FFFFFF", "ink-secondary": "#52525B", "inverse-primary": "#80d5cb", "status-safe": "#15803D", "on-error-container": "#93000a", "on-primary": "#ffffff", "on-tertiary-fixed-variant": "#6e3900", "secondary-fixed": "#95f8a7", "tertiary-fixed": "#ffdcc3", "surface-variant": "#e4e1e6", "secondary-container": "#92f5a4", "tertiary-container": "#a15600", "on-error": "#ffffff", "secondary": "#006d30", "primary-fixed-dim": "#80d5cb", "on-surface-variant": "#3e4947", "on-tertiary-container": "#ffe6d5", "on-surface": "#1b1b1e", "on-secondary-container": "#007233" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "margin-mobile": "1rem", "margin": "1.5rem", "space-xl": "2rem", "space-sm": "0.5rem", "space-md": "1rem", "space-xs": "0.25rem", "gutter-mobile": "0.75rem", "space-lg": "1.5rem", "gutter": "1rem" }, "fontFamily": { "body-md": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "label-numeric-md": ["JetBrains Mono"], "headline-lg": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "headline-xl-mobile": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "label-caps": ["Plus Jakarta Sans"], "label-numeric-lg": ["JetBrains Mono"], "label-numeric-sm": ["JetBrains Mono"], "headline-sm": ["Plus Jakarta Sans"] }, "fontSize": { "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "label-numeric-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }], "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-xl-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "700" }], "label-numeric-lg": ["22px", { "lineHeight": "28px", "fontWeight": "700" }], "label-numeric-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }], "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="min-h-full bg-bg-canvas font-body-md text-ink-primary flex flex-col selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 inset-x-0 z-50 bg-bg-canvas/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-16 px-margin-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><img alt="CareLink AI Logo" class="h-8 w-auto object-contain shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_i41wRdtPsK1QXBllk5qR2hXX64fW_ExmJzR2Aa0YR75ZIPCHr2RNgDw-7SvLd6qzQZvlQKJK87bQsxoQZ_f4CWJYcqWT6rLkC-XRkqcJ11b4V21y-lsuwnz38nM_Wtn93UAk-Ql8eMiKSKFDnhBrghPu2eZSMJpIZw68elyujjvoCrB0bepo8AgRvM7UrxcxN4CHUkr1bgNobfsg6p5wa3uZg8Og2Ot4UhetCf0K"><div class="flex flex-col min-w-0"><div class="flex items-center gap-1.5"><h1 class="font-headline-sm text-headline-sm text-ink-primary whitespace-nowrap">毛孩檔案</h1><span class="px-1.5 py-0.5 rounded-full bg-primary-fixed/30 text-primary font-label-caps text-[9px] font-bold shrink-0">PROFILE</span></div></div></div><div class="flex items-center gap-space-sm shrink-0"><button class="min-h-[44px] px-space-sm py-space-xs rounded-full bg-surface-subtle flex items-center gap-1.5 active:scale-95 transition-transform" type="button"><span class="w-2 h-2 rounded-full bg-status-warn shrink-0"></span><span class="font-body-sm text-body-sm text-ink-secondary truncate max-w-[130px]">咪寶 · 8y · IRIS II</span><span class="material-symbols-outlined text-[16px] text-ink-muted leading-none shrink-0">unfold_more</span></button><button class="min-h-[44px] min-w-[44px] flex items-center justify-center p-0.5 rounded-full active:opacity-80 transition-opacity" type="button"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzh5QLXV2jsKe0ka7C5DKddz63PkQ3CSDAns54kswPjU54mPqKsxoTiApQlTkdXld2JEYc_nMPJfqy0UKFARBJnO0f4QtoHXPyGC3dHuDwFXvqoq7e9xTQqQAOMg0HtvryvD0WSABmLbQRQLH21VZ7JlcCgaW-dr9jWqOonlEQJ7bXrcl98AGO-PTv82vn3mr78zHf4R3JjChD41JVys1zWwRbmzN201JiWo3bgvsn"></button></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-32 bg-bg-canvas"><div class="flex flex-col w-full pb-10">
+<!-- Multi-pet Quick Switcher Carousel -->
+<section class="w-full px-margin-mobile pt-3 pb-2">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-caps text-label-caps text-ink-muted uppercase">家庭毛孩成員 (3)</span>
+<span class="font-body-sm text-body-sm text-primary font-semibold flex items-center gap-0.5">
+        切換視角
+        <span class="material-symbols-outlined text-[16px]">sync_alt</span>
+</span>
+</div>
+<div class="flex items-center gap-space-sm overflow-x-auto no-scrollbar py-1">
+<!-- Pet 1: 咪寶 (Active) -->
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-container text-on-primary shadow-sm shrink-0 transition-transform active:scale-95" type="button">
+<div class="relative w-7 h-7 rounded-full overflow-hidden bg-primary-fixed shrink-0">
+<img class="w-full h-full object-cover" data-alt="Close-up serene portrait of a purebred Ragdoll cat with gentle blue eyes and soft cream and slate markings, warmly illuminated in a peaceful home setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaHXqc7vcsuz2TLOuvlD7UX7FxBocVf7uy6f8KItUaFWU15OceaoqreJLcggui3exfOEw7MMafZuB3YYYHfA33VZS1EqQdFSTxdqEus8XOCXaNdtwzRzX_ynjATtStT1NKGaR6yd4kYFTvwA0FXW1S53jQWlOtnnTxQZzKk2nRnCrfnGjXH8067bU_7lf3_t5QdluRvuGZDA3NRJjLpd9F-Ma-4jG8f5WLLVmrlGFD">
+<span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-status-safe"></span>
+</div>
+<div class="flex flex-col text-left">
+<span class="font-headline-sm text-body-sm leading-tight text-surface-card font-semibold">咪寶</span>
+<span class="font-label-numeric-sm text-[10px] text-on-primary-container leading-none">布偶貓 · 8y</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-on-primary-container" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</button>
+<!-- Pet 2: 拿鐵 -->
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-card text-ink-primary shadow-sm shrink-0 transition-transform active:scale-95" type="button">
+<div class="w-7 h-7 rounded-full overflow-hidden bg-surface-subtle shrink-0">
+<img class="w-full h-full object-cover" data-alt="Playful orange tabby cat with amber eyes sitting curiously by a sunny window, warm lighting and tranquil home vibe" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVfebxXBp4c3sJ7eC6qXZwmFQvb_XzUJ_9ZHOOdyQunDbf9XA0V1EVfdzF1ApSALDPRW0xdiXcgqMrpZLyi7wRi1PB7UjRcSsMdCXuIaMGfS8ozs6c9RcO7TscTyNrDBhjVN8WU1kb8p_gYZ9D-mC0x-G51Q27GYw_deqvsHCAR-dsh7_AV_7SgxWWocWnzndbc9Hd-9RGd-1Vw2joRqJvqYZvXXitDIJp6XSjQ8V3">
+</div>
+<div class="flex flex-col text-left">
+<span class="font-headline-sm text-body-sm leading-tight text-ink-primary font-semibold">拿鐵</span>
+<span class="font-label-numeric-sm text-[10px] text-ink-muted leading-none">米克斯 · 3y</span>
+</div>
+</button>
+<!-- Pet 3: 圓圓 -->
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-card text-ink-primary shadow-sm shrink-0 transition-transform active:scale-95" type="button">
+<div class="w-7 h-7 rounded-full overflow-hidden bg-surface-subtle shrink-0">
+<img class="w-full h-full object-cover" data-alt="Friendly Shiba Inu dog smiling with perked ears and rich red sesame coat, gentle sunlight on clean beige background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqh0sj_vWRTNhx3JZtjDTofYK32Uq6ugtWW_IfWuSLLV2DJ1bODblyfM5-3VaQKquCCBLYYF3K570E-I-S2ro3SZeoByC11oUhryrSfM4PLDZViNc-JMIUColxx6lGw5_ZOxH6OgErZDfEPvCkbpYGLWnC0k80LjnHAzeBgTiclDSzNuK8sajXss1kfbzsHs9CUBg2SyHUabVVv38qVWJ4OqUdeo9jRCTdCTYkIRZg">
+</div>
+<div class="flex flex-col text-left">
+<span class="font-headline-sm text-body-sm leading-tight text-ink-primary font-semibold">圓圓</span>
+<span class="font-label-numeric-sm text-[10px] text-ink-muted leading-none">柴犬 · 5y</span>
+</div>
+</button>
+<!-- Add Pet Button -->
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-subtle text-ink-secondary shrink-0 transition-colors active:bg-surface-variant" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span class="font-body-sm text-body-sm font-semibold">新增</span>
+</button>
+</div>
+</section>
+<!-- Section 1: Active Pet Hero Profile Card -->
+<section class="w-full px-margin-mobile pt-2">
+<div class="w-full bg-surface-card rounded-2xl shadow-sm overflow-hidden p-space-md flex flex-col gap-space-md">
+<!-- Top Row: Photo + Primary Info -->
+<div class="flex items-start gap-space-md">
+<div class="relative w-20 h-20 rounded-2xl overflow-hidden bg-surface-subtle shrink-0 shadow-inner">
+<img class="w-full h-full object-cover" data-alt="Exquisite Ragdoll cat close-up with soft silky bi-color fur and sapphire blue eyes looking directly into the camera with peaceful relaxed expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3ZZzBYkVlXCMLOYTO0-74r9od-7TIj1Qb8Q64YTmf2W4eK0ev8jzjNdIvJyT5RNZDUaJDO1iMIhVHsiNcctsZ5TwR7pFVobTmk-BN9sFcbGPF1n4FsWpQ0Hg3cPVQL9HaY3XIo7Z0aVCzcVrEEozoaGG5F0A4XcV6Uds3mnJ8w7UI70PPtGRtvk_Wcq8bxQtTJ-P6U5PrAvrbo1rXfFoEQZ5Xse_LMRMSvZFJAUqY">
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded-md bg-surface-dark/80 text-surface-bright font-label-caps text-[9px] tracking-wider backdrop-blur-sm">
+            FEMALE
+          </span>
+</div>
+<div class="flex-1 min-w-0 flex flex-col">
+<div class="flex items-center justify-between gap-1">
+<div class="flex items-center gap-1.5 min-w-0">
+<h1 class="font-headline-lg text-headline-sm text-ink-primary truncate">咪寶 (Mibo)</h1>
+<span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-caps text-[10px] font-bold shrink-0">
+                已絕育
+              </span>
+</div>
+<button aria-label="編輯基本資料" class="p-1 rounded-full text-ink-muted hover:text-ink-primary active:bg-surface-subtle transition-colors shrink-0" type="button">
+<span class="material-symbols-outlined text-[20px]">edit_note</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-ink-secondary mt-0.5 truncate">
+            布偶貓 · 8 歲 4 個月 · 晶片號碼
+          </p>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-label-numeric-sm text-label-numeric-sm text-ink-muted font-medium bg-surface-subtle px-1.5 py-0.5 rounded">
+              #900115002938112
+            </span>
+<span class="text-ink-muted text-[10px]">•</span>
+<span class="font-label-numeric-md text-label-numeric-md text-primary font-bold">
+              4.82 <span class="font-body-sm text-[11px] text-ink-secondary">kg</span>
+</span>
+</div>
+</div>
+</div>
+<!-- Clinical Diagnostic Badges -->
+<div class="flex flex-wrap gap-1.5 pt-1">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-status-warn/10 text-status-warn font-body-sm text-body-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-status-warn"></span>
+          IRIS II 慢性腎病
+        </span>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-primary-fixed/30 text-primary font-body-sm text-body-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">water_drop</span>
+          固定皮下輸液 100ml/日
+        </span>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-subtle text-ink-secondary font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[14px]">restaurant</span>
+          低磷處方飲食
+        </span>
+</div>
+<!-- Quick Action Buttons -->
+<div class="grid grid-cols-2 gap-space-sm pt-1">
+<button class="w-full h-11 px-3 rounded-xl bg-surface-subtle text-ink-primary font-body-sm text-body-sm font-semibold flex items-center justify-center gap-1.5 active:bg-surface-variant transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary">badge</span>
+          完整健康檔案
+        </button>
+<button class="w-full h-11 px-3 rounded-xl bg-primary text-on-primary font-body-sm text-body-sm font-semibold flex items-center justify-center gap-1.5 shadow-sm active:bg-primary-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">group_add</span>
+          照護授權共享
+        </button>
+</div>
+</div>
+</section>
+<!-- Section 2: FGS 0-Baseline Face Calibration (Pillar 1 & 4 Key Telemetry) -->
+<section class="w-full px-margin-mobile pt-4">
+<div class="w-full bg-surface-card rounded-2xl shadow-sm overflow-hidden p-space-md flex flex-col gap-3">
+<!-- Card Title & Live Calibration Tag -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-xl bg-primary-fixed/40 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">center_focus_strong</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-body-lg text-ink-primary font-bold">0 分健康貓臉基準照</h2>
+<p class="font-label-caps text-label-caps text-ink-muted">FELINE GRIMACE SCALE BASELINE</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-caps text-label-caps font-bold">
+          校準合格
+        </span>
+</div>
+<!-- High Contrast Telemetry Display -->
+<div class="relative w-full rounded-xl overflow-hidden bg-surface-dark p-3 text-surface-bright flex flex-col justify-between">
+<!-- Background Mock Landmark Visual -->
+<div class="flex items-center justify-between gap-3">
+<div class="relative w-24 h-24 rounded-lg overflow-hidden shrink-0 bg-surface-variant/20">
+<img class="w-full h-full object-cover opacity-90" data-alt="Strict frontal relaxed feline face photograph in calibrated clinical darkroom setup with subtle cyan and purple landmark telemetry pins plotted cleanly across ears, eyes, and muzzle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBlADWId1tFFyyAsM1TpQQAixvzZ5mwaM5mwjdRzPtWo3c_PGWmckFGb6tMHt3eghgmQJQ-HmdU5G0YiQMMMMiWfKiexvY9kmt_yOeKWB5sO4WPiDhKvCBkp5zZrlXA9TuquZ0w6LxxwdkVxGUBeKfBBZzVr9u6qLwvqhX1TiqkT3UhO3nE2V-ZgaO69ENV1r3CV6iuArpX-xkD83pIkBJseTjZD2VLXFnLheZmks_">
+<!-- 48-Point Keypoint Overlays (SVG Telemetry) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100">
+<!-- Ear landmarks (Purple) -->
+<circle cx="28" cy="22" fill="#8B5CF6" opacity="0.9" r="2.5"></circle>
+<circle cx="38" cy="18" fill="#8B5CF6" opacity="0.9" r="2.5"></circle>
+<circle cx="62" cy="18" fill="#8B5CF6" opacity="0.9" r="2.5"></circle>
+<circle cx="72" cy="22" fill="#8B5CF6" opacity="0.9" r="2.5"></circle>
+<!-- Eye landmarks (Sky Blue) -->
+<circle cx="36" cy="45" fill="#38BDF8" opacity="0.95" r="2"></circle>
+<circle cx="44" cy="45" fill="#38BDF8" opacity="0.95" r="2"></circle>
+<circle cx="56" cy="45" fill="#38BDF8" opacity="0.95" r="2"></circle>
+<circle cx="64" cy="45" fill="#38BDF8" opacity="0.95" r="2"></circle>
+<!-- Nose landmarks (Amber) -->
+<circle cx="50" cy="58" fill="#F59E0B" opacity="0.95" r="2.5"></circle>
+<!-- Whiskers/Cheeks (Emerald) -->
+<circle cx="34" cy="62" fill="#34D399" opacity="0.85" r="2"></circle>
+<circle cx="66" cy="62" fill="#34D399" opacity="0.85" r="2"></circle>
+<!-- Mouth (Rose) -->
+<circle cx="50" cy="70" fill="#F43F5E" opacity="0.9" r="2"></circle>
+</svg>
+<div class="absolute bottom-1 right-1 px-1 rounded bg-black/70 font-label-numeric-sm text-[9px] text-surface-bright">
+              48 Pts
+            </div>
+</div>
+<div class="flex-1 min-w-0 flex flex-col justify-center">
+<div class="flex items-center gap-1.5 text-primary-fixed-dim">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span class="font-label-numeric-sm text-[11px] font-semibold tracking-wide">Base-001 (2024/09/20)</span>
+</div>
+<p class="font-body-sm text-[12px] text-surface-subtle/80 mt-1 leading-snug">
+              雙耳前傾自然、眼眶放鬆無緊繃、鬍鬚柔順下垂。
+            </p>
+<div class="mt-2 flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-surface-variant/30 text-surface-bright font-label-numeric-md text-label-numeric-md">
+                FGS 0/10 <span class="font-body-sm text-[10px] text-surface-subtle">標準零點</span>
+</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Steppers -->
+<div class="flex items-center justify-between gap-2 pt-0.5">
+<button class="flex-1 h-10 px-3 rounded-xl bg-surface-subtle text-ink-primary font-body-sm text-body-sm font-semibold flex items-center justify-center gap-1 active:bg-surface-variant transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-ink-muted">history</span>
+          檢視 48 點比對歷史
+        </button>
+<button class="h-10 px-4 rounded-xl bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold flex items-center justify-center gap-1 active:opacity-90 transition-opacity shrink-0" type="button">
+<span class="material-symbols-outlined text-[18px]">photo_camera</span>
+          重拍基準
+        </button>
+</div>
+</div>
+</section>
+<!-- Section 3: EHR Veterinary Referral & Clinic Access (Pillar 3) -->
+<section class="w-full px-margin-mobile pt-4">
+<div class="w-full bg-surface-card rounded-2xl shadow-sm p-space-md flex flex-col gap-3">
+<!-- Section Header -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-xl bg-status-safe/15 text-status-safe flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">local_hospital</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-body-lg text-ink-primary font-bold">醫療院所與病歷同步</h2>
+<p class="font-label-caps text-label-caps text-ink-muted">EHR INTEGRATION &amp; REFERRAL PASS</p>
+</div>
+</div>
+<span class="flex items-center gap-1 text-status-safe font-label-caps text-label-caps font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-status-safe"></span>
+          自動同步中
+        </span>
+</div>
+<!-- Primary Clinic Card -->
+<div class="p-3 rounded-xl bg-surface-subtle flex flex-col gap-2">
+<div class="flex items-start justify-between">
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-primary-container text-on-primary font-label-caps text-[9px] font-bold">常駐門診</span>
+<h3 class="font-headline-sm text-body-md text-ink-primary font-bold truncate">恩主公動物醫院</h3>
+</div>
+<p class="font-body-sm text-body-sm text-ink-secondary mt-0.5">
+              主治醫師：王宏銘 獸醫師 (專長：貓科內科/慢性腎病)
+            </p>
+</div>
+<a aria-label="通話聯繫醫院" class="w-9 h-9 rounded-full bg-surface-card text-primary flex items-center justify-center shadow-xs active:bg-surface-variant transition-colors shrink-0" href="tel:0226723456">
+<span class="material-symbols-outlined text-[18px]">call</span>
+</a>
+</div>
+<div class="flex items-center justify-between text-[11px] text-ink-muted pt-1">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-status-safe">verified_user</span>
+            EHR 授權碼：#CK-7729-TW
+          </span>
+<span class="font-label-numeric-sm text-[11px]">最近同步: 今日 08:30</span>
+</div>
+</div>
+<!-- Secondary / 24H Emergency Hospital -->
+<div class="p-3 rounded-xl bg-surface-subtle flex items-center justify-between">
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-status-warn text-surface-card font-label-caps text-[9px] font-bold">急診備用</span>
+<h4 class="font-body-md text-body-sm text-ink-primary font-bold truncate">台大動物醫院 急診醫學中心</h4>
+</div>
+<p class="font-body-sm text-[12px] text-ink-muted mt-0.5">台北市大安區基隆路三段 153 號 (24hr 開診)</p>
+</div>
+<a aria-label="通話聯繫急診" class="w-9 h-9 rounded-full bg-surface-card text-status-danger flex items-center justify-center shadow-xs active:bg-surface-variant transition-colors shrink-0" href="tel:0227396828">
+<span class="material-symbols-outlined text-[18px]">emergency</span>
+</a>
+</div>
+<!-- Cloud Pass CTA -->
+<button class="w-full py-2.5 px-3 rounded-xl bg-surface text-primary font-body-sm text-body-sm font-semibold flex items-center justify-center gap-2 active:bg-surface-subtle transition-colors shadow-xs" type="button">
+<span class="material-symbols-outlined text-[18px]">qr_code_2</span>
+        產出轉診雲端快取包 (獸醫即時存取碼)
+      </button>
+</div>
+</section>
+<!-- Section 4: Care Handover Packet Settings for Sitters (Pillar 4) -->
+<section class="w-full px-margin-mobile pt-4">
+<div class="w-full bg-surface-card rounded-2xl shadow-sm p-space-md flex flex-col gap-3">
+<!-- Title & Preview Button -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-xl bg-tertiary-fixed/60 text-tertiary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">assignment_turned_in</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-body-lg text-ink-primary font-bold">專屬到府照護交接包</h2>
+<p class="font-label-caps text-label-caps text-ink-muted">PET SITTER HANDOVER PROTOCOL</p>
+</div>
+</div>
+<button class="text-primary font-body-sm text-body-sm font-semibold flex items-center gap-0.5" type="button">
+          預覽保姆卡
+          <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+<!-- Item 1: Dietary Allergens / Prohibitions -->
+<div class="p-3 rounded-xl bg-surface-subtle flex items-center justify-between gap-2">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-7 h-7 rounded-lg bg-surface-card flex items-center justify-center text-status-warn shrink-0">
+<span class="material-symbols-outlined text-[18px]">no_meals</span>
+</div>
+<div class="min-w-0">
+<div class="font-body-md text-body-sm text-ink-primary font-bold truncate">禁忌食材與處方限制</div>
+<div class="font-body-sm text-[11px] text-ink-muted truncate">已鎖定 12 項高磷及高鈉成分，嚴禁一般肉泥副食罐</div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-surface-card text-ink-secondary font-label-numeric-sm text-[11px] font-semibold shrink-0">
+          12 項標記
+        </span>
+</div>
+<!-- Item 2: Subcutaneous Fluid Guide -->
+<div class="p-3 rounded-xl bg-surface-subtle flex items-center justify-between gap-2">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-7 h-7 rounded-lg bg-surface-card flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[18px]">vaccines</span>
+</div>
+<div class="min-w-0">
+<div class="font-body-md text-body-sm text-ink-primary font-bold truncate">皮下輸液注射指南</div>
+<div class="font-body-sm text-[11px] text-ink-muted truncate">肩胛背側鬆弛皮下 · 23G 蝶翼針 · 慢速 100ml</div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed/40 text-primary font-label-caps text-[10px] font-bold shrink-0">
+          SOP 啟用
+        </span>
+</div>
+<!-- Item 3: Stress Relief & Comfort Protocol -->
+<div class="p-3 rounded-xl bg-surface-subtle flex items-center justify-between gap-2">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-7 h-7 rounded-lg bg-surface-card flex items-center justify-center text-tertiary shrink-0">
+<span class="material-symbols-outlined text-[18px]">self_improvement</span>
+</div>
+<div class="min-w-0">
+<div class="font-body-md text-body-sm text-ink-primary font-bold truncate">減壓安撫與特殊禁忌</div>
+<div class="font-body-sm text-[11px] text-ink-muted truncate">避開後腿抓握，可先播放 Feliway 擴散器並以軟刷梳毛</div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-surface-card text-ink-secondary font-label-numeric-sm text-[11px] font-semibold shrink-0">
+          已備妥
+        </span>
+</div>
+</div>
+</section>
+<!-- Section 5: CareLink AI Pro Membership Badge -->
+<section class="w-full px-margin-mobile pt-4">
+<div class="w-full bg-surface-dark text-surface-bright rounded-2xl shadow-md p-space-md flex flex-col gap-3 relative overflow-hidden">
+<!-- Decorative Glow Accent -->
+<div class="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-primary-container/30 blur-2xl pointer-events-none"></div>
+<div class="flex items-start justify-between relative z-10">
+<div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary-fixed text-[20px]" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="font-headline-sm text-body-lg font-bold text-surface-bright">CareLink AI Pro</span>
+<span class="px-1.5 py-0.5 rounded bg-primary-container text-on-primary font-label-caps text-[9px] font-bold">家人共享版</span>
+</div>
+<p class="font-label-numeric-sm text-label-numeric-sm text-surface-subtle/80 mt-1">
+            次期自動扣款日：2024/11/15 (月繳 NT$ 399)
+          </p>
+</div>
+<span class="px-2 py-1 rounded-full bg-status-safe text-surface-bright font-label-caps text-[10px] font-bold">
+          啟用中
+        </span>
+</div>
+<!-- Feature Matrix Rows -->
+<div class="grid grid-cols-3 gap-2 pt-1 relative z-10">
+<div class="p-2 rounded-xl bg-surface-card/10 backdrop-blur-sm flex flex-col gap-1 text-center">
+<span class="material-symbols-outlined text-[18px] text-primary-fixed mx-auto">document_scanner</span>
+<span class="font-body-sm text-[11px] text-surface-bright font-medium">血檢單 OCR</span>
+<span class="font-label-numeric-sm text-[10px] text-surface-subtle/70">無上限解析</span>
+</div>
+<div class="p-2 rounded-xl bg-surface-card/10 backdrop-blur-sm flex flex-col gap-1 text-center">
+<span class="material-symbols-outlined text-[18px] text-primary-fixed mx-auto">face_retouching_natural</span>
+<span class="font-body-sm text-[11px] text-surface-bright font-medium">FGS 貓臉監控</span>
+<span class="font-label-numeric-sm text-[10px] text-surface-subtle/70">多寵同時比對</span>
+</div>
+<div class="p-2 rounded-xl bg-surface-card/10 backdrop-blur-sm flex flex-col gap-1 text-center">
+<span class="material-symbols-outlined text-[18px] text-primary-fixed mx-auto">verified_user</span>
+<span class="font-body-sm text-[11px] text-surface-bright font-medium">認證保姆保險</span>
+<span class="font-label-numeric-sm text-[10px] text-surface-subtle/70">百萬照護保障</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 6: System Utilities & Health Records Hub -->
+<section class="w-full px-margin-mobile pt-4">
+<div class="w-full bg-surface-card rounded-2xl shadow-sm overflow-hidden flex flex-col">
+<!-- Item 1: Blood Panel Archive -->
+<a class="flex items-center justify-between p-space-md hover:bg-surface-subtle/50 transition-colors" href="#">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl bg-surface-subtle text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">biotech</span>
+</div>
+<div>
+<div class="font-body-md text-body-md text-ink-primary font-semibold">血檢單歷史檔案庫</div>
+<div class="font-body-sm text-body-sm text-ink-muted">已完整封存 6 份化驗報告 (BUN, CREA, SDMA)</div>
+</div>
+</div>
+<div class="flex items-center gap-1 text-ink-muted shrink-0">
+<span class="font-label-numeric-sm text-label-numeric-sm text-primary font-semibold">6 份</span>
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</div>
+</a>
+<!-- Item 2: LINE Notification Linking -->
+<a class="flex items-center justify-between p-space-md hover:bg-surface-subtle/50 transition-colors" href="#">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl bg-surface-subtle text-status-safe flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">notifications_active</span>
+</div>
+<div>
+<div class="font-body-md text-body-md text-ink-primary font-semibold">LINE 官方帳號通知綁定</div>
+<div class="font-body-sm text-body-sm text-ink-muted">每日早晚打卡定時提醒 &amp; 保姆簽到即時通知</div>
+</div>
+</div>
+<div class="flex items-center gap-1 text-status-safe shrink-0">
+<span class="font-label-caps text-[11px] font-bold">已連線</span>
+<span class="material-symbols-outlined text-[18px] text-ink-muted">chevron_right</span>
+</div>
+</a>
+<!-- Item 3: Clinical Privacy & FHIR Data Export -->
+<a class="flex items-center justify-between p-space-md hover:bg-surface-subtle/50 transition-colors" href="#">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl bg-surface-subtle text-ink-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">shield</span>
+</div>
+<div>
+<div class="font-body-md text-body-md text-ink-primary font-semibold">臨床數據隱私與健康匯出</div>
+<div class="font-body-sm text-body-sm text-ink-muted">相容 DICOM &amp; HL7 FHIR 國際寵物醫療標準</div>
+</div>
+</div>
+<div class="flex items-center gap-1 text-ink-muted shrink-0">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</div>
+</a>
+<!-- Item 4: Emergency Contacts & Transfer Protocols -->
+<a class="flex items-center justify-between p-space-md hover:bg-surface-subtle/50 transition-colors" href="#">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl bg-surface-subtle text-status-danger flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">contact_phone</span>
+</div>
+<div>
+<div class="font-body-md text-body-md text-ink-primary font-semibold">緊急聯絡人與後備照護者</div>
+<div class="font-body-sm text-body-sm text-ink-muted">王小明 (配偶)、李阿姨 (同棟鄰居)</div>
+</div>
+</div>
+<div class="flex items-center gap-1 text-ink-muted shrink-0">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</div>
+</a>
+</div>
+</section>
+<!-- Section 7: Footnote Veterinary Disclaimer -->
+<section class="w-full px-margin-mobile pt-4 pb-2 text-center">
+<p class="font-label-caps text-[11px] text-ink-muted leading-relaxed">
+      CareLink AI 數據為日常居家照護佐證，不可取代獸醫師臨床面診與血液生化診斷。<br>
+      當毛孩出現食慾驟降、異常呼吸或疼痛叫鳴時，請即刻送醫。
+    </p>
+</section>
+</div></main><nav class="fixed bottom-5 inset-x-4 max-w-md mx-auto z-50 h-16 rounded-full bg-white/95 backdrop-blur-md shadow-xl border border-black/[0.06] flex items-center justify-around px-2" data-active-classes="text-primary-container font-semibold"><a class="flex flex-col items-center justify-center min-h-[44px] flex-1 py-1 text-ink-muted transition-colors select-none" data-path="daily" href="#"><span class="material-symbols-outlined text-[22px] leading-none mb-1">fact_check</span><span class="font-label-caps text-label-caps whitespace-nowrap leading-none">日常打卡</span></a><a class="flex flex-col items-center justify-center min-h-[44px] flex-1 py-1 text-ink-muted transition-colors select-none" data-path="chat" href="#"><span class="material-symbols-outlined text-[22px] leading-none mb-1">neurology</span><span class="font-label-caps text-label-caps whitespace-nowrap leading-none">AI問診</span></a><a class="flex flex-col items-center justify-center min-h-[44px] flex-1 py-1 text-ink-muted transition-colors select-none" data-path="trends" href="#"><span class="material-symbols-outlined text-[22px] leading-none mb-1">monitoring</span><span class="font-label-caps text-label-caps whitespace-nowrap leading-none">數據追蹤</span></a><a class="flex flex-col items-center justify-center min-h-[44px] flex-1 py-1 text-ink-muted transition-colors select-none" data-path="sitter" href="#"><span class="material-symbols-outlined text-[22px] leading-none mb-1">pets</span><span class="font-label-caps text-label-caps whitespace-nowrap leading-none">到府保姆</span></a><a class="flex items-center justify-center min-h-[44px] gap-1 px-3 py-1 rounded-full bg-teal-50 text-teal-800 font-bold transition-colors select-none shrink-0" data-path="profile" href="#"><span class="material-symbols-outlined text-[20px] leading-none fill-1">person</span><span class="font-label-caps text-label-caps whitespace-nowrap leading-none">毛孩檔案</span></a></nav>
+
+
+
+</body></html>

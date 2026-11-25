@@ -1,0 +1,331 @@
+<!DOCTYPE html><html class="h-full" lang="zh-TW"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_tab" name="shell-type"><title>CareLink AI</title><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#F8F7F4;-webkit-font-smoothing:antialiased;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:calc(0.75rem + env(safe-area-inset-bottom, 0px));}.pt-safe{padding-top:env(safe-area-inset-top, 0px);}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface": "#fbf8fc", "on-background": "#1b1b1e", "surface-dark": "#1E242B", "on-primary-fixed": "#00201d", "inverse-on-surface": "#f3f0f4", "on-secondary": "#ffffff", "on-secondary-fixed-variant": "#005323", "primary": "#005c55", "on-primary-fixed-variant": "#00504a", "landmark-ear": "#8B5CF6", "status-warn": "#D97706", "surface-subtle": "#F1EFEA", "on-tertiary-fixed": "#2f1500", "surface-container-high": "#eae7eb", "status-danger": "#DC2626", "primary-fixed": "#9cf2e8", "background": "#fbf8fc", "surface-container-highest": "#e4e1e6", "landmark-eye": "#38BDF8", "surface-bright": "#fbf8fc", "outline-variant": "#bdc9c6", "surface-dim": "#dcd9dd", "ink-muted": "#8E8E93", "on-primary-container": "#a3faef", "surface-tint": "#006a63", "landmark-nose": "#F59E0B", "surface-container": "#f0edf1", "tertiary-fixed-dim": "#ffb77d", "on-secondary-fixed": "#00210a", "error-container": "#ffdad6", "ink-primary": "#18181B", "on-tertiary": "#ffffff", "primary-container": "#0f766e", "tertiary": "#7d4200", "landmark-mouth": "#F43F5E", "secondary-fixed-dim": "#79db8d", "inverse-surface": "#303033", "surface-container-low": "#f6f2f7", "landmark-cheek": "#34D399", "outline": "#6e7977", "bg-canvas": "#F8F7F4", "error": "#ba1a1a", "surface-container-lowest": "#ffffff", "surface-card": "#FFFFFF", "ink-secondary": "#52525B", "inverse-primary": "#80d5cb", "status-safe": "#15803D", "on-error-container": "#93000a", "on-primary": "#ffffff", "on-tertiary-fixed-variant": "#6e3900", "secondary-fixed": "#95f8a7", "tertiary-fixed": "#ffdcc3", "surface-variant": "#e4e1e6", "secondary-container": "#92f5a4", "tertiary-container": "#a15600", "on-error": "#ffffff", "secondary": "#006d30", "primary-fixed-dim": "#80d5cb", "on-surface-variant": "#3e4947", "on-tertiary-container": "#ffe6d5", "on-surface": "#1b1b1e", "on-secondary-container": "#007233" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "margin-mobile": "1rem", "margin": "1.5rem", "space-xl": "2rem", "space-sm": "0.5rem", "space-md": "1rem", "space-xs": "0.25rem", "gutter-mobile": "0.75rem", "space-lg": "1.5rem", "gutter": "1rem" }, "fontFamily": { "body-md": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "label-numeric-md": ["JetBrains Mono"], "headline-lg": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "headline-xl-mobile": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "label-caps": ["Plus Jakarta Sans"], "label-numeric-lg": ["JetBrains Mono"], "label-numeric-sm": ["JetBrains Mono"], "headline-sm": ["Plus Jakarta Sans"] }, "fontSize": { "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "label-numeric-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }], "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-xl-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "700" }], "label-numeric-lg": ["22px", { "lineHeight": "28px", "fontWeight": "700" }], "label-numeric-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }], "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }] } } } };</script></head><body class="min-h-full bg-bg-canvas font-body-md text-ink-primary flex flex-col selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 inset-x-0 z-50 bg-bg-canvas/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-16 px-margin-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><img alt="CareLink AI Logo" class="h-8 w-auto object-contain shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_i41wRdtPsK1QXBllk5qR2hXX64fW_ExmJzR2Aa0YR75ZIPCHr2RNgDw-7SvLd6qzQZvlQKJK87bQsxoQZ_f4CWJYcqWT6rLkC-XRkqcJ11b4V21y-lsuwnz38nM_Wtn93UAk-Ql8eMiKSKFDnhBrghPu2eZSMJpIZw68elyujjvoCrB0bepo8AgRvM7UrxcxN4CHUkr1bgNobfsg6p5wa3uZg8Og2Ot4UhetCf0K"><div class="flex flex-col min-w-0"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm text-ink-primary truncate">AI 智慧問診</span></div><span class="font-label-caps text-label-caps text-ink-muted truncate">智慧分流與照護建議</span></div></div><div class="flex items-center gap-space-sm shrink-0"><button class="min-h-[44px] px-space-sm py-space-xs rounded-full bg-surface-subtle flex items-center gap-1.5 active:scale-95 transition-transform" type="button"><span class="w-2 h-2 rounded-full bg-status-warn shrink-0"></span><span class="font-body-sm text-body-sm text-ink-secondary truncate max-w-[130px]">咪寶 · 8歲 · IRIS II</span><span class="material-symbols-outlined text-[16px] text-ink-muted leading-none shrink-0">unfold_more</span></button><button class="min-h-[44px] min-w-[44px] flex items-center justify-center p-0.5 rounded-full active:opacity-80 transition-opacity" type="button"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzh5QLXV2jsKe0ka7C5DKddz63PkQ3CSDAns54kswPjU54mPqKsxoTiApQlTkdXld2JEYc_nMPJfqy0UKFARBJnO0f4QtoHXPyGC3dHuDwFXvqoq7e9xTQqQAOMg0HtvryvD0WSABmLbQRQLH21VZ7JlcCgaW-dr9jWqOonlEQJ7bXrcl98AGO-PTv82vn3mr78zHf4R3JjChD41JVys1zWwRbmzN201JiWo3bgvsn"></button></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-24 bg-bg-canvas"><div class="flex flex-col w-full relative">
+<!-- 頂部膠囊列: Active Context Bar (個人化上下文膠囊) -->
+<div class="sticky top-0 z-20 bg-bg-canvas/95 backdrop-blur-md px-margin-mobile py-2.5 shadow-sm">
+<div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth">
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-subtle shrink-0">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container shrink-0"></span>
+<span class="font-label-caps text-label-caps text-ink-secondary">已掛載 · 10/15 血檢 (CREA 2.3)</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-subtle shrink-0">
+<span class="w-1.5 h-1.5 rounded-full bg-status-warn shrink-0"></span>
+<span class="font-label-caps text-label-caps text-ink-secondary">已掛載 · 今日 FGS 貓臉 1/10</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-subtle shrink-0">
+<span class="w-1.5 h-1.5 rounded-full bg-status-warn shrink-0"></span>
+<span class="font-label-caps text-label-caps text-ink-secondary">已掛載 · 近3日飲水下降20%</span>
+</div>
+</div>
+</div>
+<!-- 聊天對話流 -->
+<div class="flex flex-col px-margin-mobile pt-3 space-y-4 pb-40">
+<!-- 系統時間戳 -->
+<div class="flex items-center justify-center my-1">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-subtle font-label-caps text-label-caps text-ink-muted">今天 08:42</span>
+</div>
+<!-- 飼主訊息與附圖 -->
+<div class="flex flex-col items-end space-y-2 max-w-[88%] self-end">
+<!-- 嘔吐物參考照片 -->
+<div class="rounded-2xl overflow-hidden shadow-sm bg-surface-card max-w-[240px]">
+<img class="w-full h-36 object-cover" data-alt="A clinical close-up top-view photograph of clear yellowish fluid vomit with a small amount of half-digested kibble on a clean warm cream tile floor, neutral soft morning domestic lighting, high-definition macro pet care observation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYYG6sWgI8rTjumb3XayMzjThw_2R-N8wfByiZsUzrQ9bohc-C9ziF_hcnvQmQ1DOC9ZazK775Qskioz7W_X7wGunBO8-WP_xMF-wYrxkDkNmHpX3F7fCP_quwAnMvEk3OFS5ffTUF7NV6ztGu_gdvvr_0-R94JvrYNj9xS73eOe5aR7CH_o-6hFF4cWmy62mboMi23dTb415uo9kmZ9gQeek8XVxDgOezReXM_3_8">
+</div>
+<!-- 飼主文字對話泡泡 -->
+<div class="bg-primary-container text-on-primary rounded-2xl rounded-tr-sm px-4 py-3 shadow-sm">
+<p class="font-body-md text-body-md text-on-primary leading-relaxed">
+          今天早上吐了黃水跟一點未消化乾乾，而且水喝得比平時少，需要馬上看醫生嗎？
+        </p>
+</div>
+<span class="font-label-numeric-sm text-label-numeric-sm text-ink-muted mr-1">08:42 已讀</span>
+</div>
+<!-- AI 照護顧問結構化卡片回覆 -->
+<div class="flex items-start gap-2.5 max-w-[94%] self-start">
+<!-- AI Avatar -->
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 mt-0.5 shadow-sm text-on-primary">
+<span class="material-symbols-outlined text-[18px]">neurology</span>
+</div>
+<div class="flex flex-col space-y-2 w-full">
+<!-- 核心診斷卡片 -->
+<div class="bg-surface-card rounded-2xl rounded-tl-sm p-4 shadow-sm flex flex-col space-y-3.5">
+<!-- 就醫緊急度紅綠燈標籤 (分流警示) -->
+<div class="flex items-start justify-between gap-2 p-3 rounded-xl bg-surface-subtle">
+<div class="flex items-start gap-2 min-w-0">
+<span class="w-3 h-3 rounded-full bg-status-warn shrink-0 mt-1"></span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-ink-primary">🟡 建議 24–48 小時內就醫觀察</span>
+<span class="font-body-sm text-body-sm text-ink-secondary">非立即危急，但有腎病前期波動風險</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-status-warn/15 text-status-warn font-label-caps text-label-caps shrink-0">中度追蹤</span>
+</div>
+<!-- 臨床綜合評估說明 -->
+<div class="space-y-1.5">
+<div class="flex items-center gap-1.5 text-primary-container">
+<span class="material-symbols-outlined text-[18px]">clinical_notes</span>
+<span class="font-label-caps text-label-caps tracking-wider uppercase">臨床關聯分析</span>
+</div>
+<p class="font-body-md text-body-md text-ink-primary leading-relaxed">
+              咪寶目前有 <strong class="text-ink-primary font-semibold">IRIS 第 II 期病史</strong>。早晨出現黃色泡沫狀胃液並帶有殘餘乾乾，顯示空腹胃酸分泌刺激或胃腸輕微排空遲滯。結合昨日與前日飲水量下滑（平均 -20%），脫水可能導致腎臟血流微幅下降，需特別預防尿毒素累積性嘔吐。
+            </p>
+</div>
+<!-- 關鍵生理數值對照 -->
+<div class="grid grid-cols-2 gap-2 p-2.5 rounded-xl bg-surface-subtle">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-ink-muted">近次血檢 CREA</span>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="font-label-numeric-md text-label-numeric-md text-status-warn">2.3</span>
+<span class="font-label-numeric-sm text-label-numeric-sm text-ink-muted">mg/dL (偏高)</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-ink-muted">今日臉部疼痛 FGS</span>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="font-label-numeric-md text-label-numeric-md text-status-safe">1 / 10</span>
+<span class="font-label-numeric-sm text-label-numeric-sm text-ink-muted">無明顯痛苦面容</span>
+</div>
+</div>
+</div>
+<!-- 居家檢查 Checklist -->
+<div class="space-y-2 pt-1">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-ink-secondary tracking-wider">居家 3 項即時檢查建議</span>
+<span class="font-label-caps text-label-caps text-ink-muted">完成度 0/3</span>
+</div>
+<div class="space-y-1.5" id="triage-checklist">
+<label class="flex items-start gap-2.5 p-2 rounded-xl bg-surface-subtle cursor-pointer select-none">
+<input class="mt-0.5 accent-primary h-4 w-4 rounded shrink-0" onchange="toggleCheck(this)" type="checkbox">
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm font-semibold text-ink-primary">翻開牙齦確認黏膜粉紅程度</span>
+<span class="font-label-caps text-label-caps text-ink-muted">正常應為淡粉色微濕潤；若蒼白或黏稠需立即就醫</span>
+</div>
+</label>
+<label class="flex items-start gap-2.5 p-2 rounded-xl bg-surface-subtle cursor-pointer select-none">
+<input class="mt-0.5 accent-primary h-4 w-4 rounded shrink-0" onchange="toggleCheck(this)" type="checkbox">
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm font-semibold text-ink-primary">掐皮測試 (Skin Turgor)</span>
+<span class="font-label-caps text-label-caps text-ink-muted">輕拉肩頸皮膚放開，若回彈超過 2 秒顯示脫水嚴重</span>
+</div>
+</label>
+<label class="flex items-start gap-2.5 p-2 rounded-xl bg-surface-subtle cursor-pointer select-none">
+<input class="mt-0.5 accent-primary h-4 w-4 rounded shrink-0" onchange="toggleCheck(this)" type="checkbox">
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm font-semibold text-ink-primary">量測耳溫或後肢肉墊溫度</span>
+<span class="font-label-caps text-label-caps text-ink-muted">貓咪正常體溫落在 38.0°C ~ 39.2°C 之間</span>
+</div>
+</label>
+</div>
+</div>
+<!-- 快捷操作引導按鈕 -->
+<div class="pt-1 flex gap-2">
+<button class="flex-1 py-2.5 px-3 rounded-xl bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold flex items-center justify-center gap-1.5 active:scale-95 transition-transform shadow-sm" onclick="openActionSheet()" type="button">
+<span class="material-symbols-outlined text-[18px]">clinical_notes</span>
+              生成看診小抄
+            </button>
+<button class="py-2.5 px-3.5 rounded-xl bg-surface-subtle text-ink-primary font-body-sm text-body-sm font-semibold flex items-center justify-center gap-1 active:scale-95 transition-transform" onclick="triggerToast('已鎖定特約醫院：大直安家動物醫院 (急診綠色通道開啟)')" type="button">
+<span class="material-symbols-outlined text-[18px] text-status-danger">emergency</span>
+              預約門診
+            </button>
+</div>
+<!-- 獸醫師法免責聲明微標籤 -->
+<div class="pt-1 border-t-0">
+<p class="font-label-caps text-label-caps text-ink-muted leading-tight">
+              * CareLink AI 為日常照護決策輔助工具，並非正式獸醫診斷。若毛孩精神極度萎靡、反覆劇烈乾嘔或呼吸急促，請逕送 24hr 動物急診院所處置。
+            </p>
+</div>
+</div>
+<!-- 建議後續提問卡片 -->
+<div class="p-3 bg-surface-card rounded-2xl shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-[20px]">lightbulb</span>
+<span class="font-body-sm text-body-sm text-ink-secondary">需要現在計算今日低鈉補水量嗎？</span>
+</div>
+<button class="px-2.5 py-1 rounded-full bg-surface-subtle font-label-caps text-label-caps text-primary-container font-semibold active:opacity-75" onclick="insertPrompt('請幫我計算咪寶今日建議補水量與電解水比例')" type="button">
+            立即計算
+          </button>
+</div>
+</div>
+</div>
+</div>
+<!-- 底部固定操作區域 (包含橫向快捷 Chip 與 輸入框) -->
+<div class="fixed inset-x-0 z-30 bg-surface-card/95 backdrop-blur-xl shadow-[0_-4px_20px_rgba(24,24,27,0.06)] px-margin-mobile py-2.5 bottom-20">
+<div class="max-w-md mx-auto flex flex-col space-y-2">
+<!-- 橫向滾動症狀快篩捷徑 Chip -->
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth py-0.5">
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-subtle text-ink-primary shrink-0 active:scale-95 transition-transform" onclick="triggerToast('正在啟動相機進行布里斯托分類...')" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary-container">photo_camera</span>
+<span class="font-body-sm text-body-sm font-semibold">拍嘔吐物分析</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-subtle text-ink-primary shrink-0 active:scale-95 transition-transform" onclick="insertPrompt('咪寶近3天食慾變小，目前腎處方罐頭可以加水溫熱嗎？')" type="button">
+<span class="material-symbols-outlined text-[16px] text-landmark-nose">restaurant</span>
+<span class="font-body-sm text-body-sm font-semibold">詢問飲食建議</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-subtle text-ink-primary shrink-0 active:scale-95 transition-transform" onclick="openActionSheet()" type="button">
+<span class="material-symbols-outlined text-[16px] text-landmark-ear">description</span>
+<span class="font-body-sm text-body-sm font-semibold">產生問診小抄</span>
+</button>
+</div>
+<!-- 輸入欄與多模態 + 觸發按鈕 -->
+<div class="flex items-center gap-2">
+<!-- 「+」按鈕彈出原生 Action Sheet -->
+<button class="w-11 h-11 rounded-full bg-surface-subtle text-ink-primary flex items-center justify-center shrink-0 active:scale-90 transition-transform shadow-sm" onclick="openActionSheet()" type="button">
+<span class="material-symbols-outlined text-[24px] text-primary-container font-semibold">add</span>
+</button>
+<div class="flex-1 flex items-center bg-surface-subtle rounded-full px-3.5 py-1.5">
+<input class="w-full bg-transparent text-ink-primary font-body-md text-body-md focus:outline-none placeholder:text-ink-muted" id="chat-input" placeholder="描述毛孩症狀或上傳照片檢驗..." type="text">
+<button class="p-1 text-ink-muted hover:text-primary-container transition-colors" onclick="sendMessage()" type="button">
+<span class="material-symbols-outlined text-[20px]">mic</span>
+</button>
+</div>
+<button class="w-11 h-11 rounded-full bg-primary-container text-on-primary flex items-center justify-center shrink-0 active:scale-90 transition-transform shadow-sm" onclick="sendMessage()" type="button">
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 原生底部 Action Sheet (多模態就診分流) -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300" id="action-sheet-backdrop" onclick="closeActionSheet()"></div>
+<div class="fixed bottom-0 inset-x-0 z-50 transform translate-y-full transition-transform duration-300 ease-out max-w-md mx-auto px-margin-mobile pb-safe" id="action-sheet-panel">
+<div class="bg-surface-card rounded-t-[24px] shadow-2xl p-4 flex flex-col space-y-3">
+<!-- 拖曳提示柄 -->
+<div class="w-10 h-1 bg-ink-muted/40 rounded-full mx-auto my-1"></div>
+<!-- Action Sheet 標題列 -->
+<div class="flex items-center justify-between pb-1">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-ink-primary">多模態就診分流助手</span>
+<span class="font-label-caps text-label-caps text-ink-muted">選擇輔助工具快速匯整咪寶病情</span>
+</div>
+<button class="p-1 rounded-full bg-surface-subtle text-ink-muted" onclick="closeActionSheet()" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- 功能列表 -->
+<div class="space-y-1.5">
+<!-- 項目 1: 拍攝嘔吐物或排泄物 -->
+<button class="w-full p-3.5 rounded-2xl bg-surface-subtle flex items-center gap-3.5 text-left active:scale-[0.98] transition-transform" onclick="handleAction('已開啟影像分析儀：布里斯托分類與消化殘留辨識中')" type="button">
+<div class="w-10 h-10 rounded-xl bg-landmark-nose/15 text-landmark-nose flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">photo_camera</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<span class="font-body-md text-body-md font-semibold text-ink-primary">拍攝嘔吐物或排泄物</span>
+<span class="font-label-caps text-label-caps text-ink-muted truncate">AI 自動辨識胃酸/毛球與布里斯托分類</span>
+</div>
+<span class="material-symbols-outlined text-ink-muted text-[18px]">chevron_right</span>
+</button>
+<!-- 項目 2: AI 貓臉 48 點 FGS 疼痛表情快篩 -->
+<button class="w-full p-3.5 rounded-2xl bg-surface-subtle flex items-center gap-3.5 text-left active:scale-[0.98] transition-transform" onclick="handleAction('進入 FGS 貓臉 48 點 HUD 視覺檢測模式')" type="button">
+<div class="w-10 h-10 rounded-xl bg-landmark-ear/15 text-landmark-ear flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">pets</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<span class="font-body-md text-body-md font-semibold text-ink-primary">開啟 AI 貓臉 48 點 FGS 快篩</span>
+<span class="font-label-caps text-label-caps text-ink-muted truncate">雙耳、眼瞼、鬍鬚墊幾何形變疼痛評估</span>
+</div>
+<span class="material-symbols-outlined text-ink-muted text-[18px]">chevron_right</span>
+</button>
+<!-- 項目 3: 匯出獸醫看診小抄 PDF -->
+<button class="w-full p-3.5 rounded-2xl bg-surface-subtle flex items-center gap-3.5 text-left active:scale-[0.98] transition-transform" onclick="handleAction('已生成看診小抄 PDF (包含近兩週飲食飲水曲線與血檢趨勢)')" type="button">
+<div class="w-10 h-10 rounded-xl bg-primary-container/15 text-primary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">picture_as_pdf</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<span class="font-body-md text-body-md font-semibold text-ink-primary">匯出「獸醫看診小抄 PDF」</span>
+<span class="font-label-caps text-label-caps text-ink-muted truncate">整合主訴、血檢歷程、近3日打卡與生理警訊</span>
+</div>
+<span class="material-symbols-outlined text-ink-muted text-[18px]">chevron_right</span>
+</button>
+<!-- 項目 4: 一鍵預約特約動物醫院急診 (標記危急) -->
+<button class="w-full p-3.5 rounded-2xl bg-error-container/30 flex items-center gap-3.5 text-left active:scale-[0.98] transition-transform" onclick="handleAction('已致電大直安家動物醫院急診櫃檯，啟動病例雲端交接')" type="button">
+<div class="w-10 h-10 rounded-xl bg-status-danger text-on-error flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">emergency</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<span class="font-body-md text-body-md font-semibold text-status-danger">一鍵預約特約動物醫院急診</span>
+<span class="font-label-caps text-label-caps text-status-danger/80 truncate">24 小時急診聯絡 · 同步傳送臨床摘要</span>
+</div>
+<span class="material-symbols-outlined text-status-danger text-[18px]">phone_in_talk</span>
+</button>
+</div>
+<!-- 取消按鈕 -->
+<button class="w-full py-3.5 rounded-2xl bg-surface-subtle font-body-md text-body-md font-semibold text-ink-secondary active:scale-[0.98] transition-transform" onclick="closeActionSheet()" type="button">
+        取消
+      </button>
+</div>
+</div>
+<!-- 浮動 Toast 提示 -->
+<div class="fixed top-20 inset-x-0 z-50 flex justify-center pointer-events-none transition-all duration-300 transform -translate-y-6 opacity-0" id="toast-pill">
+<div class="bg-surface-dark text-on-primary px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2.5 max-w-[90%]">
+<span class="material-symbols-outlined text-landmark-cheek text-[18px]" id="toast-icon">check_circle</span>
+<span class="font-body-sm text-body-sm font-semibold truncate" id="toast-text">操作已成功</span>
+</div>
+</div>
+</div>
+<script>
+  function openActionSheet() {
+    const backdrop = document.getElementById('action-sheet-backdrop');
+    const panel = document.getElementById('action-sheet-panel');
+    backdrop.classList.remove('hidden');
+    setTimeout(() => {
+      backdrop.classList.remove('opacity-0');
+      backdrop.classList.add('opacity-100');
+      panel.classList.remove('translate-y-full');
+      panel.classList.add('translate-y-0');
+    }, 10);
+  }
+
+  function closeActionSheet() {
+    const backdrop = document.getElementById('action-sheet-backdrop');
+    const panel = document.getElementById('action-sheet-panel');
+    backdrop.classList.remove('opacity-100');
+    backdrop.classList.add('opacity-0');
+    panel.classList.remove('translate-y-0');
+    panel.classList.add('translate-y-full');
+    setTimeout(() => {
+      backdrop.classList.add('hidden');
+    }, 300);
+  }
+
+  function triggerToast(text, icon = 'check_circle') {
+    const toast = document.getElementById('toast-pill');
+    const toastText = document.getElementById('toast-text');
+    const toastIcon = document.getElementById('toast-icon');
+    toastText.innerText = text;
+    toastIcon.innerText = icon;
+
+    toast.classList.remove('-translate-y-6', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    setTimeout(() => {
+      toast.classList.remove('translate-y-0', 'opacity-100');
+      toast.classList.add('-translate-y-6', 'opacity-0');
+    }, 2800);
+  }
+
+  function handleAction(desc) {
+    closeActionSheet();
+    triggerToast(desc);
+  }
+
+  function insertPrompt(text) {
+    const input = document.getElementById('chat-input');
+    input.value = text;
+    input.focus();
+  }
+
+  function sendMessage() {
+    const input = document.getElementById('chat-input');
+    if (!input.value.trim()) return;
+    triggerToast('已接收詢問：「' + input.value.substring(0, 14) + '...」');
+    input.value = '';
+  }
+
+  function toggleCheck(checkbox) {
+    const container = document.getElementById('triage-checklist');
+    const checkedCount = container.querySelectorAll('input[type="checkbox"]:checked').length;
+    const countBadge = container.previousElementSibling.querySelector('span:last-child');
+    countBadge.innerText = '完成度 ' + checkedCount + '/3';
+    if (checkedCount === 3) {
+      triggerToast('居家 3 項觀察已完備！狀況穩定，請持續記錄水碗殘量。');
+    }
+  }
+</script></main><nav class="fixed bottom-4 inset-x-4 max-w-md mx-auto z-50 bg-white/95 backdrop-blur-md rounded-full shadow-xl border border-black/[0.06] px-3 py-2 flex items-center justify-around"><a class="flex flex-col items-center justify-center py-1 px-2.5 text-zinc-500 hover:text-ink-primary active:scale-95 transition-all select-none" data-path="daily" href="#"><span class="material-symbols-outlined text-[20px] leading-none mb-0.5">fact_check</span><span class="text-[11px] font-medium leading-none">日常打卡</span></a><a aria-current="page" class="bg-teal-50 text-teal-800 font-bold px-3.5 py-1.5 rounded-full flex flex-col items-center justify-center active:scale-95 transition-all select-none shadow-sm" data-path="chat" href="#"><span class="material-symbols-outlined text-[20px] leading-none mb-0.5">neurology</span><span class="text-[11px] leading-none">AI問診</span></a><a class="flex flex-col items-center justify-center py-1 px-2.5 text-zinc-500 hover:text-ink-primary active:scale-95 transition-all select-none" data-path="trends" href="#"><span class="material-symbols-outlined text-[20px] leading-none mb-0.5">monitoring</span><span class="text-[11px] font-medium leading-none">數據追蹤</span></a><a class="flex flex-col items-center justify-center py-1 px-2.5 text-zinc-500 hover:text-ink-primary active:scale-95 transition-all select-none" data-path="sitter" href="#"><span class="material-symbols-outlined text-[20px] leading-none mb-0.5">pets</span><span class="text-[11px] font-medium leading-none">到府保姆</span></a><a class="flex flex-col items-center justify-center py-1 px-2.5 text-zinc-500 hover:text-ink-primary active:scale-95 transition-all select-none" data-path="profile" href="#"><span class="material-symbols-outlined text-[20px] leading-none mb-0.5">account_circle</span><span class="text-[11px] font-medium leading-none">毛孩檔案</span></a></nav>
+
+</body></html>
