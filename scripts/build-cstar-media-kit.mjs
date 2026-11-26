@@ -1,3 +1,4 @@
+/* Copyright (c) 2026 Simon C.-Y. Wong. All rights reserved. */
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';

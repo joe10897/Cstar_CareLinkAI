@@ -1,3 +1,4 @@
+/* Copyright (c) 2026 Simon C.-Y. Wong. All rights reserved. */
 /**
  * CareLink AI — 手機照片 EXIF 方向解析與自動轉正管線 (src/utils/exifOrientation.ts)
  *

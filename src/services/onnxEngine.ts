@@ -1,3 +1,4 @@
+/* Copyright (c) 2026 Simon C.-Y. Wong. All rights reserved. */
 /**
  * CareLink AI — ONNX Runtime Web 生產級推論引擎與 IndexedDB 權重持久化快取 (src/services/onnxEngine.ts)
  *

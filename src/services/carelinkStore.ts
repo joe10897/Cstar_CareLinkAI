@@ -1,3 +1,4 @@
+/* Copyright (c) 2026 Simon C.-Y. Wong. All rights reserved. */
 /**
  * CareLink AI — 混合雲資料持久化、Supabase Realtime 推播與 R2 預簽章上傳服務 (src/services/carelinkStore.ts)
  *

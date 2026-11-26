@@ -1,3 +1,4 @@
+# Copyright (c) 2026 Simon C.-Y. Wong. All rights reserved.
 """
 CareLink AI — 輕量 Python FastAPI 視覺推論 Fallback 與訓練集驗證服務 (backend/main.py)
 部署目標：Railway / Modal Container

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* Copyright (c) 2026 Simon C.-Y. Wong. All rights reserved. */
 /**
  * CareLink AI — 自動化無尺度幾何演算法與競賽匿名合規驗證腳本 (scripts/verify-carelink.mjs)
  */

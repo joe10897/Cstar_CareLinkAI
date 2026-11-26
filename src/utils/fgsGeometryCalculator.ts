@@ -1,3 +1,4 @@
+/* Copyright (c) 2026 Simon C.-Y. Wong. All rights reserved. */
 /**
  * CareLink AI — 貓臉 48 點無尺度幾何演算法 (Scale-Invariant FGS Geometry Calculator)
  *

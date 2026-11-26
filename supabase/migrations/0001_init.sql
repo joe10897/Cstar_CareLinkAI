@@ -1,3 +1,4 @@
+-- Copyright (c) 2026 Simon C.-Y. Wong. All rights reserved.
 -- CareLink AI Production Database Schema (Supabase PostgreSQL)
 -- 嚴格遵守《獸醫師法》定位：健康數據管理、衛教資訊輔助與就醫分流導引
 

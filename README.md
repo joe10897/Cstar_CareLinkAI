@@ -1,3 +1,5 @@
+> **Copyright (c) 2026 Simon C.-Y. Wong. All rights reserved.**
+
 <div align="center">
 
 <img src="submission/cstar_assets/images/01_Cover_Hero_16x9.png" alt="PetPulse AI —— 全齡犬貓疼痛視覺初篩與健康生態微服務 Hero Banner" width="100%" />
@@ -272,3 +274,11 @@ node scripts/generate-cstar-pdf.mjs
 | **血檢 OCR 與摘要包** | 原圖並排人工確認表單、雙軌 SVG 圖表、`/packet/:shareToken` 唯讀摘要頁 | 外部商用 Vision LLM API 金鑰串接與跨院單據自動辨識率實測 |
 | **商業模式與市場驗證** | 農業部與蒙特婁大學 FGS 公開數據查核、3 分鐘實測問卷協議定稿 | **PetPulse Pro（`NT$ 149/月`、變動成本 `NT$ 22`、兩平 `382 戶`）全屬假設模型**；第一手飼主樣本回收執行中 |
 | **全齡犬隻評估與 O2O 生態** | 多犬貓切換介面（含犬隻檔案）、`/sitter/portal`、`/admin/clinic-crm` 互動原型 | 犬隻專屬疼痛模型、到府保姆招募認證、責任險與醫院 B2B 簽約列為 Phase 2 擴展規劃 |
+
+---
+
+<div align="center">
+
+**Copyright (c) 2026 Simon C.-Y. Wong. All rights reserved.**
+
+</div>

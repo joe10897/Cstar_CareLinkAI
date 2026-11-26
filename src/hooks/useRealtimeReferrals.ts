@@ -1,3 +1,4 @@
+/* Copyright (c) 2026 Simon C.-Y. Wong. All rights reserved. */
 /* Hallmark · pre-emit critique: P5 H5 E5 S4 R5 V4 */
 import { useEffect, useState } from 'react';
 import { carelinkStore, type ClinicReferral } from '../services/carelinkStore';

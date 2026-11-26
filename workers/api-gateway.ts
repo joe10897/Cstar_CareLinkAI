@@ -1,3 +1,4 @@
+/* Copyright (c) 2026 Simon C.-Y. Wong. All rights reserved. */
 /**
  * CareLink AI — Cloudflare Workers Edge API Gateway (workers/api-gateway.ts)
  *

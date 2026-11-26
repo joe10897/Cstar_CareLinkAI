@@ -1,3 +1,4 @@
+/* Copyright (c) 2026 Simon C.-Y. Wong. All rights reserved. */
 /**
  * CareLink AI — 兩階段貓臉 48 點非同步推論 Web Worker (src/workers/fgsOnnxWorker.ts)
  *
