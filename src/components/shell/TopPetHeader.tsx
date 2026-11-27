@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { CARELINK_ASSETS, type PetProfile } from '../../services/carelinkStore';
+import { useAuth } from '../../contexts/AuthContext';
 
 export interface TopPetHeaderProps {
   pets: PetProfile[];
@@ -37,7 +38,13 @@ function getHeaderMeta(pathname: string): RouteHeaderMeta {
     return { title: '到府保姆', subtitle: '認證照護與實況回報' };
   }
   if (pathname.startsWith('/app/profile')) {
-    return { title: '毛孩檔案', subtitle: '健康基線與轉診卡' };
+    return { title: '毛孩檔案', subtitle: '帳號管理與健康基線' };
+  }
+  if (pathname.startsWith('/app/feedback')) {
+    return { title: '封測回饋問卷', subtitle: '20–30 位受邀實測研究' };
+  }
+  if (pathname.startsWith('/admin/beta-analytics')) {
+    return { title: '實測數據中心', subtitle: '20–30 位用戶行為與問卷分析' };
   }
   if (pathname.startsWith('/sitter/portal')) {
     return { title: '接案執勤大廳', subtitle: '認證到府保姆 · 執勤中', isSitterPortal: true };
@@ -64,6 +71,7 @@ export const TopPetHeader: React.FC<TopPetHeaderProps> = ({
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user, isAuthenticated, isAdmin, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const path = location.pathname;
@@ -101,6 +109,20 @@ export const TopPetHeader: React.FC<TopPetHeaderProps> = ({
           保姆工作台
         </Link>
         <Link
+          to="/app/feedback"
+          className={path.startsWith('/app/feedback') ? 'desktop-mode-link is-active' : 'desktop-mode-link'}
+        >
+          封測回饋問卷
+        </Link>
+        {isAdmin && (
+          <Link
+            to="/admin/beta-analytics"
+            className={path.startsWith('/admin/beta-analytics') ? 'desktop-mode-link is-active' : 'desktop-mode-link'}
+          >
+            實測數據中心
+          </Link>
+        )}
+        <Link
           to="/admin/fgs-dataset"
           className={path.startsWith('/admin/fgs-dataset') ? 'desktop-mode-link is-active' : 'desktop-mode-link'}
         >
@@ -115,12 +137,24 @@ export const TopPetHeader: React.FC<TopPetHeaderProps> = ({
             <span className="status-chip status-chip--red mono-val">{redAlertCount}</span>
           )}
         </Link>
-        <Link
-          to="/login"
-          className={isLoginRoute ? 'desktop-mode-link is-active' : 'desktop-mode-link'}
-        >
-          登入頁
-        </Link>
+        {isAuthenticated ? (
+          <button
+            type="button"
+            className="desktop-mode-link"
+            onClick={() => {
+              void logout().then(() => navigate('/login', { replace: true }));
+            }}
+          >
+            {user?.display_name} · 登出
+          </button>
+        ) : (
+          <Link
+            to="/login"
+            className={isLoginRoute ? 'desktop-mode-link is-active' : 'desktop-mode-link'}
+          >
+            登入 / 註冊
+          </Link>
+        )}
       </nav>
 
       {!isLoginRoute && !isAdminRoute && (

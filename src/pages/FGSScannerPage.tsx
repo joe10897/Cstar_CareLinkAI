@@ -1,6 +1,6 @@
 /* Copyright (c) 2026 Simon C.-Y. Wong. All rights reserved. */
 /* Hallmark · pre-emit critique: P5 H5 E5 S4 R5 V4 */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   FGSAnnotationCanvas,
@@ -8,17 +8,19 @@ import {
 } from '../components/FGSAnnotationCanvas';
 import {
   calculateFGSGeometryAndScores,
+  createLandmarksFromVisionAssessment,
   createPresetLandmarks,
   type FGSLandmarkPoint,
   type FGSRegion,
+  type FGSScores,
 } from '../utils/fgsGeometryCalculator';
-import { onnxEngine } from '../services/onnxEngine';
 import {
   CARELINK_ASSETS,
   carelinkStore,
   PARTNER_CLINICS,
   type PetProfile,
 } from '../services/carelinkStore';
+import { apiClient, type FgsAiAnalysisResponse } from '../services/apiClient';
 import { useR2Upload } from '../hooks/useR2Upload';
 
 export interface FGSScannerPageProps {
@@ -27,6 +29,29 @@ export interface FGSScannerPageProps {
   onTriggerTap?: () => void;
   onTriggerConfirm?: () => void;
   onNotify?: (msg: string, detail?: string) => void;
+}
+
+async function imageUrlToCompressedDataUrl(src: string): Promise<string> {
+  if (src.startsWith('data:image/')) return src;
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const maxEdge = 768;
+      const scale = Math.min(1, maxEdge / Math.max(img.width || 1, img.height || 1));
+      const w = Math.max(64, Math.round(img.width * scale));
+      const h = Math.max(64, Math.round(img.height * scale));
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return reject(new Error('Canvas context unavailable'));
+      ctx.drawImage(img, 0, 0, w, h);
+      resolve(canvas.toDataURL('image/jpeg', 0.82));
+    };
+    img.onerror = () => reject(new Error('無法載入影像進行 AI 分析'));
+    img.src = src;
+  });
 }
 
 export const FGSScannerPage: React.FC<FGSScannerPageProps> = ({
@@ -45,58 +70,120 @@ export const FGSScannerPage: React.FC<FGSScannerPageProps> = ({
     'mild_asymmetric_3'
   );
   const [imageUrl, setImageUrl] = useState<string>(CARELINK_ASSETS.fgsPortrait);
+  const [imageDataUrlForAi, setImageDataUrlForAi] = useState<string | null>(null);
   const [landmarks, setLandmarks] = useState<FGSLandmarkPoint[]>(() =>
     createPresetLandmarks('mild_asymmetric_3')
   );
   const [selectedPointId, setSelectedPointId] = useState<number | null>(15);
+  const [aiReport, setAiReport] = useState<FgsAiAnalysisResponse | null>(null);
   const [inferenceMeta, setInferenceMeta] = useState<{
     provider: string;
+    model: string;
     latencyMs: number;
     exifOrientation: number;
     r2Key: string;
+    isRealAi: boolean;
   }>({
-    provider: 'wasm-simd',
-    latencyMs: 24,
+    provider: 'Local 48-Pt Template',
+    model: '未執行雲端視覺推論',
+    latencyMs: 0,
     exifOrientation: 1,
-    r2Key: `fgs-scan/${selectedPet.id}/live-capture.jpg`,
+    r2Key: `fgs-scan/${selectedPet.id}/sample-portrait.jpg`,
+    isRealAi: false,
   });
   const [isRunningInference, setIsRunningInference] = useState<boolean>(false);
+  const [hasManualEdit, setHasManualEdit] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [cameraActive, setCameraActive] = useState<boolean>(false);
 
-  const evaluation = calculateFGSGeometryAndScores(
-    landmarks,
-    selectedPet.baseline_metrics
-  );
+  const geoEval = calculateFGSGeometryAndScores(landmarks, selectedPet.baseline_metrics);
 
-  useEffect(() => {
-    let mounted = true;
+  // If Real Vision AI has analyzed this photo and the user hasn't manually dragged landmarks yet,
+  // display the Vision AI's real AU scores & findings; once dragged, immediately recalculate live!
+  const effectiveScores: FGSScores =
+    aiReport && !hasManualEdit
+      ? {
+          ear: Math.min(2, Math.max(0, aiReport.scores.ear)) as 0 | 1 | 2,
+          orbital: Math.min(2, Math.max(0, aiReport.scores.orbital)) as 0 | 1 | 2,
+          muzzle: Math.min(2, Math.max(0, aiReport.scores.muzzle)) as 0 | 1 | 2,
+          whisker: Math.min(2, Math.max(0, aiReport.scores.whisker)) as 0 | 1 | 2,
+          head: Math.min(2, Math.max(0, aiReport.scores.head)) as 0 | 1 | 2,
+          total: aiReport.scores.total,
+        }
+      : geoEval.scores;
+
+  const effectiveUrgency: 'green' | 'yellow' | 'red' =
+    effectiveScores.total >= 4 ? 'red' : effectiveScores.total >= 2 ? 'yellow' : 'green';
+
+  const effectiveObservation =
+    aiReport && !hasManualEdit
+      ? `${aiReport.visual_findings} ${aiReport.triage_advice}`
+      : geoEval.observationNotes;
+
+  const runRealCloudVisionAnalysis = async (
+    targetDataUrl: string,
+    r2Key: string,
+    exifOrientation: number
+  ): Promise<void> => {
     setIsRunningInference(true);
-    const dummyImageData = new ImageData(64, 64);
-    void onnxEngine
-      .runTwoStageInference(dummyImageData, {
-        coatLength: selectedPet.coat_length,
-        presetHint: presetMode,
-      })
-      .then((res) => {
-        if (!mounted) return;
-        setLandmarks(res.landmarks);
-        setInferenceMeta((prev) => ({
-          ...prev,
-          provider: res.providerUsed,
-          latencyMs: res.stage1Ms + res.stage2Ms,
-        }));
-        setIsRunningInference(false);
-      })
-      .catch(() => {
-        if (!mounted) return;
-        setIsRunningInference(false);
+    setHasManualEdit(false);
+    try {
+      const res = await apiClient.analyzeFgsWithAI({
+        imageDataUrl: targetDataUrl,
+        petId: selectedPet.id,
+        petName: selectedPet.name,
+        species: selectedPet.species,
+        breed: selectedPet.breed,
+        coatLength: selectedPet.coat_length === 'long' ? 'long' : 'short',
       });
 
-    return () => {
-      mounted = false;
-    };
-  }, [presetMode, selectedPet.coat_length]);
+      const projected = createLandmarksFromVisionAssessment(
+        res.face_box,
+        res.scores,
+        res.confidence
+      );
+      setLandmarks(projected);
+      setAiReport(res);
+      setInferenceMeta({
+        provider: res.provider === 'gemini' ? 'Gemini 2.5 Flash Vision' : 'Workers AI Vision',
+        model: res.model.split('/').pop() || res.model,
+        latencyMs: res.latencyMs,
+        exifOrientation,
+        r2Key,
+        isRealAi: true,
+      });
+      onTriggerConfirm?.();
+      if (!res.animal_detected) {
+        onNotify?.(
+          'AI 視覺模型未在相片中偵測到清晰犬貓臉部',
+          '請重新上傳正面清晰寵物照片以確保準確度'
+        );
+      } else {
+        onNotify?.(
+          `真實 AI 視覺分析完成：FGS ${res.scores.total}/10`,
+          `${res.model.split('/').pop()} · 耗時 ${res.latencyMs}ms · 置信度 ${Math.round(res.confidence * 100)}%`
+        );
+      }
+    } catch (err) {
+      onNotify?.(
+        '雲端 AI 視覺推論失敗',
+        err instanceof Error ? err.message : '請確認網路連線或重新登入'
+      );
+    } finally {
+      setIsRunningInference(false);
+    }
+  };
+
+  const handleAnalyzeCurrentPhoto = async (): Promise<void> => {
+    onTriggerTap?.();
+    try {
+      const dataUrl = imageDataUrlForAi || (await imageUrlToCompressedDataUrl(imageUrl));
+      setImageDataUrlForAi(dataUrl);
+      await runRealCloudVisionAnalysis(dataUrl, inferenceMeta.r2Key, inferenceMeta.exifOrientation);
+    } catch (err) {
+      onNotify?.('無法編碼目前影像', err instanceof Error ? err.message : undefined);
+    }
+  };
 
   const handleSelectPreset = (
     mode: 'baseline_0' | 'mild_asymmetric_3' | 'pain_alert_5'
@@ -104,6 +191,18 @@ export const FGSScannerPage: React.FC<FGSScannerPageProps> = ({
     onTriggerTap?.();
     setPresetMode(mode);
     setImageUrl(CARELINK_ASSETS.fgsPortrait);
+    setImageDataUrlForAi(null);
+    setAiReport(null);
+    setHasManualEdit(false);
+    setLandmarks(createPresetLandmarks(mode));
+    setInferenceMeta({
+      provider: 'Local 48-Pt Template',
+      model: '幾何範本（點擊下方執行真實 AI）',
+      latencyMs: 0,
+      exifOrientation: 1,
+      r2Key: `fgs-scan/${selectedPet.id}/preset-${mode}.jpg`,
+      isRealAi: false,
+    });
   };
 
   const handleFileUpload = async (
@@ -114,30 +213,16 @@ export const FGSScannerPage: React.FC<FGSScannerPageProps> = ({
     setIsRunningInference(true);
     try {
       const uploaded = await uploadImageToR2(file, 'fgs-scan', selectedPet.id);
-      setImageUrl(uploaded.dataUrl);
-
-      const res = await onnxEngine.runTwoStageInference(uploaded.imageData, {
-        coatLength: selectedPet.coat_length,
-        presetHint: presetMode,
-      });
-
-      const totalMs = res.stage1Ms + res.stage2Ms;
-      setLandmarks(res.landmarks);
-      setInferenceMeta({
-        provider: res.providerUsed,
-        latencyMs: totalMs,
-        exifOrientation: uploaded.exifOrientation,
-        r2Key: uploaded.r2ObjectKey,
-      });
-      onTriggerConfirm?.();
-      onNotify?.(
-        '已完成 EXIF 自動回正與 48 點貓臉檢測',
-        `耗時 ${totalMs}ms (Orientation=${uploaded.exifOrientation})`
+      setImageUrl(uploaded.publicUrl || uploaded.dataUrl);
+      setImageDataUrlForAi(uploaded.dataUrl);
+      await runRealCloudVisionAnalysis(
+        uploaded.dataUrl,
+        uploaded.r2ObjectKey,
+        uploaded.exifOrientation
       );
     } catch {
-      onNotify?.('影像讀取失敗，請選擇 JPG 或 PNG 貓臉照片');
-    } finally {
       setIsRunningInference(false);
+      onNotify?.('影像讀取失敗，請選擇 JPG 或 PNG 寵物照片');
     }
   };
 
@@ -164,8 +249,8 @@ export const FGSScannerPage: React.FC<FGSScannerPageProps> = ({
       }, 60);
     } catch {
       onNotify?.(
-        '目前瀏覽器未連接相機權限',
-        '已自動維持離線 48 點神經幾何推理示範標本'
+        '瀏覽器未授予相機權限',
+        '可直接點選「上傳實拍相片」進行真實 AI 視覺辨識'
       );
     }
   };
@@ -179,34 +264,38 @@ export const FGSScannerPage: React.FC<FGSScannerPageProps> = ({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     ctx.drawImage(video, 0, 0, 720, 720);
-    const frameUrl = canvas.toDataURL('image/jpeg', 0.92);
-    const frameData = ctx.getImageData(0, 0, 720, 720);
+    const frameUrl = canvas.toDataURL('image/jpeg', 0.85);
     setImageUrl(frameUrl);
+    setImageDataUrlForAi(frameUrl);
 
     const stream = video.srcObject as MediaStream | null;
     stream?.getTracks().forEach((t) => t.stop());
     setCameraActive(false);
 
-    const res = await onnxEngine.runTwoStageInference(frameData, {
-      coatLength: selectedPet.coat_length,
-      presetHint: presetMode,
-    });
-    setLandmarks(res.landmarks);
-    onTriggerConfirm?.();
-    onNotify?.('已擷取即時快門並完成 48 點分析');
+    let cloudKey = `fgs-scan/${selectedPet.id}/camera-${Date.now()}.jpg`;
+    try {
+      const uploaded = await apiClient.uploadMedia(frameUrl, 'fgs-scan', selectedPet.id);
+      cloudKey = uploaded.r2Key;
+      setImageUrl(uploaded.publicUrl);
+    } catch {
+      // keep dataUrl
+    }
+
+    await runRealCloudVisionAnalysis(frameUrl, cloudKey, 1);
   };
 
   const handleSaveAsHealthyBaseline = (): void => {
     carelinkStore.updatePetBaseline(
       selectedPet.id,
       landmarks,
-      evaluation.metrics,
+      geoEval.metrics,
       imageUrl
     );
     onPetUpdated();
     onTriggerConfirm?.();
     onNotify?.(
-      `已將目前 48 點儲存為「${selectedPet.short_name || selectedPet.name}」的 0 分健康基線`
+      `已將目前 48 點儲存為「${selectedPet.short_name || selectedPet.name}」的 0 分健康基線`,
+      '已同步寫入 Cloudflare D1 雲端檔案'
     );
   };
 
@@ -216,19 +305,25 @@ export const FGSScannerPage: React.FC<FGSScannerPageProps> = ({
       pet_name: selectedPet.name,
       r2_image_key: inferenceMeta.r2Key,
       image_url: imageUrl,
-      image_width: 800,
-      image_height: 800,
+      image_width: 720,
+      image_height: 864,
       raw_onnx_landmarks: landmarks,
       verified_landmarks: landmarks,
-      geometric_metrics: evaluation.metrics,
-      scores: evaluation.scores,
-      ai_observation_notes: evaluation.observationNotes,
-      camera_warnings: evaluation.cameraWarnings,
+      geometric_metrics: geoEval.metrics,
+      scores: effectiveScores,
+      ai_provider: inferenceMeta.provider,
+      ai_model: inferenceMeta.model,
+      ai_confidence: aiReport?.confidence ?? geoEval.metrics.avgConfidence,
+      ai_observation_notes: effectiveObservation,
+      camera_warnings: aiReport?.warnings || geoEval.cameraWarnings,
       is_verified: true,
-      verified_by: '飼主端 48 點即時存檔',
+      verified_by: hasManualEdit ? '飼主手動微調 48 點存檔' : `飼主確認 (${inferenceMeta.provider})`,
     });
     onTriggerConfirm?.();
-    onNotify?.(`已儲存 FGS ${rec.scores.total}/10 檢測紀錄`);
+    onNotify?.(
+      `已寫入雲端 FGS ${rec.scores.total}/10 紀錄`,
+      `引擎：${inferenceMeta.provider} (${inferenceMeta.model})`
+    );
   };
 
   const handleDispatchEmergencyReferral = (): void => {
@@ -238,16 +333,19 @@ export const FGSScannerPage: React.FC<FGSScannerPageProps> = ({
       pet_name: selectedPet.name,
       r2_image_key: inferenceMeta.r2Key,
       image_url: imageUrl,
-      image_width: 800,
-      image_height: 800,
+      image_width: 720,
+      image_height: 864,
       raw_onnx_landmarks: landmarks,
       verified_landmarks: landmarks,
-      geometric_metrics: evaluation.metrics,
-      scores: evaluation.scores,
-      ai_observation_notes: evaluation.observationNotes,
-      camera_warnings: evaluation.cameraWarnings,
+      geometric_metrics: geoEval.metrics,
+      scores: effectiveScores,
+      ai_provider: inferenceMeta.provider,
+      ai_model: inferenceMeta.model,
+      ai_confidence: aiReport?.confidence ?? geoEval.metrics.avgConfidence,
+      ai_observation_notes: effectiveObservation,
+      camera_warnings: aiReport?.warnings || geoEval.cameraWarnings,
       is_verified: true,
-      verified_by: '急診轉診隨附 48 點快取',
+      verified_by: '轉診預審隨附 48 點快取',
     });
 
     const latestBlood = carelinkStore
@@ -261,47 +359,48 @@ export const FGSScannerPage: React.FC<FGSScannerPageProps> = ({
       age_years: 8,
       clinic_id: targetClinic.id,
       clinic_name: targetClinic.name,
-      urgency_level: evaluation.urgencyLevel,
-      trigger_reason: `貓臉 FGS 總分 ${evaluation.scores.total}/10 : ${evaluation.observationNotes}`,
+      urgency_level: effectiveUrgency,
+      trigger_reason: `FGS 視覺初篩總分 ${effectiveScores.total}/10 : ${effectiveObservation.slice(0, 140)}`,
       latest_fgs_record_id: saved.id,
-      fgs_total_score: evaluation.scores.total,
+      fgs_total_score: effectiveScores.total,
       crea_value: latestBlood?.metrics.CREA.val ?? 2.3,
       sdma_value: latestBlood?.metrics.SDMA.val ?? 14,
     });
 
     onTriggerConfirm?.();
     onNotify?.(
-      `已預約並同步轉診至 ${targetClinic.name}`,
+      `已同步建立轉診摘要至 ${targetClinic.name}`,
       `通行碼 ${referral.share_token}`
     );
   };
 
   const avgEar = Number(
-    ((evaluation.metrics.leftEAR + evaluation.metrics.rightEAR) / 2).toFixed(3)
+    ((geoEval.metrics.leftEAR + geoEval.metrics.rightEAR) / 2).toFixed(3)
   );
   const avgConfPct = Math.round(
-    (landmarks.reduce((acc, pt) => acc + pt.conf, 0) / Math.max(1, landmarks.length)) * 100
+    (aiReport?.confidence ??
+      landmarks.reduce((acc, pt) => acc + pt.conf, 0) / Math.max(1, landmarks.length)) * 100
   );
 
-  const earFillPct = Math.min(100, Math.max(10, (evaluation.scores.ear / 2) * 88 + 8));
-  const orbitalFillPct = Math.min(100, Math.max(10, (evaluation.scores.orbital / 2) * 88 + 8));
-  const whiskerFillPct = Math.min(100, Math.max(10, (evaluation.scores.whisker / 2) * 88 + 8));
+  const earFillPct = Math.min(100, Math.max(10, (effectiveScores.ear / 2) * 88 + 8));
+  const orbitalFillPct = Math.min(100, Math.max(10, (effectiveScores.orbital / 2) * 88 + 8));
+  const whiskerFillPct = Math.min(100, Math.max(10, ((effectiveScores.whisker + effectiveScores.muzzle) / 4) * 88 + 8));
   const earStatusShort =
-    evaluation.urgencyLevel === 'red'
+    effectiveUrgency === 'red'
       ? 'Alert'
-      : evaluation.urgencyLevel === 'yellow'
-      ? 'Slight'
-      : 'Normal';
+      : effectiveUrgency === 'yellow'
+        ? 'Slight'
+        : 'Normal';
 
   return (
     <>
-      <section className="fgs-darkroom-stage" aria-label="48 點貓臉攝影暗房視圖">
-        {/* Top Telemetry & Mode Bar (Matches stitch_export/ai_48_fgs_haptic/screen.png) */}
+      <section className="fgs-darkroom-stage" aria-label="48 點寵物臉部視覺初篩暗房">
+        {/* Top Telemetry & Mode Bar */}
         <div className="fgs-telemetry-bar">
           <div className="fgs-telemetry-left">
             <span className="fgs-dot fgs-dot--whisker" aria-hidden="true" />
             <span className="fgs-telemetry-code mono-val">
-              AI-VISION FGS·48P CALIBRATED
+              {inferenceMeta.isRealAi ? 'LIVE VISION AI · 48P' : '48P TEMPLATE · READY'}
             </span>
           </div>
 
@@ -390,7 +489,7 @@ export const FGSScannerPage: React.FC<FGSScannerPageProps> = ({
             <div className="fgs-hud-chip__text">
               <span className="fgs-hud-chip__eyebrow">EAR ASPECT RATIO</span>
               <span className="fgs-hud-chip__val mono-val">
-                {avgEar.toFixed(3)} ({isRunningInference ? '運算中' : earStatusShort})
+                {avgEar.toFixed(3)} ({isRunningInference ? '真實 AI 推論中...' : earStatusShort})
               </span>
             </div>
           </div>
@@ -408,9 +507,10 @@ export const FGSScannerPage: React.FC<FGSScannerPageProps> = ({
                 <button
                   type="button"
                   className="btn btn--primary"
-                  onClick={handleCaptureCameraFrame}
+                  disabled={isRunningInference}
+                  onClick={() => void handleCaptureCameraFrame()}
                 >
-                  擷取影像並執行 48 點運算
+                  {isRunningInference ? 'AI 分析中...' : '拍攝快門並送出真實 AI 視覺分析'}
                 </button>
               </div>
             </div>
@@ -425,70 +525,91 @@ export const FGSScannerPage: React.FC<FGSScannerPageProps> = ({
               earAspectRatio={avgEar}
               hideBuiltInChrome={true}
               onSelectPoint={setSelectedPointId}
-              onUpdateLandmarks={setLandmarks}
+              onUpdateLandmarks={(pts) => {
+                setHasManualEdit(true);
+                setLandmarks(pts);
+              }}
             />
           )}
         </div>
 
-        {/* Compact Preset & Camera Action Strip tucked inside darkroom */}
+        {/* Upload / Camera / Real AI Trigger Strip */}
         <div className="fgs-dark-actions">
           <div className="pet-pill-group">
+            <label className="fgs-region-pill is-active" style={{ cursor: 'pointer' }}>
+              <span>{isRunningInference ? 'AI 辨識中...' : '上傳毛孩照片 (真實AI)'}</span>
+              <input type="file" accept="image/*" hidden disabled={isRunningInference} onChange={(e) => void handleFileUpload(e)} />
+            </label>
+            <button type="button" className="fgs-region-pill" onClick={() => void handleToggleCamera()}>
+              {cameraActive ? '關閉鏡頭' : '相機拍攝'}
+            </button>
+          </div>
+
+          <div className="pet-pill-group">
+            <button
+              type="button"
+              className="fgs-region-pill"
+              disabled={isRunningInference}
+              onClick={() => void handleAnalyzeCurrentPhoto()}
+            >
+              {isRunningInference ? '推論中...' : '立即 AI 分析此圖'}
+            </button>
             {[
-              { id: 'baseline_0' as const, label: '0分健康' },
-              { id: 'mild_asymmetric_3' as const, label: '3分輕度' },
-              { id: 'pain_alert_5' as const, label: '5分警訊' },
+              { id: 'baseline_0' as const, label: '0分範本' },
+              { id: 'pain_alert_5' as const, label: '5分範本' },
             ].map((preset) => (
               <button
                 key={preset.id}
                 type="button"
-                className={presetMode === preset.id ? 'fgs-region-pill is-active' : 'fgs-region-pill'}
+                className={!inferenceMeta.isRealAi && presetMode === preset.id ? 'fgs-region-pill is-active' : 'fgs-region-pill'}
                 onClick={() => handleSelectPreset(preset.id)}
               >
                 {preset.label}
               </button>
             ))}
           </div>
-
-          <div className="pet-pill-group">
-            <label className="fgs-region-pill">
-              <span>相片匯入</span>
-              <input type="file" accept="image/*" hidden onChange={handleFileUpload} />
-            </label>
-            <button type="button" className="fgs-region-pill" onClick={handleToggleCamera}>
-              {cameraActive ? '關閉鏡頭' : '相機'}
-            </button>
-          </div>
         </div>
       </section>
 
-      {/* Overlapping White Clinical Sheet (Matches stitch_export/ai_48_fgs_haptic/screen.png) */}
+      {/* Overlapping White Clinical Sheet */}
       <section className="fgs-overlapping-sheet" aria-labelledby="fgs-score-heading">
         <div className="fgs-sheet-handle" aria-hidden="true" />
+
+        {aiReport && !aiReport.animal_detected && (
+          <div
+            className="stitch-subbox"
+            role="alert"
+            style={{ backgroundColor: '#FEF2F2', borderColor: '#DC2626', color: '#991B1B' }}
+          >
+            <strong>AI 視覺偵測提醒：</strong>
+            畫面中未偵測到清楚的犬貓正臉，請上傳正面清晰寵物照片後重新分析。
+          </div>
+        )}
 
         <div className="fgs-score-header">
           <div>
             <div className="pet-pill-group">
               <h1 id="fgs-score-heading" className="fgs-score-big mono-val">
-                FGS {evaluation.scores.total}/10
+                FGS {effectiveScores.total}/10
               </h1>
               <span
                 className={
-                  evaluation.urgencyLevel === 'red'
+                  effectiveUrgency === 'red'
                     ? 'status-chip status-chip--red'
-                    : evaluation.urgencyLevel === 'yellow'
-                    ? 'status-chip status-chip--yellow'
-                    : 'status-chip status-chip--green'
+                    : effectiveUrgency === 'yellow'
+                      ? 'status-chip status-chip--yellow'
+                      : 'status-chip status-chip--green'
                 }
               >
-                {evaluation.urgencyLevel === 'red'
+                {effectiveUrgency === 'red'
                   ? '疼痛紅燈警示'
-                  : evaluation.urgencyLevel === 'yellow'
-                  ? '輕度緊繃觀察'
-                  : '綠色安全觀察'}
+                  : effectiveUrgency === 'yellow'
+                    ? '輕度緊繃觀察'
+                    : '綠色安全觀察'}
               </span>
             </div>
             <p className="brand-subtitle" style={{ marginTop: '4px' }}>
-              {evaluation.observationNotes}
+              {effectiveObservation}
             </p>
           </div>
 
@@ -501,9 +622,10 @@ export const FGSScannerPage: React.FC<FGSScannerPageProps> = ({
         {/* Action Unit Progress Deconstruction Box */}
         <div className="fgs-au-card">
           <div className="stitch-pet-row">
-            <span className="stitch-list-title">貓咪表情動作單元幾何解構 (AU METRICS)</span>
+            <span className="stitch-list-title">表情動作單元解構 (FGS 5-AU)</span>
             <span className="stitch-list-count mono-val">
-              {inferenceMeta.provider} · {inferenceMeta.latencyMs}ms
+              {inferenceMeta.provider}
+              {inferenceMeta.latencyMs > 0 ? ` · ${inferenceMeta.latencyMs}ms` : ''}
             </span>
           </div>
 
@@ -512,9 +634,9 @@ export const FGSScannerPage: React.FC<FGSScannerPageProps> = ({
               <div className="au-meter-head">
                 <span className="fgs-au-label">
                   <span className="fgs-dot fgs-dot--ear" aria-hidden="true" />
-                  雙耳直立度 (Ears Forward · {evaluation.metrics.meanEarAngleDeg}°)
+                  雙耳位置 (Ear Position · {geoEval.metrics.meanEarAngleDeg}°)
                 </span>
-                <span className="mono-val">{evaluation.scores.ear} / 2</span>
+                <span className="mono-val">{effectiveScores.ear} / 2</span>
               </div>
               <div className="au-meter-track">
                 <div className="au-meter-fill--ear" style={{ width: `${earFillPct}%` }} />
@@ -525,9 +647,9 @@ export const FGSScannerPage: React.FC<FGSScannerPageProps> = ({
               <div className="au-meter-head">
                 <span className="fgs-au-label">
                   <span className="fgs-dot fgs-dot--eye" aria-hidden="true" />
-                  眼眶收緊度 (Orbital · EAR {evaluation.metrics.meanEAR.toFixed(2)})
+                  眼眶收緊度 (Orbital · EAR {geoEval.metrics.meanEAR.toFixed(2)})
                 </span>
-                <span className="mono-val">{evaluation.scores.orbital} / 2</span>
+                <span className="mono-val">{effectiveScores.orbital} / 2</span>
               </div>
               <div className="au-meter-track">
                 <div className="au-meter-fill--eye" style={{ width: `${orbitalFillPct}%` }} />
@@ -538,9 +660,11 @@ export const FGSScannerPage: React.FC<FGSScannerPageProps> = ({
               <div className="au-meter-head">
                 <span className="fgs-au-label">
                   <span className="fgs-dot fgs-dot--whisker" aria-hidden="true" />
-                  鬍鬚與頰墊放鬆度 (Muzzle &amp; Whiskers)
+                  口鼻與鬍鬚緊張度 (Muzzle {effectiveScores.muzzle}/2 · Whisker {effectiveScores.whisker}/2 · Head {effectiveScores.head}/2)
                 </span>
-                <span className="mono-val">{evaluation.scores.whisker} / 2</span>
+                <span className="mono-val">
+                  {effectiveScores.muzzle + effectiveScores.whisker + effectiveScores.head} / 6
+                </span>
               </div>
               <div className="au-meter-track">
                 <div className="au-meter-fill--whisker" style={{ width: `${whiskerFillPct}%` }} />
@@ -550,30 +674,30 @@ export const FGSScannerPage: React.FC<FGSScannerPageProps> = ({
         </div>
 
         <p className="brand-subtitle">
-          基於蒙特婁大學 Feline Grimace Scale 標註規範。非唯一醫療診斷依據。
+          活躍引擎：<strong className="mono-val">{inferenceMeta.model}</strong> ‧ 參考 Feline Grimace Scale 規範，拖曳畫布任一點位可即時重算，非獸醫醫療診斷。
         </p>
 
-        {/* AI Triage Context Forward Highlight Panel (Matches Stitch Screen) */}
+        {/* AI Triage Context Forward Highlight Panel */}
         <div className="fgs-ai-forward-card">
           <span className="fgs-ai-forward-badge">
-            已準備好 3 項分析特徵 (眼眶微瞇 / 飲水紀錄 / CREA 指標)
+            自動掛載雲端病歷 Context (最新 FGS / 飲水紀錄 / 血檢指標)
           </span>
           <div className="stitch-pet-row">
             <strong style={{ fontSize: '15px' }}>AI 智慧問診深入分析</strong>
-            <span className="stitch-list-count mono-val">無縫掛載 Context</span>
+            <span className="stitch-list-count mono-val">Live LLM</span>
           </div>
           <p className="brand-subtitle">
-            已自動打包本次 FGS 評分與 48 點幾何特徵，立即與專屬 AI 獸醫顧問探討改善對策。
+            先儲存本次檢測結果，再帶入 AI 問診室由真實大語言模型結合病歷提供分流與居家照護建議。
           </p>
           <button
             type="button"
             className="btn btn--primary btn--lg"
             onClick={() => {
-              onTriggerConfirm?.();
+              handleSaveRecordToStore();
               navigate('/app/chat');
             }}
           >
-            <span>帶入 AI 智慧問診深入分析</span>
+            <span>儲存並進入 AI 智慧問診</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
               <path d="M5 12h14M13 6l6 6-6 6" />
             </svg>
@@ -586,14 +710,14 @@ export const FGSScannerPage: React.FC<FGSScannerPageProps> = ({
             className="stitch-soft-action"
             onClick={handleSaveRecordToStore}
           >
-            儲存至健康紀錄
+            儲存至雲端健康紀錄
           </button>
           <button
             type="button"
             className="stitch-soft-action"
             onClick={handleDispatchEmergencyReferral}
           >
-            預約合作動物醫院
+            產出獸醫轉診摘要
           </button>
         </div>
 

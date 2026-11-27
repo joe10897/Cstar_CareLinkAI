@@ -11,6 +11,7 @@ import {
 import { useR2Upload } from '../hooks/useR2Upload';
 import { BottomSheetDrawer } from '../components/overlays/BottomSheetDrawer';
 import { ActionSheetModal } from '../components/overlays/ActionSheetModal';
+import { useAuth } from '../contexts/AuthContext';
 
 export interface HomeDailyPageProps {
   selectedPet: PetProfile;
@@ -68,6 +69,7 @@ export const HomeDailyPage: React.FC<HomeDailyPageProps> = ({
   onNotify,
 }) => {
   const navigate = useNavigate();
+  const { user, hasSubmittedSurvey } = useAuth();
   const { isUploading, uploadImageToR2 } = useR2Upload();
 
   const [careLog, setCareLog] = useState<DailyCareLog>(() =>
@@ -131,9 +133,10 @@ export const HomeDailyPage: React.FC<HomeDailyPageProps> = ({
     if (!file) return;
     try {
       const uploaded = await uploadImageToR2(file, 'daily-care', selectedPet.id);
-      setUploadedMemoThumb(uploaded.dataUrl);
+      const url = uploaded.publicUrl || uploaded.dataUrl;
+      setUploadedMemoThumb(url);
       onTriggerConfirm();
-      onNotify('日常異常影像已校正 EXIF 並備份至 R2', `物件鍵值: ${uploaded.r2ObjectKey}`);
+      onNotify('日常異常影像已校正 EXIF 並儲存至雲端', `物件鍵值: ${uploaded.r2ObjectKey}`);
     } catch {
       onNotify('影像讀取失敗，請選擇 JPG 或 PNG 照片');
     }
@@ -201,7 +204,9 @@ export const HomeDailyPage: React.FC<HomeDailyPageProps> = ({
             aria-hidden="true"
           />
         </button>
-        <span className="stitch-haptic-note mono-val">Web Audio 溫潤反饋</span>
+        <Link to="/app/feedback" className="stitch-haptic-note mono-val" style={{ textDecoration: 'underline' }}>
+          {hasSubmittedSurvey ? '已填封測回饋 ✓' : `封測回饋 (${user?.invite_code_used || 'BETA'}) →`}
+        </Link>
       </div>
 
       {/* 1. Compact Pet Status Row Card (Matches stitch_export/_/screen.png) */}

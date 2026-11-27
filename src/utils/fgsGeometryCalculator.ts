@@ -551,3 +551,70 @@ export function createPresetLandmarks(
     };
   });
 }
+
+/**
+ * 依據真實多模態 Vision AI 回傳的臉部邊界框 (face_box) 與五大動作單元 (AU) 評分，
+ * 投射出校準後的 48 點臉部解剖網格，供飼主或獸醫師於畫布檢視與手動微調。
+ */
+export function createLandmarksFromVisionAssessment(
+  faceBox: { cx: number; cy: number; w: number; h: number },
+  scores: { ear: number; orbital: number; muzzle: number; whisker: number; head: number },
+  confidence = 0.88
+): FGSLandmarkPoint[] {
+  const base = createPresetLandmarks('baseline_0');
+  const earLevel = Math.max(0, Math.min(2, scores.ear));
+  const eyeLevel = Math.max(0, Math.min(2, scores.orbital));
+  const muzzleLevel = Math.max(0, Math.min(2, scores.muzzle));
+  const whiskerLevel = Math.max(0, Math.min(2, scores.whisker));
+  const headLevel = Math.max(0, Math.min(2, scores.head));
+
+  // Canonical template occupies roughly cx=0.5, cy=0.45, w=0.66, h=0.63
+  const scaleX = Math.max(0.55, Math.min(1.35, faceBox.w / 0.66));
+  const scaleY = Math.max(0.55, Math.min(1.35, faceBox.h / 0.63));
+  const clamp01 = (v: number) => Number(Math.max(0.03, Math.min(0.97, v)).toFixed(4));
+
+  return base.map((pt) => {
+    let lx = pt.x;
+    let ly = pt.y;
+
+    // Ear deformation
+    if (pt.region === 'ears' && earLevel > 0) {
+      const sign = pt.id <= 5 ? -1 : 1;
+      const tipWeight = pt.id === 3 || pt.id === 8 ? 1.0 : pt.id === 2 || pt.id === 9 ? 0.65 : 0.3;
+      lx += sign * earLevel * 0.026 * tipWeight;
+      ly += earLevel * 0.024 * tipWeight;
+    }
+
+    // Orbital tightening deformation
+    if (pt.region === 'eyes' && eyeLevel > 0) {
+      const isUpper = [12, 13, 14, 20, 21, 22].includes(pt.id);
+      const isLower = [16, 17, 18, 24, 25, 26].includes(pt.id);
+      if (isUpper) ly += eyeLevel * 0.01;
+      if (isLower) ly -= eyeLevel * 0.007;
+    }
+
+    // Muzzle & whisker stretch
+    if ((pt.region === 'whiskers' || pt.region === 'mouth') && (muzzleLevel > 0 || whiskerLevel > 0)) {
+      const factor = (muzzleLevel * 0.6 + whiskerLevel * 0.4) * 0.017;
+      if (lx < 0.5) lx -= factor;
+      else if (lx > 0.5) lx += factor;
+      if (pt.id === 41 || pt.id === 46) ly -= whiskerLevel * 0.009;
+    }
+
+    // Head droop
+    if (headLevel > 0 && pt.region !== 'ears') {
+      ly += headLevel * 0.012;
+    }
+
+    const mappedX = faceBox.cx + (lx - 0.5) * scaleX;
+    const mappedY = faceBox.cy + (ly - 0.45) * scaleY;
+
+    return {
+      ...pt,
+      x: clamp01(mappedX),
+      y: clamp01(mappedY),
+      conf: Number(Math.max(0.45, Math.min(0.99, confidence)).toFixed(3)),
+      visibility: confidence < 0.65 && pt.region === 'ears' ? 1 : 2,
+    };
+  });
+}

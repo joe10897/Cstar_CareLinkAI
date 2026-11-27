@@ -1,9 +1,11 @@
 node_modules/
 dist/
+.wrangler/
 .hallmark/
 *.tsbuildinfo
 .env
 .env.*
+.dev.vars
 !.env.example
 __pycache__/
 *.pyc

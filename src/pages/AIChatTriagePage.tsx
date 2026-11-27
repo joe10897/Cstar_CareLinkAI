@@ -1,12 +1,13 @@
 /* Copyright (c) 2026 Simon C.-Y. Wong. All rights reserved. */
 /* Hallmark · pre-emit critique: P5 H5 E5 S4 R5 V4 */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   carelinkStore,
   PARTNER_CLINICS,
   type PetProfile,
 } from '../services/carelinkStore';
+import { apiClient, type PersistentChatMessage } from '../services/apiClient';
 import { ActionSheetModal } from '../components/overlays/ActionSheetModal';
 import { useR2Upload } from '../hooks/useR2Upload';
 
@@ -15,15 +16,6 @@ export interface AIChatTriagePageProps {
   onTriggerTap: () => void;
   onTriggerConfirm: () => void;
   onNotify: (msg: string, detail?: string) => void;
-}
-
-interface ChatMessageItem {
-  id: string;
-  role: 'user' | 'assistant';
-  timestamp: string;
-  text: string;
-  urgency?: 'green' | 'yellow' | 'red';
-  attachmentUrl?: string;
 }
 
 export const AIChatTriagePage: React.FC<AIChatTriagePageProps> = ({
@@ -44,20 +36,44 @@ export const AIChatTriagePage: React.FC<AIChatTriagePageProps> = ({
   const dailyCare = carelinkStore.getDailyCareLog(selectedPet.id);
 
   const [homeChecks, setHomeChecks] = useState<Record<string, boolean>>({
-    gum_crt: false,
-    skin_turgor: false,
-    resp_rate: false,
+    c0: false,
+    c1: false,
+    c2: false,
   });
+  const [checkLabels, setCheckLabels] = useState<string[]>([
+    '1. 翻開牙齦確認黏膜呈淡粉色微濕潤（微血管回充 < 2 秒）',
+    '2. 輕拉肩頸皮膚回彈測試（需 2 秒內平復）',
+    '3. 量測靜止呼吸頻率（每分鐘 15 至 30 次為常見區間）',
+  ]);
+  const [latestHeadline, setLatestHeadline] = useState<string>(
+    '即時掛載毛孩雲端病歷，隨時向 PetPulse AI 詢問居家觀察建議'
+  );
+  const [latestUrgency, setLatestUrgency] = useState<'green' | 'yellow' | 'red'>('green');
   const [actionSheetOpen, setActionSheetOpen] = useState(false);
   const [inputText, setInputText] = useState('');
-  const [messages, setMessages] = useState<ChatMessageItem[]>([
-    {
-      id: 'msg-1',
-      role: 'user',
-      timestamp: '08:42',
-      text: `${selectedPet.short_name || selectedPet.name}今天早上吐了一點黃水跟未消化乾乾，而且水喝得比平時少，需要馬上看醫生嗎？`,
-    },
-  ]);
+  const [isSending, setIsSending] = useState(false);
+  const [messages, setMessages] = useState<PersistentChatMessage[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    void apiClient
+      .getChatHistory(selectedPet.id)
+      .then((res) => {
+        if (!active) return;
+        setMessages(res.messages || []);
+        const lastAi = [...(res.messages || [])].reverse().find((m) => m.role === 'assistant');
+        if (lastAi?.urgency) setLatestUrgency(lastAi.urgency);
+        if (lastAi?.homeChecks && lastAi.homeChecks.length > 0) {
+          setCheckLabels(lastAi.homeChecks);
+        }
+      })
+      .catch(() => {
+        if (active) setMessages([]);
+      });
+    return () => {
+      active = false;
+    };
+  }, [selectedPet.id]);
 
   const completedCheckCount = Object.values(homeChecks).filter(Boolean).length;
 
@@ -66,33 +82,65 @@ export const AIChatTriagePage: React.FC<AIChatTriagePageProps> = ({
     setHomeChecks((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const handleSendQuestion = (textToSend: string, photoUrl?: string): void => {
+  const handleSendQuestion = async (
+    textToSend: string,
+    imageDataUrl?: string,
+    attachmentUrl?: string
+  ): Promise<void> => {
     const trimmed = textToSend.trim();
-    if (!trimmed) return;
+    if (!trimmed || isSending) return;
     onTriggerTap();
-
-    const userMsg: ChatMessageItem = {
-      id: `msg-u-${Date.now()}`,
-      role: 'user',
-      timestamp: new Date().toTimeString().slice(0, 5),
-      text: trimmed,
-      attachmentUrl: photoUrl,
-    };
-
-    const isRedKeyword = /喘|癱軟|抽搐|吐血|尿不出|拒食超過/.test(trimmed);
-    const replyUrgency: 'green' | 'yellow' | 'red' = isRedKeyword ? 'red' : 'yellow';
-    const aiMsg: ChatMessageItem = {
-      id: `msg-a-${Date.now() + 1}`,
-      role: 'assistant',
-      timestamp: new Date().toTimeString().slice(0, 5),
-      urgency: replyUrgency,
-      text: isRedKeyword
-        ? `偵測到急性高風險徵兆。結合目前 CREA ${latestBlood?.metrics.CREA.val ?? 2.3} mg/dL 與 FGS ${latestFgs?.scores.total ?? 0}/10，建議立即前往合作 24 小時急診醫院進行檢查。`
-        : `結合 ${selectedPet.short_name || selectedPet.name} 近期 CREA ${latestBlood?.metrics.CREA.val ?? 2.3} mg/dL 與今日飲水 ${dailyCare.water_ml}ml 分析：清晨黃白泡沫多與空腹胃酸刺激相關，建議維持補水並依序完成下方 3 項居家測試。`,
-    };
-
-    setMessages((prev) => [...prev, userMsg, aiMsg]);
+    setIsSending(true);
     setInputText('');
+
+    const optimisticUser: PersistentChatMessage = {
+      id: `tmp-u-${Date.now()}`,
+      role: 'user',
+      text: trimmed,
+      attachmentUrl: attachmentUrl || imageDataUrl,
+      created_at: new Date().toISOString(),
+    };
+    setMessages((prev) => [...prev, optimisticUser]);
+
+    try {
+      const res = await apiClient.sendChatTriageWithAI({
+        petId: selectedPet.id,
+        message: trimmed,
+        imageDataUrl,
+        attachmentUrl,
+      });
+
+      const assistantMsg: PersistentChatMessage = {
+        id: res.assistantMessageId,
+        role: 'assistant',
+        text: res.reply,
+        urgency: res.urgency,
+        aiProvider: res.provider,
+        aiModel: res.model,
+        homeChecks: res.homeChecks,
+        created_at: new Date().toISOString(),
+      };
+
+      setMessages((prev) => [...prev, assistantMsg]);
+      setLatestHeadline(res.headline);
+      setLatestUrgency(res.urgency);
+      if (res.homeChecks && res.homeChecks.length > 0) {
+        setCheckLabels(res.homeChecks);
+        setHomeChecks({ c0: false, c1: false, c2: false });
+      }
+      onTriggerConfirm();
+      onNotify(
+        `AI 智慧分流已完成（${res.urgency === 'red' ? '紅燈急診警訊' : res.urgency === 'yellow' ? '黃燈門診觀察' : '綠燈居家觀察'}）`,
+        `${res.model.split('/').pop()} · ${res.latencyMs}ms · 對話已存入雲端`
+      );
+    } catch (err) {
+      onNotify(
+        'AI 問診連線失敗',
+        err instanceof Error ? err.message : '請稍後再試'
+      );
+    } finally {
+      setIsSending(false);
+    }
   };
 
   const handleUploadChatPhoto = async (
@@ -103,8 +151,11 @@ export const AIChatTriagePage: React.FC<AIChatTriagePageProps> = ({
     try {
       const uploaded = await uploadImageToR2(file, 'triage-chat', selectedPet.id);
       onTriggerConfirm();
-      handleSendQuestion('已上傳嘔吐物與排泄物實拍影像，請協助評估分流等級。', uploaded.dataUrl);
-      onNotify('影像已透過 R2 載入問診室', uploaded.r2ObjectKey);
+      await handleSendQuestion(
+        '已上傳實拍觀察照片（嘔吐物／排泄物／外觀），請結合毛孩病歷協助視覺評估與分流建議。',
+        uploaded.dataUrl,
+        uploaded.publicUrl
+      );
     } catch {
       onNotify('影像載入失敗，請選擇 JPG 或 PNG 格式');
     }
@@ -112,6 +163,7 @@ export const AIChatTriagePage: React.FC<AIChatTriagePageProps> = ({
 
   const handleBookEmergencyReferral = (): void => {
     const clinic = PARTNER_CLINICS[0];
+    const lastUserText = [...messages].reverse().find((m) => m.role === 'user')?.text || '居家異常觀察';
     const ref = carelinkStore.createClinicReferral({
       pet_id: selectedPet.id,
       pet_name: selectedPet.name,
@@ -119,37 +171,109 @@ export const AIChatTriagePage: React.FC<AIChatTriagePageProps> = ({
       age_years: 8,
       clinic_id: clinic.id,
       clinic_name: clinic.name,
-      urgency_level: 'yellow',
-      trigger_reason: `飼主於 AI 智慧問診預約就診觀察 (${messages[0]?.text.slice(0, 28)})`,
-      latest_fgs_record_id: latestFgs?.id || 'fgs-rec-101',
-      fgs_total_score: latestFgs?.scores.total ?? 1,
-      crea_value: latestBlood?.metrics.CREA.val ?? 2.3,
+      urgency_level: latestUrgency,
+      trigger_reason: `飼主於 AI 問診預約就診 (${lastUserText.slice(0, 60)})`,
+      latest_fgs_record_id: latestFgs?.id || '',
+      fgs_total_score: latestFgs?.scores.total ?? 0,
+      crea_value: latestBlood?.metrics.CREA.val ?? 2.0,
       sdma_value: latestBlood?.metrics.SDMA.val ?? 14,
     });
     onTriggerConfirm();
-    onNotify(`已轉診至 ${clinic.name}`, `通行碼 ${ref.share_token}`);
+    onNotify(`已建立轉診摘要至 ${clinic.name}`, `通行碼 ${ref.share_token}`);
   };
 
   return (
     <>
-      {/* 1. Active Mounted Health Context Pills (Matches stitch_export/ai_action_sheet/code.html) */}
-      <div className="fgs-legend-scroll" role="region" aria-label="已掛載之個人化病歷上下文">
+      {/* Mounted Live Cloud Health Context Pills */}
+      <div className="fgs-legend-scroll" role="region" aria-label="已掛載之個人化雲端病歷上下文">
         <span className="engine-badge mono-val">
-          血檢 CREA {latestBlood?.metrics.CREA.val ?? 2.3} ({latestBlood?.iris_stage || 'Stage 2'})
+          {selectedPet.short_name} ({selectedPet.species === 'dog' ? '犬' : '貓'})
+        </span>
+        <span className="engine-badge mono-val">
+          CREA {latestBlood ? `${latestBlood.metrics.CREA.val} (${latestBlood.iris_stage})` : '尚無血檢'}
         </span>
         <span className="status-chip status-chip--green mono-val">
-          今日 FGS {latestFgs?.scores.total ?? 1}/10
+          最新 FGS {latestFgs ? `${latestFgs.scores.total}/10` : '未測'}
         </span>
         <span className="status-chip status-chip--yellow mono-val">
           今日飲水 {dailyCare.water_ml}ml
         </span>
       </div>
 
-      {/* 2. Conversation Stream */}
-      <div className="stitch-chat-stream" aria-label="問診對話與分流評估">
-        <div style={{ textAlign: 'center' }}>
-          <span className="engine-badge mono-val">今天 08:42</span>
+      {/* Live Triage Summary Card */}
+      <article className="stitch-card" aria-labelledby="triage-result-heading">
+        <div className="stitch-subbox">
+          <div className="stitch-pet-row">
+            <h1 id="triage-result-heading" style={{ fontSize: '15px', fontWeight: 700 }}>
+              {latestHeadline}
+            </h1>
+            <span
+              className={
+                latestUrgency === 'red'
+                  ? 'status-chip status-chip--red'
+                  : latestUrgency === 'yellow'
+                    ? 'status-chip status-chip--yellow'
+                    : 'status-chip status-chip--green'
+              }
+            >
+              {latestUrgency === 'red' ? '紅燈急診建議' : latestUrgency === 'yellow' ? '黃燈門診追蹤' : '綠燈居家觀察'}
+            </span>
+          </div>
+          <p className="brand-subtitle">
+            由 Cloudflare Workers AI 即時串接您的雲端病歷回答；遵守《獸醫師法》，僅作衛教分流，不代替執業獸醫診斷。
+          </p>
         </div>
+
+        <div className="stitch-pet-row">
+          <span style={{ fontSize: '13px', fontWeight: 700 }}>AI 建議居家檢查清單</span>
+          <span className="status-chip status-chip--green mono-val">
+            完成度 {completedCheckCount}/{checkLabels.length}
+          </span>
+        </div>
+
+        <div className="ledger-list">
+          {checkLabels.map((label, idx) => {
+            const key = `c${idx}`;
+            return (
+              <label key={key} className="ledger-row">
+                <span>{label}</span>
+                <input
+                  type="checkbox"
+                  checked={Boolean(homeChecks[key])}
+                  onChange={() => toggleCheck(key)}
+                />
+              </label>
+            );
+          })}
+        </div>
+
+        <div className="split-grid-2">
+          <button
+            type="button"
+            className="btn btn--primary"
+            onClick={() => navigate('/app/trends')}
+          >
+            前往看診摘要包
+          </button>
+          <button
+            type="button"
+            className="btn"
+            onClick={handleBookEmergencyReferral}
+          >
+            同步預約合作醫院
+          </button>
+        </div>
+      </article>
+
+      {/* Persistent Cloud Conversation Stream */}
+      <div className="stitch-chat-stream" aria-label="問診對話與真實 AI 回覆紀錄">
+        {messages.length === 0 && (
+          <div className="stitch-card">
+            <p className="brand-subtitle">
+              尚無對話紀錄。請直接輸入毛孩目前的飲食、飲水、嘔吐、精神或步態疑問，或點擊下方快捷提問由真實 AI 立即分析！
+            </p>
+          </div>
+        )}
 
         {messages.map((msg) =>
           msg.role === 'user' ? (
@@ -167,126 +291,62 @@ export const AIChatTriagePage: React.FC<AIChatTriagePageProps> = ({
           ) : (
             <div key={msg.id} className="stitch-card">
               <div className="stitch-pet-row">
-                <strong>PetPulse AI 臨床衛教建議</strong>
-                <span className="mono-val brand-subtitle">{msg.timestamp}</span>
+                <strong>PetPulse AI 即時分流建議</strong>
+                <span className="mono-val brand-subtitle">
+                  {msg.aiModel ? msg.aiModel.split('/').pop() : 'Workers AI'} · {msg.created_at.slice(11, 16)}
+                </span>
               </div>
-              <p className="lead">{msg.text}</p>
+              <p className="lead" style={{ whiteSpace: 'pre-wrap' }}>
+                {msg.text}
+              </p>
             </div>
           )
         )}
 
-        {/* Structured Clinical Triage Card (Matches stitch_export/ai_action_sheet/code.html) */}
-        <article className="stitch-card" aria-labelledby="triage-result-heading">
-          <div className="stitch-subbox">
-            <div className="stitch-pet-row">
-              <h1 id="triage-result-heading" style={{ fontSize: '15px', fontWeight: 700 }}>
-                建議 24 至 48 小時內就醫觀察
-              </h1>
-              <span className="status-chip status-chip--yellow">中度追蹤</span>
-            </div>
-            <p className="brand-subtitle">
-              非立即危急休克，但考量慢性腎病波動風險，建議門診確認脫水與胃黏膜情形
+        {isSending && (
+          <div className="stitch-card">
+            <p className="brand-subtitle mono-val">
+              PetPulse AI 正在讀取 {selectedPet.short_name} 雲端病歷並執行即時推論中...
             </p>
           </div>
-
-          <p className="lead">
-            結合 <strong className="mono-val">{selectedPet.short_name || selectedPet.name}</strong> 的 <strong className="mono-val">{selectedPet.chronic_conditions[0] || 'IRIS 第 II 期'}</strong> 病史，清晨黃色胃液多為空腹胃酸刺激或幽門逆流。目前臉部疼痛 FGS 僅 {latestFgs?.scores.total ?? 1}/10，未出現急性皺眉收耳。
-          </p>
-
-          <div className="stitch-bento-2col">
-            <div className="stitch-subbox">
-              <span className="brand-subtitle">近次血檢 CREA</span>
-              <strong className="mono-val" style={{ fontSize: '16px' }}>
-                {latestBlood?.metrics.CREA.val ?? 2.3} mg/dL
-              </strong>
-            </div>
-            <div className="stitch-subbox">
-              <span className="brand-subtitle">今日貓臉 FGS</span>
-              <strong className="mono-val" style={{ fontSize: '16px' }}>
-                {latestFgs?.scores.total ?? 1} / 10
-              </strong>
-            </div>
-          </div>
-
-          <div className="stitch-pet-row">
-            <span style={{ fontSize: '13px', fontWeight: 700 }}>居家 3 項即時檢查</span>
-            <span className="status-chip status-chip--green mono-val">
-              完成度 {completedCheckCount}/3
-            </span>
-          </div>
-
-          <div className="ledger-list">
-            <label className="ledger-row">
-              <span>1. 翻開牙齦確認黏膜呈淡粉色微濕潤</span>
-              <input
-                type="checkbox"
-                checked={homeChecks.gum_crt}
-                onChange={() => toggleCheck('gum_crt')}
-              />
-            </label>
-            <label className="ledger-row">
-              <span>2. 輕拉肩頸皮膚回彈測試 (需 2 秒內平復)</span>
-              <input
-                type="checkbox"
-                checked={homeChecks.skin_turgor}
-                onChange={() => toggleCheck('skin_turgor')}
-              />
-            </label>
-            <label className="ledger-row">
-              <span>3. 量測靜止呼吸頻率 (每分鐘 20 至 30 次為正常)</span>
-              <input
-                type="checkbox"
-                checked={homeChecks.resp_rate}
-                onChange={() => toggleCheck('resp_rate')}
-              />
-            </label>
-          </div>
-
-          <div className="split-grid-2">
-            <button
-              type="button"
-              className="btn btn--primary"
-              onClick={() => navigate('/app/trends')}
-            >
-              生成看診小抄
-            </button>
-            <button
-              type="button"
-              className="btn"
-              onClick={handleBookEmergencyReferral}
-            >
-              預約合作門診
-            </button>
-          </div>
-        </article>
+        )}
       </div>
 
-      {/* 3. Prompt Shortcut Chips & Input Composer */}
+      {/* Prompt Shortcut Chips & Input Composer */}
       <div className="fgs-legend-scroll" style={{ marginTop: '4px' }}>
-        <label className="btn btn--sm">
-          <span>拍嘔吐物分析</span>
+        <label className="btn btn--sm" style={{ cursor: 'pointer' }}>
+          <span>拍實況照 AI 分析</span>
           <input
             type="file"
             accept="image/*"
             hidden
-            onChange={handleUploadChatPhoto}
+            disabled={isSending}
+            onChange={(e) => void handleUploadChatPhoto(e)}
           />
         </label>
         <button
           type="button"
           className="btn btn--sm"
+          disabled={isSending}
           onClick={() =>
-            setInputText('目前腎處方主食罐可以加一點溫水隔水加熱再餵嗎？')
+            void handleSendQuestion(
+              `${selectedPet.short_name}今天早上吐了一點黃水跟未消化飼料，水也喝得比平常少，需要馬上衝急診嗎？`
+            )
           }
         >
-          詢問飲食建議
+          清晨吐黃水分流
         </button>
         <button
           type="button"
           className="btn btn--sm"
-          onClick={() => setActionSheetOpen(true)}
+          disabled={isSending}
+          onClick={() =>
+            void handleSendQuestion(
+              `依${selectedPet.short_name}目前的血檢與飲水紀錄，日常飲食與補水有什麼衛教注意事項？`
+            )
+          }
         >
-          多模態輔助選單
+          詢問補水與飲食衛教
         </button>
       </div>
 
@@ -294,7 +354,7 @@ export const AIChatTriagePage: React.FC<AIChatTriagePageProps> = ({
         className="stitch-composer-row"
         onSubmit={(e) => {
           e.preventDefault();
-          handleSendQuestion(inputText);
+          void handleSendQuestion(inputText);
         }}
       >
         <button
@@ -312,12 +372,13 @@ export const AIChatTriagePage: React.FC<AIChatTriagePageProps> = ({
           className="input-field"
           style={{ flex: 1 }}
           value={inputText}
+          disabled={isSending}
           onChange={(e) => setInputText(e.target.value)}
-          placeholder="描述毛孩症狀或提問..."
+          placeholder="描述毛孩症狀或提問（將送交真實 AI 分析）..."
           aria-label="輸入問診症狀描述"
         />
-        <button type="submit" className="btn btn--primary btn--sm">
-          送出
+        <button type="submit" className="btn btn--primary btn--sm" disabled={isSending || !inputText.trim()}>
+          {isSending ? '推論中' : '送出'}
         </button>
       </form>
 
@@ -326,7 +387,7 @@ export const AIChatTriagePage: React.FC<AIChatTriagePageProps> = ({
         petName={selectedPet.short_name || selectedPet.name}
         onClose={() => setActionSheetOpen(false)}
         onUploadVomitPhoto={() =>
-          handleSendQuestion('已附加嘔吐物微距相片，請協助比對膽汁或毛球型態。')
+          void handleSendQuestion('毛孩剛才出現透明泡沫或黃水嘔吐，請協助評估分流與居家觀察重點。')
         }
         onExportVetPdf={() => navigate('/app/trends')}
         onCreateEmergencyReferral={handleBookEmergencyReferral}

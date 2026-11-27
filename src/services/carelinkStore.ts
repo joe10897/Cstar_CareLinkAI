@@ -16,6 +16,7 @@ import {
   type FGSLandmarkPoint,
   type FGSScores,
 } from '../utils/fgsGeometryCalculator';
+import { apiClient } from './apiClient';
 
 export interface PetProfile {
   id: string;
@@ -64,6 +65,9 @@ export interface FGSRecord {
   verified_landmarks: FGSLandmarkPoint[] | null;
   geometric_metrics: FGSGeometricMetrics;
   scores: FGSScores;
+  ai_provider?: string;
+  ai_model?: string;
+  ai_confidence?: number;
   ai_observation_notes: string;
   camera_warnings: string[];
   is_verified: boolean;
@@ -100,6 +104,7 @@ export interface BloodTestRecord {
   image_url: string;
   metrics: Record<BloodMarkerKey, BloodMarkerValue>;
   iris_stage: 'Stage 1' | 'Stage 2' | 'Stage 3' | 'Stage 4';
+  ai_provider?: string;
   ai_summary: string;
   recommended_supplements: SupplementRecommendation[];
   is_confirmed_by_owner: boolean;
@@ -596,6 +601,8 @@ function saveJsonToStorage<T>(key: string, data: T): void {
 class CareLinkDataService {
   private broadcastChannel: BroadcastChannel | null = null;
   private referralListeners = new Set<(referrals: ClinicReferral[]) => void>();
+  private careSyncTimers = new Map<string, number>();
+  private isCloudHydrated = false;
 
   constructor() {
     if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
@@ -621,6 +628,32 @@ class CareLinkDataService {
     }
   }
 
+  public hydrateFromCloud(boot: {
+    pets: unknown[];
+    dailyCareMap: Record<string, unknown>;
+    fgsRecords: unknown[];
+    bloodRecords: unknown[];
+    referrals: unknown[];
+  }): void {
+    this.isCloudHydrated = true;
+    saveJsonToStorage(STORAGE_KEYS.PETS, boot.pets || []);
+    saveJsonToStorage(STORAGE_KEYS.DAILY_CARE, boot.dailyCareMap || {});
+    saveJsonToStorage(STORAGE_KEYS.FGS_RECORDS, boot.fgsRecords || []);
+    saveJsonToStorage(STORAGE_KEYS.BLOOD_RECORDS, boot.bloodRecords || []);
+    saveJsonToStorage(STORAGE_KEYS.CLINIC_REFERRALS, boot.referrals || []);
+    this.notifyReferralListeners();
+  }
+
+  public clearActiveUserCache(): void {
+    this.isCloudHydrated = false;
+    try {
+      Object.values(STORAGE_KEYS).forEach((key) => localStorage.removeItem(key));
+    } catch {
+      // ignore storage errors
+    }
+    this.notifyReferralListeners();
+  }
+
   private notifyReferralListeners(): void {
     const list = this.getClinicReferrals();
     this.referralListeners.forEach((cb) => cb(list));
@@ -634,7 +667,7 @@ class CareLinkDataService {
     const map = loadJsonFromStorage<Record<string, DailyCareLog>>(STORAGE_KEYS.DAILY_CARE, () => ({
       'pet-miso-001': {
         pet_id: 'pet-miso-001',
-        date: '2026-11-15',
+        date: new Date().toISOString().slice(0, 10),
         water_ml: 180,
         water_target_ml: 250,
         appetite: 'normal',
@@ -648,18 +681,19 @@ class CareLinkDataService {
         sitter_handover_active: true,
       },
     }));
+    const pet = this.getPets().find((p) => p.id === petId);
     return (
       map[petId] || {
         pet_id: petId,
-        date: '2026-11-15',
-        water_ml: 120,
-        water_target_ml: 200,
+        date: new Date().toISOString().slice(0, 10),
+        water_ml: 150,
+        water_target_ml: pet?.species === 'dog' ? 450 : 220,
         appetite: 'normal',
         bristol_scale: 4,
         urine_clumps: 3,
-        subq_fluid_ml: 100,
+        subq_fluid_ml: 0,
         subq_target_ml: 100,
-        weight_kg: 3.85,
+        weight_kg: pet?.weight_kg ?? 4.5,
         med_evening_bp_done: false,
         memo_text: '居家作息規律，無明顯嘔吐或異常躲藏行為。',
         sitter_handover_active: false,
@@ -671,6 +705,16 @@ class CareLinkDataService {
     const map = loadJsonFromStorage<Record<string, DailyCareLog>>(STORAGE_KEYS.DAILY_CARE, () => ({}));
     map[log.pet_id] = log;
     saveJsonToStorage(STORAGE_KEYS.DAILY_CARE, map);
+
+    if (this.isCloudHydrated && typeof window !== 'undefined') {
+      const existingTimer = this.careSyncTimers.get(log.pet_id);
+      if (existingTimer) window.clearTimeout(existingTimer);
+      const timerId = window.setTimeout(() => {
+        void apiClient.saveDailyCareLog(log.pet_id, log).catch(() => null);
+      }, 350);
+      this.careSyncTimers.set(log.pet_id, timerId);
+    }
+
     return log;
   }
 
@@ -691,12 +735,23 @@ class CareLinkDataService {
         : pet
     );
     saveJsonToStorage(STORAGE_KEYS.PETS, pets);
+    if (this.isCloudHydrated) {
+      void apiClient
+        .updatePetBaseline(petId, {
+          baseline_landmarks: landmarks,
+          baseline_metrics: metrics,
+          baseline_image_url: imageUrl.startsWith('data:') ? undefined : imageUrl,
+        })
+        .catch(() => null);
+    }
     return pets;
   }
 
   public getFGSRecords(): FGSRecord[] {
     const pets = this.getPets();
-    return loadJsonFromStorage(STORAGE_KEYS.FGS_RECORDS, () => createInitialFGSRecords(pets));
+    return loadJsonFromStorage(STORAGE_KEYS.FGS_RECORDS, () =>
+      this.isCloudHydrated ? [] : createInitialFGSRecords(pets)
+    );
   }
 
   public addFGSRecord(record: Omit<FGSRecord, 'id' | 'created_at'>): FGSRecord {
@@ -709,23 +764,21 @@ class CareLinkDataService {
     const updated = [created, ...list];
     saveJsonToStorage(STORAGE_KEYS.FGS_RECORDS, updated);
 
-    if (supabaseClient) {
-      void supabaseClient.from('fgs_records').insert({
-        pet_id: created.pet_id,
-        r2_image_key: created.r2_image_key,
-        image_url: created.image_url,
-        image_width: created.image_width,
-        image_height: created.image_height,
-        raw_onnx_landmarks: created.raw_onnx_landmarks,
-        verified_landmarks: created.verified_landmarks,
-        geometric_metrics: created.geometric_metrics,
-        scores: created.scores,
-        ai_observation_notes: created.ai_observation_notes,
-        camera_warnings: created.camera_warnings,
-        is_verified: created.is_verified,
-        verified_by: created.verified_by,
-      });
+    if (this.isCloudHydrated) {
+      void apiClient
+        .saveFgsRecord({
+          ...record,
+          image_url: record.image_url.startsWith('data:') ? '' : record.image_url,
+        })
+        .then((res) => {
+          const synced = this.getFGSRecords().map((item) =>
+            item.id === created.id ? { ...item, id: res.id } : item
+          );
+          saveJsonToStorage(STORAGE_KEYS.FGS_RECORDS, synced);
+        })
+        .catch(() => null);
     }
+
     return created;
   }
 
@@ -752,31 +805,33 @@ class CareLinkDataService {
     );
     saveJsonToStorage(STORAGE_KEYS.FGS_RECORDS, list);
 
-    if (supabaseClient) {
-      void supabaseClient
-        .from('fgs_records')
-        .update({
+    if (this.isCloudHydrated) {
+      void apiClient
+        .verifyFgsRecord(recordId, {
           verified_landmarks: verifiedLandmarks,
           geometric_metrics: metrics,
           scores,
           ai_observation_notes: observationNotes,
-          is_verified: true,
           verified_by: verifiedBy,
         })
-        .eq('id', recordId);
+        .catch(() => null);
     }
 
     return list;
   }
 
   public getBloodTestRecords(petId?: string): BloodTestRecord[] {
-    const all = loadJsonFromStorage(STORAGE_KEYS.BLOOD_RECORDS, createInitialBloodRecords);
+    const all = loadJsonFromStorage(STORAGE_KEYS.BLOOD_RECORDS, () =>
+      this.isCloudHydrated ? [] : createInitialBloodRecords()
+    );
     const filtered = petId ? all.filter((r) => r.pet_id === petId) : all;
     return [...filtered].sort((a, b) => a.test_date.localeCompare(b.test_date));
   }
 
   public addBloodTestRecord(record: Omit<BloodTestRecord, 'id' | 'created_at'>): BloodTestRecord {
-    const all = loadJsonFromStorage(STORAGE_KEYS.BLOOD_RECORDS, createInitialBloodRecords);
+    const all = loadJsonFromStorage(STORAGE_KEYS.BLOOD_RECORDS, () =>
+      this.isCloudHydrated ? [] : createInitialBloodRecords()
+    );
     const created: BloodTestRecord = {
       ...record,
       id: `blood-rec-${Date.now().toString().slice(-5)}`,
@@ -785,26 +840,22 @@ class CareLinkDataService {
     const updated = [...all, created];
     saveJsonToStorage(STORAGE_KEYS.BLOOD_RECORDS, updated);
 
-    if (supabaseClient) {
-      void supabaseClient.from('blood_test_records').insert({
-        pet_id: created.pet_id,
-        test_date: created.test_date,
-        clinic_name: created.clinic_name,
-        r2_image_key: created.r2_image_key,
-        image_url: created.image_url,
-        metrics: created.metrics,
-        ai_summary: created.ai_summary,
-        recommended_supplements: created.recommended_supplements,
-        is_confirmed_by_owner: created.is_confirmed_by_owner,
-      });
+    if (this.isCloudHydrated) {
+      void apiClient
+        .saveBloodRecord({
+          ...record,
+          image_url: record.image_url.startsWith('data:') ? '' : record.image_url,
+        })
+        .catch(() => null);
     }
 
     return created;
   }
 
   public getClinicReferrals(): ClinicReferral[] {
-    const list = loadJsonFromStorage(STORAGE_KEYS.CLINIC_REFERRALS, createInitialReferrals);
-    // 紅燈病患 (>=4 分或 urgency_level === 'red') 自動零延遲置頂顯示
+    const list = loadJsonFromStorage(STORAGE_KEYS.CLINIC_REFERRALS, () =>
+      this.isCloudHydrated ? [] : createInitialReferrals()
+    );
     return [...list].sort((a, b) => {
       const rank = { red: 3, yellow: 2, green: 1 };
       if (rank[b.urgency_level] !== rank[a.urgency_level]) {
@@ -817,11 +868,13 @@ class CareLinkDataService {
   public createClinicReferral(
     input: Omit<ClinicReferral, 'id' | 'share_token' | 'expires_at' | 'status' | 'created_at'>
   ): ClinicReferral {
-    const list = loadJsonFromStorage(STORAGE_KEYS.CLINIC_REFERRALS, createInitialReferrals);
+    const list = loadJsonFromStorage(STORAGE_KEYS.CLINIC_REFERRALS, () =>
+      this.isCloudHydrated ? [] : createInitialReferrals()
+    );
     const created: ClinicReferral = {
       ...input,
       id: `ref-${Date.now().toString().slice(-5)}`,
-      share_token: `cl-pkt-${Math.random().toString(36).slice(2, 8)}`,
+      share_token: `pp-${Math.random().toString(36).slice(2, 8)}`,
       expires_at: new Date(Date.now() + 48 * 3600 * 1000).toISOString(),
       status: 'pending',
       created_at: new Date().toISOString(),
@@ -829,17 +882,43 @@ class CareLinkDataService {
     const updated = [created, ...list];
     saveJsonToStorage(STORAGE_KEYS.CLINIC_REFERRALS, updated);
 
-    if (supabaseClient) {
-      void supabaseClient.from('clinic_referrals').insert({
-        pet_id: created.pet_id,
-        clinic_id: created.clinic_id,
-        urgency_level: created.urgency_level,
-        trigger_reason: created.trigger_reason,
-        latest_fgs_record_id: created.latest_fgs_record_id,
-        status: created.status,
-      });
+    if (this.isCloudHydrated) {
+      void apiClient
+        .createReferral(input)
+        .then((remote) => {
+          const synced = this.getClinicReferrals().map((r) =>
+            r.id === created.id
+              ? { ...r, id: remote.id, share_token: remote.share_token, expires_at: remote.expires_at }
+              : r
+          );
+          saveJsonToStorage(STORAGE_KEYS.CLINIC_REFERRALS, synced);
+          this.notifyReferralListeners();
+        })
+        .catch(() => null);
     }
 
+    this.broadcastChannel?.postMessage({ type: 'REFERRALS_UPDATED' });
+    this.notifyReferralListeners();
+    return created;
+  }
+
+  public async createClinicReferralAsync(
+    input: Omit<ClinicReferral, 'id' | 'share_token' | 'expires_at' | 'status' | 'created_at'>
+  ): Promise<ClinicReferral> {
+    if (!this.isCloudHydrated) {
+      return this.createClinicReferral(input);
+    }
+    const remote = await apiClient.createReferral(input);
+    const created: ClinicReferral = {
+      ...input,
+      id: remote.id,
+      share_token: remote.share_token,
+      expires_at: remote.expires_at,
+      status: 'pending',
+      created_at: remote.created_at,
+    };
+    const list = loadJsonFromStorage<ClinicReferral[]>(STORAGE_KEYS.CLINIC_REFERRALS, () => []);
+    saveJsonToStorage(STORAGE_KEYS.CLINIC_REFERRALS, [created, ...list]);
     this.broadcastChannel?.postMessage({ type: 'REFERRALS_UPDATED' });
     this.notifyReferralListeners();
     return created;
@@ -849,10 +928,15 @@ class CareLinkDataService {
     referralId: string,
     status: 'pending' | 'accepted' | 'completed'
   ): ClinicReferral[] {
-    const list = loadJsonFromStorage(STORAGE_KEYS.CLINIC_REFERRALS, createInitialReferrals).map(
-      (item) => (item.id === referralId ? { ...item, status } : item)
-    );
+    const list = loadJsonFromStorage(STORAGE_KEYS.CLINIC_REFERRALS, () =>
+      this.isCloudHydrated ? [] : createInitialReferrals()
+    ).map((item) => (item.id === referralId ? { ...item, status } : item));
     saveJsonToStorage(STORAGE_KEYS.CLINIC_REFERRALS, list);
+
+    if (this.isCloudHydrated) {
+      void apiClient.updateReferralStatus(referralId, status).catch(() => null);
+    }
+
     this.broadcastChannel?.postMessage({ type: 'REFERRALS_UPDATED' });
     this.notifyReferralListeners();
     return this.getClinicReferrals();

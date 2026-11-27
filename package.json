@@ -1,13 +1,17 @@
 {
-  "name": "carelink-ai",
+  "name": "petpulse-ai",
   "private": true,
-  "version": "1.0.0",
-  "description": "CareLink AI — 寵物高齡照護與 AI 貓臉 48 點疼痛初篩／健檢數據管理系統",
+  "version": "2.0.0",
+  "description": "PetPulse AI —— 全齡犬貓疼痛視覺初篩與健康生態微服務",
   "type": "module",
   "scripts": {
     "dev": "vite --port 5173",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && tsc -p tsconfig.worker.json --noEmit && vite build",
     "preview": "vite preview --port 4173",
+    "cf:dev": "wrangler dev",
+    "cf:deploy": "npm run build && wrangler deploy",
+    "db:migrate:local": "wrangler d1 migrations apply petpulse-ai-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply petpulse-ai-db --remote",
     "sloplint": "node scripts/sloplint.mjs src --genre modern-minimal --scope app",
     "sloplint:render": "node scripts/sloplint.mjs src --genre modern-minimal --scope app --render"
   },
@@ -20,11 +24,13 @@
     "react-router-dom": "^7.2.0"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261127.1",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
     "puppeteer-core": "^24.3.0",
     "typescript": "~5.7.2",
-    "vite": "^6.2.0"
+    "vite": "^6.2.0",
+    "wrangler": "^4.169.0"
   }
 }

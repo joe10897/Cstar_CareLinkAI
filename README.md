@@ -8,11 +8,18 @@
 
 **以可解釋 48 點無尺度幾何初篩 × 跨院紙本血檢 OCR 雙軌圖 × 48 小時免登入獸醫摘要包，打造從居家照護到診間預審的伴侶動物健康生態微服務**
 
+[![Live App](https://img.shields.io/badge/Live%20Production-petpulse--ai.842679135jjj.workers.dev-1F4E3D?style=flat-square&logo=cloudflare&logoColor=white)](https://petpulse-ai.842679135jjj.workers.dev)
 [![React 19](https://img.shields.io/badge/Frontend-React%2019%20%2B%20TypeScript-1F4E3D?style=flat-square&logo=react&logoColor=white)](package.json)
-[![Edge Runtime](https://img.shields.io/badge/Edge%20CV-ONNX%20Runtime%20Web-0EA5E9?style=flat-square)](src/workers/fgsOnnxWorker.ts)
-[![Cloudflare Workers + R2](https://img.shields.io/badge/Gateway%20%26%20Storage-Cloudflare%20Workers%20%2B%20R2-F38020?style=flat-square&logo=cloudflare&logoColor=white)](workers/api-gateway.ts)
-[![Supabase PostgreSQL](https://img.shields.io/badge/Database-Supabase%20PostgreSQL%20%2B%20Realtime-3ECF8E?style=flat-square&logo=supabase&logoColor=white)](supabase/migrations/0001_init.sql)
+[![Workers AI Vision](https://img.shields.io/badge/Real%20AI-Cloudflare%20Workers%20AI%20Vision-0EA5E9?style=flat-square)](workers/api-gateway.ts)
+[![Cloudflare Workers + D1](https://img.shields.io/badge/Cloud%20Stack-Workers%20%2B%20D1%20SQLite-F38020?style=flat-square&logo=cloudflare&logoColor=white)](wrangler.toml)
 [![Compliance](https://img.shields.io/badge/%E5%90%88%E8%A6%8F%E5%AE%9A%E4%BD%8D-%E5%9A%B4%E5%AE%88%E3%80%8A%E7%8D%B8%E9%86%AB%E5%B8%AB%E6%B3%95%E3%80%8B%E9%9D%9E%E8%A8%BA%E6%96%B7%E5%88%86%E6%B5%81-B45309?style=flat-square)](#合規邊界與誠實揭露聲明)
+
+### 線上實機體驗與 20–30 位封測入口
+
+* **正式雲端網址**：**[https://petpulse-ai.842679135jjj.workers.dev](https://petpulse-ai.842679135jjj.workers.dev)**
+* **完整登錄與封測系統**：支援 Email + 密碼（PBKDF2-SHA256 加密）受邀註冊（通用碼 `PETPULSE2026`、評審碼 `CSTAR2026`、30 組獨立追蹤碼 `PP-01`–`PP-30`）與一鍵展示沙盒。
+* **真實多模態 AI 模型**：由 Cloudflare Workers AI（`Llama 4 Scout 17B Vision` 主引擎 + `Mistral Small 3.1 24B Vision` 自動備援，並相容 `Gemini 2.5 Flash` 金鑰升級）即時執行犬貓正面照片疼痛視覺評估、紙本血檢 OCR 與個人化病歷智慧分流問診。
+* **全量用戶資料入庫與匯出**：每位測試者的毛孩檔案、每日打卡、FGS 掃描與影像、血檢 OCR、AI 問診紀錄、行為軌跡（`user_events`）與 90 秒滿意度／Van Westendorp 定價問卷（`/app/feedback`）全數持久化於 Cloudflare D1，並可於管理員後台（`/admin/beta-analytics`）一鍵匯出 Excel 相容 CSV 與完整 JSON。
 
 [核心痛點與切入策略](#一為什麼做核心痛點與分期定位) •
 [核心技術 48 點幾何](#二核心技術48-點無尺度幾何演算與個體-0-分基線) •
