@@ -344,7 +344,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   className="input-field"
                   value={petBreed}
                   onChange={(e) => setPetBreed(e.target.value)}
-                  placeholder="品種（例：橘貓米克斯 / 柴犬）"
+                  placeholder="品種（米克斯 / 柴犬）"
                   aria-label="毛孩品種"
                 />
                 <input

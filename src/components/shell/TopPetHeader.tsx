@@ -92,7 +92,11 @@ export const TopPetHeader: React.FC<TopPetHeaderProps> = ({
         <span className="desktop-mode-bar__label">PetPulse 工作空間切換</span>
         <Link
           to="/app/home"
-          className={path.startsWith('/app') && !path.startsWith('/app/fgs-scan') ? 'desktop-mode-link is-active' : 'desktop-mode-link'}
+          className={
+            path.startsWith('/app') && !path.startsWith('/app/fgs-scan') && !path.startsWith('/app/feedback')
+              ? 'desktop-mode-link is-active'
+              : 'desktop-mode-link'
+          }
         >
           飼主端 App
         </Link>
